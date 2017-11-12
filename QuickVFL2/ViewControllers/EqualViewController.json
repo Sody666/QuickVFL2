@@ -1,0 +1,39 @@
+{
+    "container1_":{
+        "label1_":"UILabel",
+        "label2_":"UILabel",
+        ":layout":"
+            H:|-[label1_(120)]-(>=8)-[label2_(140)]-| {centerY};
+            V:|-(>=8)-[label1_(160)]-(>=8)-|;
+            V:|-(>=8)-[label2_(200)]-(>=8)-|;
+        "
+    },
+    "container2_":{
+        "labelA_":{
+            ":className":"UILabel",
+            ":widthEqual":"label1_",
+            ":heightEqual":"label2_",
+        },
+        "labelB_":{
+            ":className":"UILabel",
+            ":widthEqual":"label1_@0.6@h",
+            ":heightEqual":"label2_@0.8",
+        },
+        "labelC_":{
+            ":className":"UILabel",
+            ":widthEqual":"labelA_@2.@w",
+            ":heightEqual":"labelB_@0.8@h",
+        },
+        "labelD_":{
+            ":className":"UILabel",
+            ":widthEqual":"labelA_@2.@w",
+            ":heightEqual":"labelD_@0.3@w",
+        },
+        ":layout":"
+            H:|-[labelA_];
+            V:|-[labelA_]-[labelB_]-[labelC_]-[labelD_]-| {left};
+        "
+    },
+    ":scrollV":"scrollView",
+    ":layout":"H:|[container1_]|;V:|[container1_]-[container2_]-| {left, right};"
+}

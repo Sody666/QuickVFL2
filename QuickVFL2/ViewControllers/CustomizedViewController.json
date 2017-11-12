@@ -1,0 +1,5 @@
+{
+    "portaitView":"PortraitView",
+    ":scrollV":"scrollView",
+    ":layout":"H:|-[portaitView]-|; V:|-[portaitView]-|;"
+}

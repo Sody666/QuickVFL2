@@ -1,0 +1,48 @@
+{
+    "part1_":{
+        "labelTitle1_":"UILabel",
+        "left1_":"UILabel",
+        "middle1_":"UILabel",
+        "right1_":"UILabel",
+        ":leftAlign":"labelTitle1_,left1_",
+        ":centerXAlign":"middle1_",
+        ":rightAlign":"labelTitle1_,right1_",
+        ":layout":"
+            H:|-[labelTitle1_]-|;
+            V:|[labelTitle1_][left1_][middle1_][right1_]-|;
+        "
+    },
+    "part2_":{
+        "labelTitle2_":"UILabel",
+        "viewTag_":"UIView",
+        "top2_":"UILabel",
+        "middle2_":"UILabel",
+        "bottom2_":"UILabel",
+        ":topAlign":"viewTag_,top2_",
+        ":centerYAlign":"middle2_",
+        ":bottomAlign":"viewTag_,bottom2_",
+        ":layout":"
+            H:|-[labelTitle2_]-|;
+            V:|[labelTitle2_]-[viewTag_]-|;
+            /*view Tag has no width*/
+            H:[viewTag_(1)];
+            H:|-[viewTag_][top2_][middle2_][bottom2_]-(>=0)-|;
+        "
+    },
+    "part3_":{
+        "labelTitle3_":"UILabel",
+        "label31_":"UILabel",
+        "label32_":"UILabel",
+        "label33_":"UILabel",
+        ":layout":"
+            H:|-[labelTitle3_]-|;
+            V:|[labelTitle3_]-[label31_]-[label32_]-[label33_]-| {centerX};
+        "
+    },
+    ":layout":"
+        H:|[part1_]|;
+        V:|[part1_]-[part2_]-[part3_]-| {left, right};
+        V:[part2_(100)];
+    ",
+    ":scrollV":"scrollViewContent"
+}

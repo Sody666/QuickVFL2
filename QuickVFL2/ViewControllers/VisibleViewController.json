@@ -1,0 +1,21 @@
+{
+    "wrapper1":{
+        "label1_":"UILabel",
+        ":layout":"V:|-(8@250)-[label1_]-(8@250)-|;H:|-[label1_]-|;"
+    },
+    "wrapper2":{
+        "label2_":"UILabel",
+        ":layout":"V:|-(8@250)-[label2_]-(8@250)-|;H:|-[label2_]-|;"
+    },
+    "wrapper3":{
+        "label3_":"UILabel",
+        ":layout":"V:|-(8@250)-[label3_]-(8@250)-|;H:|-[label3_]-|;"
+    },
+    "buttonWrapper_":{
+        "button1":"UIButton",
+        "button2":"UIButton",
+        "button3":"UIButton",
+        ":layout":"V:|[button1]|;H:|-[button1]-[button2(button1)]-[button3(button1)]-| {top, bottom};"
+    },
+    ":layout":"H:|[wrapper1]|;V:|-[wrapper1][wrapper2][wrapper3]-20-[buttonWrapper_]-(>=0)-| {left,right};"
+}

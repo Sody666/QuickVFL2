@@ -1,0 +1,35 @@
+{
+    "labelTitle":"UILabel",
+    "imageWrapper_":{
+        "imageViewLeft":{
+            ":className":"UIImageView",
+            ":heightEqual":"imageViewLeft@0.6@w"
+        },
+        "imageViewMiddle":"UIImageView",
+        "imageViewRight":"UIImageView",
+        ":layout":"
+            V:|[imageViewLeft]|;
+            H:|[imageViewLeft]-5-[imageViewMiddle(imageViewLeft)]-5-[imageViewRight(imageViewLeft)]| {top, bottom};
+        "
+    },
+    "postscriptWrapper_":{
+        "labelPostscript":{
+            ":className":"UILabel",
+            ":stayWhenCompressed":"H@100",
+            ":stayWhenStretched":"H@100",
+        },
+        "buttonDislike_":{
+            ":className":"UIButton",
+            ":stayWhenCompressed":"H@101",
+            ":stayWhenStretched":"H@101",
+        },
+        ":layout":"
+            V:|[labelPostscript(20)]|;
+            H:|[labelPostscript]-[buttonDislike_(20)]| {top, bottom};
+        "
+    },
+    ":layout":"
+        H:|-[labelTitle]-|;
+        V:|-[labelTitle]-5-[imageWrapper_]-5-[postscriptWrapper_]-| {left, right};
+    "
+}

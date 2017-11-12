@@ -1,0 +1,31 @@
+{
+    "verticalPart_":{
+        "image1_":"UIImageView",
+        "image2_":"UIImageView",
+        "image3_":"UIImageView",
+        "image4_":"UIImageView",
+        ":scrollV":"scrollViewV",
+        ":layout":"
+            H:|-[image1_]-|;
+            V:|-[image1_]-[image2_]-[image3_]-[image4_]-| {left, right};
+        "
+    },
+    "horizontalPart_":{
+        "imageA_":"UIImageView",
+        "imageB_":"UIImageView",
+        "imageC_":"UIImageView",
+        "imageD_":"UIImageView",
+        ":scrollH":"scrollViewH",
+        ":layout":"
+            V:|-[imageA_]-(>=10)-|;
+            V:|-[imageB_]-(>=10)-|;
+            V:|-[imageC_]-(>=10)-|;
+            V:|-[imageD_]-(>=10)-|;
+            H:|-[imageA_]-[imageB_]-[imageC_]-[imageD_]-|;
+        "
+    },
+    ":layout":"
+        H:|[verticalPart_]|;
+        V:|[verticalPart_]-20-[horizontalPart_(verticalPart_)]| {left, right};
+    "
+}

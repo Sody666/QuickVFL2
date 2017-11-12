@@ -1,0 +1,40 @@
+{
+    "container1_":{
+        "label1":{
+            ":className":"UILabel",
+            ":stayWhenCompressed":"H@200",
+            ":stayWhenStretched":"H@100",
+        },
+        "labelHard1_":{
+            ":className":"UILabel",
+            ":stayWhenCompressed":"H@100",
+            ":stayWhenStretched":"H@200",
+        },
+        ":layout":"
+            V:|-[label1]-|;
+            H:|-[label1][labelHard1_]-| {top, bottom};
+        "
+    },
+    "container2_":{
+        "label2":{
+            ":className":"UILabel",
+            ":stayWhenCompressed":"H@100",
+            ":stayWhenStretched":"H@100",
+        },
+        "labelHard2_":{
+            ":className":"UILabel",
+            ":stayWhenCompressed":"H@200",
+            ":stayWhenStretched":"H@200",
+        },
+        ":layout":"
+            V:|-[label2]-|;
+            H:|-[label2][labelHard2_]-| {top, bottom};
+        "
+    },
+    "textField1":"UITextField",
+    "textField2":"UITextField",
+    ":layout":"
+        H:|-[container1_]-|;
+        V:|-[container1_]-[container2_]-[textField1]-[textField2]-(>=0)-| {left, right};
+    "
+}

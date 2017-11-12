@@ -1,0 +1,11 @@
+{
+    "imageView1_":"UIImageView",
+    "imageView2_":"UIImageView",
+    "imageView3_":"UIImageView",
+    "imageView4_":"UIImageView",
+    ":scrollV":"scrollViewContent",
+    ":layout":"
+        H:|-[imageView1_]-|;
+        V:|-[imageView1_]-[imageView2_]-[imageView3_]-[imageView4_]-| {left, right};
+    "
+}

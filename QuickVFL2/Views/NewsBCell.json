@@ -1,0 +1,34 @@
+{
+    "newsWrapper_":{
+        "labelTitle":"UILabel",
+        "imageViewTitle":{
+            ":className":"UIImageView",
+            ":widthEqual":"labelTitle@0.5",
+            ":heightEqual":"imageViewTitle@0.6@w"
+        },
+        ":layout":"
+            V:|[imageViewTitle]|;
+            H:|[labelTitle]-[imageViewTitle]| {top, bottom};
+        "
+    },
+    "postscriptWrapper_":{
+        "labelPostscript":{
+            ":className":"UILabel",
+            ":stayWhenCompressed":"H@100",
+            ":stayWhenStretched":"H@100",
+        },
+        "buttonDislike_":{
+            ":className":"UIButton",
+            ":stayWhenCompressed":"H@101",
+            ":stayWhenStretched":"H@101",
+        },
+        ":layout":"
+            V:|[labelPostscript(20)]|;
+            H:|[labelPostscript]-[buttonDislike_(20)]| {top, bottom};
+        "
+    },
+    ":layout":"
+        H:|-[newsWrapper_]-|;
+        V:|-[newsWrapper_]-5-[postscriptWrapper_]-| {left, right};
+    "
+}

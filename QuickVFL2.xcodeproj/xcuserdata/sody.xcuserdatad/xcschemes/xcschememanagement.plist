@@ -4,15 +4,35 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>QuickVFL.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>QuickVFL2.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>QuickVFLUseLib.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>D3A676711FB30E8B00745929</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D3A676901FB310CD00745929</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D3A677371FB8335200745929</key>
 		<dict>
 			<key>primary</key>
 			<true/>

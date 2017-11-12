@@ -1,8 +1,8 @@
 //
 //  AppDelegate.m
-//  QuickVFL2
+//  QuickVFLUseLib
 //
-//  Created by 苏第 on 17/11/8.
+//  Created by 苏第 on 17/11/12.
 //  Copyright © 2017年 Quick. All rights reserved.
 //
 

@@ -1,0 +1,9 @@
+{
+    "imageViewContent":"UIImageView",
+    "labelTitle":"UILabel",
+    ":layout":"
+        H:|-10-[imageViewContent]-10-|;
+        H:|-18-[labelTitle]-18-|;
+        V:|-10-[imageViewContent]-[labelTitle]-10-|;
+    "
+}

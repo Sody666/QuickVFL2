@@ -1,0 +1,8 @@
+{
+    "labelTitle":"UILabel",
+    "labelDescription":"UILabel",
+    ":layout":"
+        H:|-[labelTitle]-|;
+        V:|-[labelTitle]-5-[labelDescription]-| {left, right};
+    "
+}

@@ -1,0 +1,7 @@
+{
+    "tableViewContent":"UITableView",
+    ":layout":"
+        H:|[tableViewContent]|;
+        V:|[tableViewContent]|;
+    "
+}
