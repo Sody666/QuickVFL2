@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface QOption : NSObject
-+(id)optionWithKey:(NSString*)key value:(NSString*)value;
++(id)optionWithKey:(NSString*)key value:(id)value;
 @end

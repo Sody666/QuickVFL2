@@ -48,7 +48,7 @@
     return result;
 }
 
--(void)parseOptionKey:(NSString*)key value:(NSString*)value{
+-(void)parseOptionKey:(NSString*)key value:(id)value{
     if(key.length == 0){
         return;
     } else if([key isEqualToString:QVIEW_OPTION_LAYOUT]){

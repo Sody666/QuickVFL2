@@ -21,15 +21,19 @@
     
     UIImageView* imageView = [self.layoutResult viewNamed:@"imageView1_"];
     imageView.image = [UIImage imageNamed:@"image1.jpeg"];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     imageView = [self.layoutResult viewNamed:@"imageView2_"];
     imageView.image = [UIImage imageNamed:@"image2.jpeg"];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     imageView = [self.layoutResult viewNamed:@"imageView3_"];
     imageView.image = [UIImage imageNamed:@"image1.jpeg"];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     imageView = [self.layoutResult viewNamed:@"imageView4_"];
     imageView.image = [UIImage imageNamed:@"image2.jpeg"];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
     
     
     [self.scrollViewContent q_refreshContentView];

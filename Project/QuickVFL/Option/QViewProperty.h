@@ -100,5 +100,5 @@ typedef NS_ENUM(NSUInteger, QOrientationOption) {
 
 @property (nonatomic, strong) id viewData;
 
--(void)parseOptionKey:(NSString*)key value:(NSString*)value;
+-(void)parseOptionKey:(NSString*)key value:(id)value;
 @end
