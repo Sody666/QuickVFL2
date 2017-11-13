@@ -11,8 +11,14 @@
 
 @interface QLayoutResult : NSObject
 @property (nonatomic, strong) NSDictionary* createdViews;
+@property (nonatomic, strong) NSDictionary* viewsData;
 /**
- *  Get the unmapped view with name.
+ *  Get the view with name.
  **/
 -(id)viewNamed:(NSString*)name;
+
+/**
+ *  Get the data for view with name.
+ **/
+-(id)dataForViewNamed:(NSString*)name;
 @end
