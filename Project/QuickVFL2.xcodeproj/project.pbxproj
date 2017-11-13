@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D3938A551FB8790000038BDE /* QuickVFL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3938A541FB8790000038BDE /* QuickVFL.framework */; };
-		D3938A561FB8790C00038BDE /* QuickVFL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D3938A541FB8790000038BDE /* QuickVFL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D33B40BD1FB975C9002312BE /* QuickVFL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D33B40BC1FB975C9002312BE /* QuickVFL.framework */; };
 		D3A676771FB30E8C00745929 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A676761FB30E8C00745929 /* main.m */; };
 		D3A6767A1FB30E8C00745929 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A676791FB30E8C00745929 /* AppDelegate.m */; };
 		D3A676821FB30E8C00745929 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3A676811FB30E8C00745929 /* Assets.xcassets */; };
@@ -119,16 +118,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		D3938A521FB876CB00038BDE /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				D3938A561FB8790C00038BDE /* QuickVFL.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D3A6769D1FB310CE00745929 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -143,7 +132,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D3938A541FB8790000038BDE /* QuickVFL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QuickVFL.framework; sourceTree = "<group>"; };
+		D33B40BC1FB975C9002312BE /* QuickVFL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QuickVFL.framework; sourceTree = "<group>"; };
 		D3A676721FB30E8B00745929 /* QuickVFL2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickVFL2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3A676761FB30E8C00745929 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D3A676781FB30E8C00745929 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -255,7 +244,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3938A551FB8790000038BDE /* QuickVFL.framework in Frameworks */,
+				D33B40BD1FB975C9002312BE /* QuickVFL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -473,7 +462,7 @@
 		D3A6774F1FB8338B00745929 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D3938A541FB8790000038BDE /* QuickVFL.framework */,
+				D33B40BC1FB975C9002312BE /* QuickVFL.framework */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -548,7 +537,6 @@
 				D3A677341FB8335200745929 /* Sources */,
 				D3A677351FB8335200745929 /* Frameworks */,
 				D3A677361FB8335200745929 /* Resources */,
-				D3938A521FB876CB00038BDE /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -872,6 +860,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.quick.QuickVFL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -900,6 +889,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = org.quick.QuickVFL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -924,6 +914,7 @@
 				INFOPLIST_FILE = QuickVFLUseLib/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = org.quick.QuickVFLUseLib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -944,6 +935,7 @@
 				INFOPLIST_FILE = QuickVFLUseLib/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = org.quick.QuickVFLUseLib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
