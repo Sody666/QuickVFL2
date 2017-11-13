@@ -81,6 +81,16 @@
         @throw [QParseException exceptionWithReason:@"Equal option requires two views are in the same layout tree"];
     }
     
+    if(aView == otherView && firstAttribute == secondAttribute){
+        NSString* fact;
+        if(firstAttribute == NSLayoutAttributeWidth){
+            fact = @"Can't set width to width of self.";
+        } else {
+            fact = @"Can't set height to height of self.";
+        }
+        @throw [QParseException exceptionWithReason:fact];
+    }
+    
     NSLayoutConstraint* constraint = [NSLayoutConstraint constraintWithItem:aView
                                                                   attribute:firstAttribute
                                                                   relatedBy:NSLayoutRelationEqual
