@@ -4,6 +4,10 @@
             ":className":"UILabel",
             ":stayWhenCompressed":"H@200",
             ":stayWhenStretched":"H@100",
+            ":viewData":{
+                "FontSize":24,
+                "FontFamily":"WhatEverYouLike"
+            }
         },
         "labelHard1_":{
             ":className":"UILabel",

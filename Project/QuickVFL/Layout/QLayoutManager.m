@@ -210,6 +210,17 @@ static NSLock* managerLock;
     }
 }
 
+-(void)attachingViewDataForLayout:(QViewProperty*)propertyTree
+                        viewsData:(NSMutableDictionary*)data{
+    if(propertyTree.viewData != nil){
+        [data setObject:propertyTree.viewData forKey:propertyTree.name];
+    }
+    
+    for (QViewProperty* property in propertyTree.subviewsProperty) {
+        [self attachingViewDataForLayout:property viewsData:data];
+    }
+}
+
 -(void)addingConstraintsForLayout:(QViewProperty*)propertyTree
                          entrance:(UIView*)entrance
                         madeViews:(NSDictionary*)views{
@@ -315,15 +326,18 @@ static NSLock* managerLock;
     
     QViewProperty* property = [QLayoutManager parseLayoutContent:content];
     NSMutableDictionary* madeViews = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary* viewsData = [[NSMutableDictionary alloc] init];
+    [self attachingViewDataForLayout:property viewsData:viewsData];
     [self creatingViewsForLayout:property
                         entrance:entrance
                        madeViews:madeViews];
     [self addingConstraintsForLayout:property
                             entrance:entrance
                            madeViews:madeViews];
+    [self mappingViews:madeViews forHolder:holder];
     
     result.createdViews = [madeViews copy];
-    [self mappingViews:madeViews forHolder:holder];
+    result.viewsData = [viewsData copy];
     return result;
 }
 

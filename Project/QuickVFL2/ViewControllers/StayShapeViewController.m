@@ -49,6 +49,10 @@
     hardLabel = [self.layoutResult viewNamed:@"labelHard2_"];
     hardLabel.text = @"Lasting Text";
     hardLabel.backgroundColor = [UIColor grayColor];
+    
+    NSDictionary* labelConfig = [self.layoutResult dataForViewNamed:@"label1"];
+    // Do What ever you design.
+    NSLog(@"Config data: %@", labelConfig);
 }
 
 -(QLayoutResult*)layout{

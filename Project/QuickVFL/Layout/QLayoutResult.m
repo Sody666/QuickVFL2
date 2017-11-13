@@ -16,4 +16,12 @@
     
     return [self.createdViews objectForKey:name];
 }
+
+-(id)dataForViewNamed:(NSString*)name{
+    if(name.length == 0 || self.viewsData.count == 0){
+        return nil;
+    }
+    
+    return [self.viewsData objectForKey:name];
+}
 @end

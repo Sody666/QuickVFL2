@@ -49,7 +49,7 @@
 }
 
 -(void)parseOptionKey:(NSString*)key value:(NSString*)value{
-    if(key.length == 0 || value.length == 0){
+    if(key.length == 0){
         return;
     } else if([key isEqualToString:QVIEW_OPTION_LAYOUT]){
         self.VFLText = value;
@@ -75,6 +75,8 @@
         }
         
         [_arrayEqualOptions addObject:[QEqualOption optionWithKey:key value:value]];
+    } else if([key isEqualToString:QVIEW_OPTION_VIEW_DATA]){
+        self.viewData = value;
     } else if([key hasSuffix:@"Align"]){
         if(!_arrayAlighOptions){
             _arrayAlighOptions = [[NSMutableArray alloc] init];

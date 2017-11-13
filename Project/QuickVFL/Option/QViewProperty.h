@@ -8,19 +8,39 @@
 
 #import <Foundation/Foundation.h>
 
-
+// the vfl defination of current view
 #define QVIEW_OPTION_LAYOUT                 @":layout"
+// wrap current view with scroll view vertically
 #define QVIEW_OPTION_SCROLL_VERTICAL        @":scrollV"
+// wrap current view with scroll view horizontal
 #define QVIEW_OPTION_SCROLL_HORIZONTAL      @":scrollH"
+// class name of current view
 #define QVIEW_OPTION_CLASS_NAME             @":className"
+// priority and orientation to stay unchanged when space is not enough
 #define QVIEW_OPTION_STAY_WHEN_COMPRESSED   @":stayWhenCompressed"
+// priority and orientation to stay unchanged when space is more than needed
 #define QVIEW_OPTION_STAY_WHEN_STRETCHED    @":stayWhenStretched"
+// data for the view
+#define QVIEW_OPTION_VIEW_DATA              @":viewData"
+// equal current view's width to some body
+// equal 0.6 height of widget => ":widthEqual":"widget@0.6@h"
+// equal width of widget =>":widthEqual":"widget"
+// equal height of widget =>":widthEqual":"widget@1.0@h"
 #define QVIEW_OPTION_EQUAL_WIDTH            @":widthEqual"
+// equal current view's height to some body
 #define QVIEW_OPTION_EQUAL_HEIGHT           @":heightEqual"
+// align to top.
+// seperate groups with ; and members with ,
+// each group must have more than one members
+// first member will be aligned to.
+// top align a, b, c as a group and x, y, z as another group
+// => ":topAligh":"a,b,c;x,y,z"
 #define QVIEW_OPTION_TOP_ALIGN              @":topAlign"
 #define QVIEW_OPTION_BOTTOM_ALIGN           @":bottomAlign"
 #define QVIEW_OPTION_LEFT_ALIGN             @":leftAlign"
 #define QVIEW_OPTION_RIGHT_ALIGN            @":rightAlign"
+// align to center horizontally.
+// each group must have at least one member
 #define QVIEW_OPTION_CENTER_X_ALIGN         @":centerXAlign"
 #define QVIEW_OPTION_CENTER_Y_ALIGN         @":centerYAlign"
 
@@ -78,7 +98,7 @@ typedef NS_ENUM(NSUInteger, QOrientationOption) {
 
 @property (nonatomic, readonly) BOOL isScrollEnabled;
 
-
+@property (nonatomic, strong) id viewData;
 
 -(void)parseOptionKey:(NSString*)key value:(NSString*)value;
 @end
