@@ -37,7 +37,7 @@ extern BOOL enableVFLDebug;
 /**
  *  Control the visibility of the view.
  *
- *  @param hidden   whether hide the view
+ *  @param visible   whether show the view
  *  @param vertically whether vertically, or horizontally
  */
 -(void)q_setVisibility:(BOOL)visible isVertically:(BOOL)vertically;
