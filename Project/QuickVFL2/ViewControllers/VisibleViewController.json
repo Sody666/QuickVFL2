@@ -15,7 +15,13 @@
         "button1":"UIButton",
         "button2":"UIButton",
         "button3":"UIButton",
-        ":layout":"V:|[button1]|;H:|-[button1]-[button2(button1)]-[button3(button1)]-| {top, bottom};"
+        ":layout":"
+            V:|[button1]|;
+            H:|-[button1]-[button2(button1)]-[button3(button1)]-| {top, bottom};
+        "
     },
-    ":layout":"H:|[wrapper1]|;V:|-[wrapper1][wrapper2][wrapper3]-20-[buttonWrapper_]-(>=0)-| {left,right};"
+    ":layout":"
+        H:|[wrapper1]|;
+        V:|-[wrapper1][wrapper2][wrapper3]-20-[buttonWrapper_]-(>=0)-| {left,right};
+    "
 }

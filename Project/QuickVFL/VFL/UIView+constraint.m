@@ -262,6 +262,13 @@ BOOL enableVFLDebug = NO;
 
 -(void)q_setVisibility:(BOOL)visible isVertically:(BOOL)vertically{
     NSLayoutConstraint* constraint;
+    
+    BOOL visibleCurrently = [self q_visibleVertically:vertically];
+    
+    if((visible && visibleCurrently) || (!visible && !visibleCurrently)){
+        return;
+    }
+    
     if(vertically){
         constraint = self.verticalVisibilityConstraint;
         if(constraint == nil){
@@ -276,11 +283,7 @@ BOOL enableVFLDebug = NO;
         }
     }
     
-    if(visible){
-        constraint.active = NO;
-    } else {
-        constraint.active = YES;
-    }
+    constraint.active = !visible;
 }
 
 -(BOOL)q_visibleVertically:(BOOL)vertically{

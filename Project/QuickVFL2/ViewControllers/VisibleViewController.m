@@ -76,7 +76,11 @@
     }
     
     BOOL visible = [wrapper q_visibleVertically:YES];
-    [wrapper q_setVisibility:!visible isVertically:YES];
+    [UIView animateWithDuration:0.6 animations:^{
+        [wrapper q_setVisibility:!visible isVertically:YES];
+        [self.view layoutIfNeeded];
+    }];
+    
     if([wrapper q_visibleVertically:YES]){
         [sender setTitle:@"Hide" forState:UIControlStateNormal];
     } else {
