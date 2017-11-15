@@ -18,6 +18,8 @@ QuickVFL是一个面向cocoa touch的布局框架。它希望能提供一个可�
 3. 在需要用QuickVFL的地方#import < QuickVFL/QuickVFL.h >既可
 
 ## QuickVFL2文件结构
+开始看接下来的冗长的介绍前，我建议你先看看[怎么简单写一个布局文件](https://github.com/Sody666/QuickVFL2/wiki/%E4%BB%8E%E7%AE%80%E5%8D%95%E5%BC%80%E5%A7%8B%EF%BC%8C%E9%80%90%E6%AD%A5%E6%8E%8C%E6%8F%A1QuickVFL%E7%9A%84%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6%E4%B9%A6%E5%86%99)，以对QuickVFL有足够的信心。
+
 典型的结构是一个描述视图结构和属性的json文件，然后在oc代码（常常是View Controller或者View）里使用API加载结构文件。
 例如，一个只有一个UITableView的VC，它的描述文件只是：
 ```
