@@ -72,6 +72,7 @@
 #define QLABEL_TEXT             @"text"
 #define QLABEL_NUMBER_OF_LINES  @"numberOfLines"
 #define QLABEL_TEXT_COLOR       @"textColor"
+#define QLABEL_FONT_SIZE        @"fontSize"
 
 @implementation UILabel(AutoConfig)
 -(BOOL)_q_configWithKey:(NSString*)key value:(id)value{
@@ -83,6 +84,8 @@
         self.textColor = [self _q_parseColorString:value];
     } else if([QVIEW_BG_COLOR isEqualToString:key]){
         self.backgroundColor = [self _q_parseColorString:value];
+    } else if([QLABEL_FONT_SIZE isEqualToString:key]){
+        self.font = [self.font fontWithSize:[value floatValue]];
     } else {
         return NO;
     }

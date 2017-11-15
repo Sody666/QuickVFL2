@@ -5,7 +5,7 @@
             ":viewData":{
                 "text":"Red Label",
                 "backgroundColor":"#FF0000",
-                "textColor":"#FFFFFF"
+                "textColor":"#FFFFFF",
             }
         },
         ":layout":"V:|-(8@250)-[label1_]-(8@250)-|;H:|-[label1_]-|;"
