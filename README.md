@@ -2,7 +2,7 @@
 Yet another layout framework to replace xib
 
 ## QuickVFL2简介
-QuickVFL是一个面向cocoa touch的布局框架。它希望能提供一个可视性好、团队并行合作度高的工具。希望能在xib布局和其他的第三方布局框架外，给你提供的另外一个选择。掌握了VFL之后，你回发现QuickVFL上手非常的容易。在实际工作中，可极大地降低布局的工作量和相关文件的维护量。
+QuickVFL是一个面向cocoa touch的布局框架。它希望能提供一个可视性好、团队并行合作度高的工具,希望能在xib布局和其他的第三方布局框架外，给你提供的另外一个选择。掌握了VFL之后，你回发现QuickVFL上手非常的容易。在实际工作中，可极大地降低布局的工作量和相关文件的维护量。
 
 ### 特点
 凡是苹果VFL的特征，QuickVFL一律支持。除此以外，它还有以下的增强点
@@ -92,6 +92,9 @@ QuickVFL是一个面向cocoa touch的布局框架。它希望能提供一个可�
 #### 选项
 控件的选项是QuickVFL很重要的组成部分。内容有点多，请移步[这里](https://github.com/Sody666/QuickVFL2/wiki/QuickVFL-%E6%8E%A7%E4%BB%B6%E5%B1%9E%E6%80%A7)查看
 
+#### 使用例子
+- [使用ScrollView包含视图的内容](https://github.com/Sody666/QuickVFL2/wiki/QuickVFL-%E6%A1%86%E6%9E%B6DEMO%EF%BC%9A%E4%BD%BF%E7%94%A8ScrollView%E5%8C%85%E5%90%AB%E8%A7%86%E5%9B%BE%E7%9A%84%E5%86%85%E5%AE%B9)
+- [隐藏／展示View](https://github.com/Sody666/QuickVFL2/wiki/QuickVFL-%E6%A1%86%E6%9E%B6DEMO%EF%BC%9A%E9%9A%90%E8%97%8F%EF%BC%8F%E5%B1%95%E7%A4%BAView)
 
 #### 更多资料
 
