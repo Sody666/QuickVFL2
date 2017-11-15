@@ -12,10 +12,15 @@
 #define QVIEW_BG_COLOR @"backgroundColor"
 
 @interface UIView()
+// category api
 // Declare these two selector for later use.
 // Will not implement it.
 -(BOOL)_q_configWithKey:(NSString*)key value:(id)value;
 -(BOOL)q_configWithKey:(NSString*)key value:(id)value;
+
+
+// subclass api
+-(BOOL)QConfigWithKey:(NSString *)key value:(id)value;
 @end
 
 @implementation UIView(AutoConfig)
@@ -24,16 +29,18 @@
         return;
     }
     
-    BOOL respondCommon = [self respondsToSelector:@selector(_q_configWithKey:value:)];
-    BOOL respondExtend = [self respondsToSelector:@selector(q_configWithKey:value:)];
+    BOOL respondExtendCommon = [self respondsToSelector:@selector(_q_configWithKey:value:)];
+    BOOL respondExtendCustomize = [self respondsToSelector:@selector(q_configWithKey:value:)];
+    BOOL respondSubclass = [self respondsToSelector:@selector(QConfigWithKey:value:)];
     
-    if(!respondCommon && !respondExtend){
+    if(!respondExtendCommon && !respondExtendCustomize){
         return;
     }
     
     for (NSString* key in configData.allKeys) {
-        if((respondCommon && [self _q_configWithKey:key value:[configData objectForKey:key]]) ||
-           (respondExtend && [self q_configWithKey:key value:[configData objectForKey:key]])){
+        if((respondSubclass && [self QConfigWithKey:key value:[configData objectForKey:key]]) ||
+           (respondExtendCustomize && [self q_configWithKey:key value:[configData objectForKey:key]]) ||
+           (respondExtendCommon && [self _q_configWithKey:key value:[configData objectForKey:key]])){
             continue;
         }
         
