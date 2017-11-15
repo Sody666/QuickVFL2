@@ -1,20 +1,59 @@
 {
     "wrapper1":{
-        "label1_":"UILabel",
+        "label1_":{
+            ":className":"UILabel",
+            ":viewData":{
+                "text":"Red Label",
+                "backgroundColor":"#FF0000",
+                "textColor":"#FFFFFF"
+            }
+        },
         ":layout":"V:|-(8@250)-[label1_]-(8@250)-|;H:|-[label1_]-|;"
     },
     "wrapper2":{
-        "label2_":"UILabel",
+        "label2_":{
+            ":className":"UILabel",
+            ":viewData":{
+                "text":"Green Label",
+                "backgroundColor":"#00FF00",
+                "textColor":"#FFFFFF",
+            }
+        },
         ":layout":"V:|-(8@250)-[label2_]-(8@250)-|;H:|-[label2_]-|;"
     },
     "wrapper3":{
-        "label3_":"UILabel",
+        "label3_":{
+            ":className":"UILabel",
+            ":viewData":{
+                "text":"Blue Label",
+                "backgroundColor":"#0000FF",
+                "textColor":"#FFFFFF",
+            }
+        },
         ":layout":"V:|-(8@250)-[label3_]-(8@250)-|;H:|-[label3_]-|;"
     },
     "buttonWrapper_":{
-        "button1":"UIButton",
-        "button2":"UIButton",
-        "button3":"UIButton",
+        "button1":{
+            ":className":"UIButton",
+            ":viewData":{
+                "title":"Hide",
+                "backgroundColor":"#FF0000"
+            }
+        },
+        "button2":{
+            ":className":"UIButton",
+            ":viewData":{
+                "title":"Hide",
+                "backgroundColor":"#00FF00"
+            }
+        },
+        "button3":{
+            ":className":"UIButton",
+            ":viewData":{
+                "title":"Hide",
+                "backgroundColor":"#0000FF"
+            }
+        },
         ":layout":"
             V:|[button1]|;
             H:|-[button1]-[button2(button1)]-[button3(button1)]-| {top, bottom};

@@ -16,6 +16,7 @@
 #import "QEqualOption.h"
 #import "QAlignOption.h"
 #import "QLayoutException.h"
+#import "QAutoConfig.h"
 
 #import <objc/runtime.h>
 
@@ -203,6 +204,7 @@ static NSLock* managerLock;
     UIView* madeView;
     for (QViewProperty* property in propertyTree.subviewsProperty) {
         madeView = QVIEW(realEntrance, property.viewClass);
+        [madeView q_configureWithData:property.viewData];
         [views setObject:madeView forKey:property.name];
         if(property.isViewContainer){
             [self creatingViewsForLayout:property entrance:madeView madeViews:views];
@@ -336,6 +338,7 @@ static NSLock* managerLock;
                            madeViews:madeViews];
     [self mappingViews:madeViews forHolder:holder];
     
+    [entrance q_configureWithData:property.viewData];
     result.createdViews = [madeViews copy];
     result.viewsData = [viewsData copy];
     return result;

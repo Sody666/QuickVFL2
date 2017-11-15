@@ -16,5 +16,6 @@
 #import "UIScrollView+constraint.h"
 #import "QLayoutManager.h"
 #import "QLayoutResult.h"
+#import "QAutoConfig.h"
 
 #endif /* PrefixHeader_pch */

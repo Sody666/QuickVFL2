@@ -30,36 +30,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UILabel* label = self.label1_;
-    label.text = @"Red Label";
-    label.backgroundColor = [UIColor redColor];
-    label.textColor = [UIColor whiteColor];
-    label.numberOfLines = 10;
-    
-    label = [self.layoutResult viewNamed:@"label2_"];
-    label.text = @"Green Label";
-    label.backgroundColor = [UIColor greenColor];
-    label.textColor = [UIColor whiteColor];
-    
-    label = [self.layoutResult viewNamed:@"label3_"];
-    label.text = @"Blue Label";
-    label.backgroundColor = [UIColor blueColor];
-    label.textColor = [UIColor whiteColor];
-    
-    [self.button1 setTitle:@"Hide" forState:UIControlStateNormal];
-    self.button1.backgroundColor = [UIColor redColor];
     [self.button1 addTarget:self
                      action:@selector(onButtonClicked:)
            forControlEvents:UIControlEventTouchUpInside];
     
-    [self.button2 setTitle:@"Hide" forState:UIControlStateNormal];
-    self.button2.backgroundColor = [UIColor greenColor];
     [self.button2 addTarget:self
                      action:@selector(onButtonClicked:)
            forControlEvents:UIControlEventTouchUpInside];
     
-    [self.button3 setTitle:@"Hide" forState:UIControlStateNormal];
-    self.button3.backgroundColor = [UIColor blueColor];
     [self.button3 addTarget:self
                      action:@selector(onButtonClicked:)
            forControlEvents:UIControlEventTouchUpInside];
@@ -76,10 +54,7 @@
     }
     
     BOOL visible = [wrapper q_visibleVertically:YES];
-    [UIView animateWithDuration:0.6 animations:^{
-        [wrapper q_setVisibility:!visible isVertically:YES];
-        [self.view layoutIfNeeded];
-    }];
+    [wrapper q_setVisibility:!visible isVertically:YES];
     
     if([wrapper q_visibleVertically:YES]){
         [sender setTitle:@"Hide" forState:UIControlStateNormal];

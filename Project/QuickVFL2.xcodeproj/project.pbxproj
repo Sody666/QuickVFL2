@@ -105,6 +105,8 @@
 		D3A677731FB838CC00745929 /* RootTableViewCell.json in Resources */ = {isa = PBXBuildFile; fileRef = D3A677201FB6DE1B00745929 /* RootTableViewCell.json */; };
 		D3A677741FB838CC00745929 /* PortraitView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A677261FB74D6B00745929 /* PortraitView.m */; };
 		D3A677751FB838CC00745929 /* PortraitView.json in Resources */ = {isa = PBXBuildFile; fileRef = D3A677281FB74D7C00745929 /* PortraitView.json */; };
+		D3FB23D31FBC1EAC007C1870 /* QAutoConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = D3FB23D11FBC1EAC007C1870 /* QAutoConfig.h */; };
+		D3FB23D41FBC1EAC007C1870 /* QAutoConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = D3FB23D21FBC1EAC007C1870 /* QAutoConfig.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,6 +224,8 @@
 		D3A6774B1FB8335300745929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D3A677521FB8352800745929 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		D3A677761FB8393C00745929 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		D3FB23D11FBC1EAC007C1870 /* QAutoConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QAutoConfig.h; sourceTree = "<group>"; };
+		D3FB23D21FBC1EAC007C1870 /* QAutoConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QAutoConfig.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,6 +303,7 @@
 		D3A676921FB310CD00745929 /* QuickVFL */ = {
 			isa = PBXGroup;
 			children = (
+				D3FB23D01FBC1E02007C1870 /* Config */,
 				D3A6769E1FB3113300745929 /* Exception */,
 				D3A676A51FB3113300745929 /* Layout */,
 				D3A676AA1FB3113300745929 /* Option */,
@@ -467,6 +472,15 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
+		D3FB23D01FBC1E02007C1870 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				D3FB23D11FBC1EAC007C1870 /* QAutoConfig.h */,
+				D3FB23D21FBC1EAC007C1870 /* QAutoConfig.m */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -477,6 +491,7 @@
 				D3A676B61FB3113300745929 /* QException.h in Headers */,
 				D3A676C81FB3113300745929 /* UIView+constraint.h in Headers */,
 				D3A676BE1FB3113300745929 /* QLayoutResult.h in Headers */,
+				D3FB23D31FBC1EAC007C1870 /* QAutoConfig.h in Headers */,
 				D3A676BC1FB3113300745929 /* QLayoutManager.h in Headers */,
 				D3A676C61FB3113300745929 /* UIScrollView+constraint.h in Headers */,
 				D3A677041FB49F6E00745929 /* QAlignOption.h in Headers */,
@@ -679,6 +694,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3A676C31FB3113300745929 /* QStayShapedOption.m in Sources */,
+				D3FB23D41FBC1EAC007C1870 /* QAutoConfig.m in Sources */,
 				D3A676BB1FB3113300745929 /* QParseException.m in Sources */,
 				D3A677091FB4A07200745929 /* QOption.m in Sources */,
 				D3A676C71FB3113300745929 /* UIScrollView+constraint.m in Sources */,
