@@ -25,7 +25,7 @@ typedef enum : NSUInteger {
 
 /**
  *  Refresh the content view.
- *  Make sure the orientation is set with q_prepareAutolayoutContentViewForOrientation:
+ *  Make sure the orientation is set with q_prepareContentViewForOrientation:
  */
 -(void)q_refreshContentView;
 
