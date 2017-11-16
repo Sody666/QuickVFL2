@@ -201,13 +201,17 @@ static NSLock* managerLock;
         realEntrance = scrollView.q_contentView;
     }
     
+    [realEntrance q_configureWithData:propertyTree.viewData];
+    
     UIView* madeView;
     for (QViewProperty* property in propertyTree.subviewsProperty) {
         madeView = QVIEW(realEntrance, property.viewClass);
-        [madeView q_configureWithData:property.viewData];
+        
         [views setObject:madeView forKey:property.name];
         if(property.isViewContainer){
             [self creatingViewsForLayout:property entrance:madeView madeViews:views];
+        } else {
+            [madeView q_configureWithData:property.viewData];
         }
     }
 }
@@ -338,7 +342,6 @@ static NSLock* managerLock;
                            madeViews:madeViews];
     [self mappingViews:madeViews forHolder:holder];
     
-    [entrance q_configureWithData:property.viewData];
     result.createdViews = [madeViews copy];
     result.viewsData = [viewsData copy];
     return result;

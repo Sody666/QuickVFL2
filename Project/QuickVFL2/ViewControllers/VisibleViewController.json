@@ -1,57 +1,66 @@
 {
-    "wrapper1":{
-        "label1_":{
-            ":className":"UILabel",
-            ":viewData":{
-                "text":"Red Label",
-                "backgroundColor":"#FF0000",
-                "textColor":"#FFFFFF",
-            }
+    "totalWrapper_":{
+        "wrapper1":{
+            "label1_":{
+                ":className":"UILabel",
+                ":viewData":{
+                    "text":"Red Label",
+                    "backgroundColor":"#FF0000",
+                    "textColor":"#FFFFFF",
+                }
+            },
+            ":layout":"V:|-(8@250)-[label1_]-(8@250)-|;H:|-[label1_]-|;"
         },
-        ":layout":"V:|-(8@250)-[label1_]-(8@250)-|;H:|-[label1_]-|;"
-    },
-    "wrapper2":{
-        "label2_":{
-            ":className":"UILabel",
-            ":viewData":{
-                "text":"Green Label",
-                "backgroundColor":"#00FF00",
-                "textColor":"#FFFFFF",
-            }
+        "wrapper2":{
+            "label2_":{
+                ":className":"UILabel",
+                ":viewData":{
+                    "text":"Green Label",
+                    "backgroundColor":"#00FF00",
+                    "textColor":"#000000",
+                }
+            },
+            ":layout":"V:|-(8@250)-[label2_]-(8@250)-|;H:|-[label2_]-|;"
         },
-        ":layout":"V:|-(8@250)-[label2_]-(8@250)-|;H:|-[label2_]-|;"
-    },
-    "wrapper3":{
-        "label3_":{
-            ":className":"UILabel",
-            ":viewData":{
-                "text":"Blue Label",
-                "backgroundColor":"#0000FF",
-                "textColor":"#FFFFFF",
-            }
+        "wrapper3":{
+            "label3_":{
+                ":className":"UILabel",
+                ":viewData":{
+                    "text":"Blue Label",
+                    "backgroundColor":"#0000FF",
+                    "textColor":"#FFFFFF",
+                }
+            },
+            ":layout":"V:|-(8@250)-[label3_]-(8@250)-|;H:|-[label3_]-|;"
         },
-        ":layout":"V:|-(8@250)-[label3_]-(8@250)-|;H:|-[label3_]-|;"
+        ":layout":"H:|[wrapper1]|; V:|[wrapper1][wrapper2][wrapper3]| {left, right};",
+        ":viewData":{
+            "backgroundColor":"#CCCCCC",
+        }
     },
     "buttonWrapper_":{
         "button1":{
             ":className":"UIButton",
             ":viewData":{
-                "title":"Hide",
-                "backgroundColor":"#FF0000"
+                "text":"Hide",
+                "backgroundColor":"#FF0000",
+                "textColor":"#FFFFFF",
             }
         },
         "button2":{
             ":className":"UIButton",
             ":viewData":{
-                "title":"Hide",
-                "backgroundColor":"#00FF00"
+                "text":"Hide",
+                "backgroundColor":"#00FF00",
+                "textColor":"#000000",
             }
         },
         "button3":{
             ":className":"UIButton",
             ":viewData":{
-                "title":"Hide",
-                "backgroundColor":"#0000FF"
+                "text":"Hide",
+                "backgroundColor":"#0000FF",
+                "textColor":"#FFFFFF",
             }
         },
         ":layout":"
@@ -60,7 +69,7 @@
         "
     },
     ":layout":"
-        H:|[wrapper1]|;
-        V:|-[wrapper1][wrapper2][wrapper3]-20-[buttonWrapper_]-(>=0)-| {left,right};
+        H:|[totalWrapper_]|;
+        V:|-[totalWrapper_]-20-[buttonWrapper_]-(>=0)-| {left,right};
     "
 }
