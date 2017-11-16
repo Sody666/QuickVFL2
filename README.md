@@ -2,24 +2,23 @@
 Yet another layout framework to replace xib
 
 ## QuickVFL2简介
-QuickVFL是一个面向cocoa touch的布局框架。它希望能提供一个可视性好、团队并行合作度高的工具,希望能在xib布局和其他的第三方布局框架外，给你提供的另外一个选择。掌握了VFL之后，你回发现QuickVFL上手非常的容易。在实际工作中，可极大地降低布局的工作量和相关文件的维护量。
+简单粗暴地说，QuickVFL诞生的目的就是要帮助你把应用里绝大部分的布局代码干掉。你只要给它提供一个布局配置，它就会帮你把剩余的工作做掉。 
 
 ### 特点
-凡是苹果VFL的特征，QuickVFL一律支持。除此以外，它还有以下的增强点
-- 支持多行描述
-- 支持对齐
-- 支持设置比例约束
-- 支持scrollView自包围
-- 支持结构化视图
+- 在配置文件里完成视图结构构建
+- 在配置文件里完成初步的控件设置
+- 只需要在源代码里加几行代码就可以完成所有布局工作
+- 配合服务端下发布局文件，可以轻松实现动态布局
 
 ### 安装办法
 1. 从Released lib中下载发布出来的framework，并把它放到你项目里
 2. 在Target->Build Settings->Other Linker Flags添加上**-ObjC**
 3. 在需要用QuickVFL的地方#import < QuickVFL/QuickVFL.h >既可
 
-## QuickVFL2文件结构
-开始看接下来的冗长的介绍前，我建议你先看看[怎么简单写一个布局文件](https://github.com/Sody666/QuickVFL2/wiki/%E4%BB%8E%E7%AE%80%E5%8D%95%E5%BC%80%E5%A7%8B%EF%BC%8C%E9%80%90%E6%AD%A5%E6%8E%8C%E6%8F%A1QuickVFL%E7%9A%84%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6%E4%B9%A6%E5%86%99)，以对QuickVFL有足够的信心。
+## QuickVFL2工作流程
+![处理流程](https://github.com/Sody666/QuickVFL2/blob/master/WikiResources/handleFlow.png)
 
+## QuickVFL2组件构成
 典型的结构是一个描述视图结构和属性的json文件，然后在oc代码（常常是View Controller或者View）里使用API加载结构文件。
 例如，一个只有一个UITableView的VC，它的描述文件只是：
 ```
@@ -45,6 +44,7 @@ QuickVFL是一个面向cocoa touch的布局框架。它希望能提供一个可�
 ```
 然后，布局工作就完成了。QuickVFL会自动帮你把结构文件读进来，然后按结构创建相关视图，然后设置属性和约束，最后还帮你按照名字映射到你的VC里。
 
+如果要深入了解，可以点击查看[怎么简单写一个布局文件](https://github.com/Sody666/QuickVFL2/wiki/%E4%BB%8E%E7%AE%80%E5%8D%95%E5%BC%80%E5%A7%8B%EF%BC%8C%E9%80%90%E6%AD%A5%E6%8E%8C%E6%8F%A1QuickVFL%E7%9A%84%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6%E4%B9%A6%E5%86%99)
 
 ### 结构文件的结构
 可以这样描述结构文件的结构：
@@ -101,4 +101,3 @@ QuickVFL是一个面向cocoa touch的布局框架。它希望能提供一个可�
 #### 更多资料
 
 - [学习VFL](https://github.com/Sody666/QuickVFL2/wiki/%E5%AD%A6%E4%B9%A0VFL)
-
