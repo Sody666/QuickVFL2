@@ -14,6 +14,12 @@ Yet another layout framework to replace xib
 1. 从Released lib中下载发布出来的framework，并把它放到你项目里
 2. 在Target->Build Settings->Other Linker Flags添加上**-ObjC**
 3. 在需要用QuickVFL的地方#import < QuickVFL/QuickVFL.h >既可
+### 其他数据
+指标 | 数值
+---|---
+语言 | object-c
+版本 | 2.0
+支持系统版本 | >=8.0
 
 ## QuickVFL2工作流程
 ![处理流程](https://github.com/Sody666/QuickVFL2/blob/master/WikiResources/handleFlow.png)
