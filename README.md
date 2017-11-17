@@ -94,6 +94,67 @@ Yet another layout framework to replace xib
 #### 选项
 控件的选项是QuickVFL很重要的组成部分。内容有点多，请移步[这里](https://github.com/Sody666/QuickVFL2/wiki/QuickVFL-%E6%8E%A7%E4%BB%B6%E5%B1%9E%E6%80%A7)查看
 
+### 常用API
+QuickVFL2已经大规模减少了必须要掌握的API数目，目的是提高其易用性和自动化程度。
+#### QLayoutManager
+布局工具
+```
+/**
+ *	使用布局文件进行布局
+ *
+ *  @param fileName 布局的文件名
+ *  @param entrance	视图的入口 比如，VC的view属性。创建的所有视图将会挂载在它下面
+ *  @param holder	对视图进行映射的对象。一般情况下是视图入口的拥有者
+ *
+ *  @return 返回布局的结果，包括创建的视图和视图数据
+ **/
++(QLayoutResult*) layoutForFileName:(NSString*)fileName
+                           entrance:(UIView*)entrance
+                             holder:(id)holder;
+```
+
+#### QLayoutResult
+布局结果
+```
+/**
+ *  使用名字获得视图
+ **/
+-(id)viewNamed:(NSString*)name;
+
+/**
+ *  使用名字获得视图数据
+ **/
+-(id)dataForViewNamed:(NSString*)name;
+```
+
+#### UIScrollView(constraint)
+滚动视图
+```
+/**
+ *  刷新滚动视图的内容
+ *  务必此滚动视图在此之前掉用q_prepareContentViewForOrientation:准备好一切。
+ */
+-(void)q_refreshContentView;
+```
+#### UIView(constraint)
+在指定方向上展示、隐藏视图
+```
+/**
+ *  控制视图的可视性
+ *
+ *  @param visible   是否展示
+ *  @param vertically 水平还是垂直方向
+ */
+-(void)q_setVisibility:(BOOL)visible isVertically:(BOOL)vertically;
+
+/**
+ *  获取视图的可视性
+ *
+ *  @param vertically 水平还是垂直方向
+ */
+-(BOOL)q_visibleVertically:(BOOL)vertically;
+```
+
 #### 使用例子
 - [使用ScrollView包含视图的内容](https://github.com/Sody666/QuickVFL2/wiki/QuickVFL-%E6%A1%86%E6%9E%B6DEMO%EF%BC%9A%E4%BD%BF%E7%94%A8ScrollView%E5%8C%85%E5%90%AB%E8%A7%86%E5%9B%BE%E7%9A%84%E5%86%85%E5%AE%B9)
 - [隐藏／展示View](https://github.com/Sody666/QuickVFL2/wiki/QuickVFL-%E6%A1%86%E6%9E%B6DEMO%EF%BC%9A%E9%9A%90%E8%97%8F%EF%BC%8F%E5%B1%95%E7%A4%BAView)
