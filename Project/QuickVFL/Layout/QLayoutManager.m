@@ -80,6 +80,8 @@ static NSLock* managerLock;
         [result setValue:type forKey:key];
     }
     
+    free(ivars);
+    
     return result;
 }
 
