@@ -22,22 +22,28 @@ Yet another layout framework to replace xib
 支持系统版本 | >=8.0
 
 ### 调试办法
-QuickVFL暴露出了一个标记为
-```
-extern BOOL enableVFLDebug;
-```
-只要你在适合的地方，比如AppDelegate里，用适当的方式开启这个标记为，则会给你的调试工作带来很大的便利。
+#### 运行模式
+QuickVFL一共支持以下的模式：
+- QLayoutModeVerbose：打印所有信息，并且当有任何错误时，即刻抛异常告知。
+- QLayoutModeQuiet：悄悄干活，不提供任何调试信息。但有任何错误时，即刻抛异常告知
+- QLayoutModePeaceful：平安模式。有错就悄悄跳过。一般是生产环境用。
+
+
+只要你在适合的地方，比如AppDelegate里，设置适当的模式即可。
 
 比如，用以下方式开启：
 ```
 #ifdef DEBUG
-    enableVFLDebug = YES;
+    [QLayoutManager setupLayoutMode: QLayoutModeVerbose];
 #else
-    enableVFLDebug = NO;
+    // 如果你想在布局走歪的时候停掉应用
+    // [QLayoutManager setupLayoutMode: QLayoutModeQuiet];
+    // 如果你想一条道走到黑
+    [QLayoutManager setupLayoutMode: QLayoutModePeaceful];
 #endif
 ```
-不过请注意，尽量不要在生产环境里开启这个比较位，因为会有很多调试信息会被写到约束里，带来一些成本。
-#### 具体的例子
+不过请注意，尽量不要在生产环境里开启Verbose模式，因为会有很多调试信息会被写到约束里，带来一些成本。
+#### 约束冲突分析
 比如，在约束冲突了之后，终端里有以下警告：
 ```
 2017-11-29 15:20:16.961 QuickVFLUseLib[82431:6788440] Unable to simultaneously satisfy constraints.
@@ -61,6 +67,8 @@ The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in
 1. VFL里名字为label1_的控件，其到容器的顶部发生了冲突。结合VFL，可以锁定为“V:|-(8)-”
 2. VFL里名字为label1_的控件，其到容器的底部发生了冲突。结合VFL，可以锁定为“-(8)-|”
 3. 某个非VFL添加的约束，限定自身高度为某个数值的约束发生了冲突。
+
+
 综合起来，应该可以推断出，label1_把其容器撑起来，使得其容器的高度至少为16.但后来隐藏约束应该是要限定其容器高度为0，因而两者有了冲突。
 
 再从最后的结果来看，系统是打破掉了label1_到底部的约束，从而解决了问题。
