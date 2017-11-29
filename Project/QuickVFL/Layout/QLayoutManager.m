@@ -203,8 +203,6 @@ static NSLock* managerLock;
         realEntrance = scrollView.q_contentView;
     }
     
-    [realEntrance q_configureWithData:propertyTree.viewData];
-    
     UIView* madeView;
     for (QViewProperty* property in propertyTree.subviewsProperty) {
         madeView = QVIEW(realEntrance, property.viewClass);
@@ -212,8 +210,30 @@ static NSLock* managerLock;
         [views setObject:madeView forKey:property.name];
         if(property.isViewContainer){
             [self creatingViewsForLayout:property entrance:madeView madeViews:views];
+        }
+    }
+}
+
+-(void)setupViewsForLayout:(QViewProperty*)propertyTree
+                  entrance:(UIView*)entrance
+                 madeViews:(NSMutableDictionary*)views
+                    holder:(id)holder{
+    UIView* realEntrance = entrance;
+    if(propertyTree.isScrollEnabled){
+        UIScrollView* scrollView = (UIScrollView*)propertyTree.scrollViewShadow;
+        realEntrance = scrollView.q_contentView;
+    }
+    
+    [realEntrance q_configureWithData:propertyTree.viewData holder:holder];
+    
+    // subviews
+    UIView* madeView;
+    for (QViewProperty* property in propertyTree.subviewsProperty) {
+        madeView = [views objectForKey:property.name];
+        if(property.isViewContainer){
+            [self setupViewsForLayout:property entrance:madeView madeViews:views holder:holder];
         } else {
-            [madeView q_configureWithData:property.viewData];
+            [madeView q_configureWithData:property.viewData holder:holder];
         }
     }
 }
@@ -334,17 +354,23 @@ static NSLock* managerLock;
     
     QViewProperty* property = [QLayoutManager parseLayoutContent:content];
     NSMutableDictionary* madeViews = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* viewsData = [[NSMutableDictionary alloc] init];
-    [self attachingViewDataForLayout:property viewsData:viewsData];
     [self creatingViewsForLayout:property
                         entrance:entrance
                        madeViews:madeViews];
     [self addingConstraintsForLayout:property
                             entrance:entrance
                            madeViews:madeViews];
+    [self setupViewsForLayout:property
+                     entrance:entrance
+                    madeViews:madeViews
+                       holder:holder];
+    
     [self mappingViews:madeViews forHolder:holder];
     
     result.createdViews = [madeViews copy];
+    
+    NSMutableDictionary* viewsData = [[NSMutableDictionary alloc] init];
+    [self attachingViewDataForLayout:property viewsData:viewsData];
     result.viewsData = [viewsData copy];
     return result;
 }

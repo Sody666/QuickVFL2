@@ -45,6 +45,7 @@
                 "text":"Hide",
                 "backgroundColor":"#FF0000",
                 "textColor":"#FFFFFF",
+                "tapEvent":"onButtonClicked:",
             }
         },
         "button2":{
@@ -53,6 +54,7 @@
                 "text":"Hide",
                 "backgroundColor":"#00FF00",
                 "textColor":"#000000",
+                "tapEvent":"onButtonClicked:",
             }
         },
         "button3":{
@@ -61,6 +63,7 @@
                 "text":"Hide",
                 "backgroundColor":"#0000FF",
                 "textColor":"#FFFFFF",
+                "tapEvent":"onButtonClicked:",
             }
         },
         ":layout":"

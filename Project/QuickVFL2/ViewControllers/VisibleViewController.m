@@ -27,22 +27,6 @@
                                       holder:self];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [self.button1 addTarget:self
-                     action:@selector(onButtonClicked:)
-           forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.button2 addTarget:self
-                     action:@selector(onButtonClicked:)
-           forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.button3 addTarget:self
-                     action:@selector(onButtonClicked:)
-           forControlEvents:UIControlEventTouchUpInside];
-}
-
 -(void)onButtonClicked:(UIButton*)sender{
     UIView* wrapper;
     if(sender == self.button1){

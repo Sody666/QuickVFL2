@@ -10,5 +10,5 @@
 
 
 @interface UIView(AutoConfig)
--(void)q_configureWithData:(NSDictionary*)configData;
+-(void)q_configureWithData:(NSDictionary*)configData holder:(id)holder;
 @end
