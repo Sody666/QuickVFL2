@@ -16,7 +16,6 @@
 @property (nonatomic, weak) UIView* viewPlaceHolder;
 @property (nonatomic, weak) TravelCardVFL* cardDemo;
 @property (atomic, assign) BOOL working;
-@property (nonatomic, strong) NSMutableArray* cards;
 
 @property (nonatomic, strong) UIImage* titleImage;
 @end
@@ -26,7 +25,6 @@
     [super viewDidLoad];
     
     self.working = NO;
-    self.cards = [[NSMutableArray alloc] init];
 }
 
 -(void)cleanPlayground{
@@ -72,7 +70,6 @@
     NSDate* now = [NSDate date];
     for (int i=0; i< 1000; i++) {
         card = [[TravelCardVFL alloc] initWithFrame:self.viewPlaceHolder.bounds];
-        [self.cards addObject:card];
         [card setupWithTitle:@"北京石景山万达广场和颐酒店只要409元！" subTitle:@"高档型.公主坟、五棵松、石景山游乐园地区" source:@"北京.精选酒店" readCount:10000 titleImage:self.titleImage];
         [card setNeedsLayout];
         [card layoutIfNeeded];
@@ -110,7 +107,6 @@
     NSDate* now = [NSDate date];
     for (int i=0; i< 1000; i++) {
         card = [TravelCardXib instance];
-        [self.cards addObject:card];
         card.frame = self.viewPlaceHolder.bounds;
         [card setupWithTitle:@"北京石景山万达广场和颐酒店只要409元！" subTitle:@"高档型.公主坟、五棵松、石景山游乐园地区" source:@"北京.精选酒店" readCount:10000 titleImage:self.titleImage];
         [card setNeedsLayout];
