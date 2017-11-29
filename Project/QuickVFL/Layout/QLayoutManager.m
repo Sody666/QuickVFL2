@@ -20,6 +20,8 @@
 
 #import <objc/runtime.h>
 
+QLayoutMode layoutMode = QLayoutModeVerbose;
+
 static NSLock* managerLock;
 @implementation QLayoutManager
 #pragma mark - private methods
@@ -42,7 +44,6 @@ static NSLock* managerLock;
     QLayoutManager* result = nil;
     result = [managers lastObject];
     if(result == nil){
-//        NSLog(@"creating manager...");
         result = [[QLayoutManager alloc] init];
     } else {
         [managers removeObject:result];
@@ -93,12 +94,13 @@ static NSLock* managerLock;
                                                          options:0
                                                            error:&error];
     if(error){
-        NSString* reason = [NSString stringWithFormat:@"Failed while parsing layout file: %@", error];
-        @throw [QParseException exceptionWithReason:reason];
+        [QParseException throwExceptionForReason:@"Failed while parsing layout file: %@", error];
+        return nil;
     }
     
     if(![dict isKindOfClass:[NSDictionary class]]){
-        @throw [QParseException exceptionWithReason:@"Top of the layout file must be a dictionary."];
+        [QParseException throwExceptionForReason:@"Top of the layout file must be a dictionary."];
+        return nil;
     }
     
     return [self parseViewPropertyForLayout:dict];
@@ -107,13 +109,13 @@ static NSLock* managerLock;
 +(Class)parseClassName:(NSString*)className{
     Class targetClass = NSClassFromString(className);
     if(targetClass == nil){
-        NSString* reason = [NSString stringWithFormat:@"Unknown Class: %@.", className];
-        @throw [QParseException exceptionWithReason:reason];
+        [QParseException throwExceptionForReason:@"Unknown Class: %@.", className];
+        return nil;
     }
     
     if(![targetClass isSubclassOfClass:[UIView class]]){
-        NSString* reason = [NSString stringWithFormat:@"%@ is not a subclass of UIView.", className];
-        @throw [QParseException exceptionWithReason:reason];
+        [QParseException throwExceptionForReason:@"%@ is not a subclass of UIView.", className];
+        return nil;
     }
     
     return targetClass;
@@ -165,7 +167,8 @@ static NSLock* managerLock;
     }
     
     if(!property.isViewContainer && property.isScrollEnabled){
-        @throw [QParseException exceptionWithReason:@"Scroll option is for view container only."];
+        [QParseException throwExceptionForReason:@"Scroll option is for view container only."];
+        return nil;
     }
     
     return property;
@@ -183,7 +186,8 @@ static NSLock* managerLock;
             [scrollView q_prepareContentViewForOrientation:QScrollOrientationVertical];
             break;
         default:
-            @throw [QParseException exceptionWithReason:@"Bad scroll option for entrance" userInfo:@{@"entrance": entrance}];
+            [QParseException throwExceptionWithUserInfo:@{@"entrance": entrance}
+                                                 reason:@"Bad scroll option for entrance" ];
             break;
     }
     
@@ -268,8 +272,8 @@ static NSLock* managerLock;
     for(QEqualOption* equalOption in propertyTree.arrayEqualOptions) {
         UIView* targetView = [views objectForKey:equalOption.targetViewName];
         if(targetView == nil){
-            NSString* reason = [NSString stringWithFormat:@"Can't find target view named %@", equalOption.targetViewName];
-            @throw [QParseException exceptionWithReason:reason];
+            [QParseException throwExceptionForReason:@"Can't find target view named %@", equalOption.targetViewName];
+            continue;
         }
         
         [QEqualOption equalView:realEntrance
@@ -317,21 +321,18 @@ static NSLock* managerLock;
         
         if([ivarInfo objectForKey:name] == nil){
             if(![viewName hasSuffix:@"_"]){
-                NSString* reason = [NSString stringWithFormat:@"View named %@ is claimed to be mapped. But failed to be done. Have you declared any ivar for it?", viewName];
-                @throw [QParseException exceptionWithReason:reason];
+                [QParseException throwExceptionForReason:@"View named %@ is claimed to be mapped. But failed to be done. Have you declared any ivar for it?", viewName];
             }
         } else {
             if([holder valueForKey:name]){
-                NSString* reason = [NSString stringWithFormat:@"View named %@ is supposed to be nil before mapping. But now it is not. Quit in case of mis-mapping.", name];
-                @throw [QLayoutException exceptionWithReason:reason];
+                [QLayoutException throwExceptionForReason:@"View named %@ is supposed to be nil before mapping. But now it is not. Quit in case of mis-mapping.", name];
             }
             
             Class ivarClass = [QLayoutManager parseClassName:[ivarInfo objectForKey:name]];
             
             if(![[targetView class] isSubclassOfClass:ivarClass]){
-                NSString* reason = [NSString stringWithFormat:@"View named %@ is supposed to be an instance of class or subclass %@. But now it is instance of %@. Quit in case of mis-mapping.",
-                                    name, [ivarInfo objectForKey:name], NSStringFromClass([targetView class])];
-                @throw [QLayoutException exceptionWithReason:reason];
+                [QLayoutException throwExceptionForReason:@"View named %@ is supposed to be an instance of class or subclass %@. But now it is instance of %@. Quit in case of mis-mapping.",
+                        name, [ivarInfo objectForKey:name], NSStringFromClass([targetView class])];
             }
             
             [holder setValue:targetView forKey:name];
@@ -345,11 +346,13 @@ static NSLock* managerLock;
     QLayoutResult* result = [[QLayoutResult alloc] init];
     
     if(entrance == nil){
-        @throw [QLayoutException exceptionWithReason:@"Entrance of layout tree is required."];
+        [QLayoutException throwExceptionForReason:@"Entrance of layout tree is required."];
+        return nil;
     }
     
     if(holder == nil){
-        @throw [QLayoutException exceptionWithReason:@"Holder of the layout tree is required."];
+        [QLayoutException throwExceptionForReason:@"Holder of the layout tree is required."];
+        return nil;
     }
     
     QViewProperty* property = [QLayoutManager parseLayoutContent:content];
@@ -381,8 +384,8 @@ static NSLock* managerLock;
                                                    encoding:NSUTF8StringEncoding
                                                       error:&error];
     if(error){
-        NSString* reason = [NSString stringWithFormat:@"Failed while reading layout file: %@", error];
-        @throw [QParseException exceptionWithReason:reason];
+        [QParseException throwExceptionForReason:@"Failed while reading layout file: %@", error];
+        return nil;
     }
     
     return jsonText;
@@ -413,5 +416,13 @@ static NSLock* managerLock;
                              holder:(id)holder{
     NSString* filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:nil];
     return [self layoutForFilePath:filePath entrance:entrance holder:holder];
+}
+
++(void)setupLayoutMode:(QLayoutMode)mode{
+    layoutMode = mode;
+}
+
++(QLayoutMode)layoutMode{
+    return layoutMode;
 }
 @end

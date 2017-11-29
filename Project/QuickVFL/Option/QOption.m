@@ -12,7 +12,7 @@
 @implementation QOption
 +(QOption*)optionWithKey:(NSString*)key value:(id)value{
     if(key.length == 0 || value == nil){
-        @throw [QParseException exceptionWithReason:@"Both key and value must be valid."];
+        [QParseException throwExceptionForReason:@"Both key and value must be valid."];
     }
     
     return [[self alloc] init];

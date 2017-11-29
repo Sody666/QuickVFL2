@@ -8,8 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface QException : NSException
 +(nonnull id)exceptionWithReason:(nonnull NSString*)reason;
 +(nonnull id)exceptionWithReason:(nonnull NSString*)reason userInfo:(nullable NSDictionary*)userInfo;
 +(nonnull NSString*)exceptionName;
+
++(void)throwExceptionWithUserInfo:(nullable NSDictionary*)userInfo
+                           reason:(nonnull NSString *)format, ...;
+
++(void)throwExceptionForReason:(nonnull NSString *)format, ...;
 @end

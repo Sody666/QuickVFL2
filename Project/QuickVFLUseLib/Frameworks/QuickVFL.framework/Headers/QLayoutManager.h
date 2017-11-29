@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+typedef enum : NSUInteger {
+    // print all the information & quit app if any error.
+    QLayoutModeVerbose,
+    // quit app if any error.
+    QLayoutModeQuiet,
+    // ignore any error.
+    QLayoutModePeaceful,
+} QLayoutMode;
 
 @class QLayoutResult;
 
@@ -26,4 +34,7 @@
                             holder:(id)holder;
 
 +(Class)parseClassName:(NSString*)className;
+
++(void)setupLayoutMode:(QLayoutMode)mode;
++(QLayoutMode)layoutMode;
 @end

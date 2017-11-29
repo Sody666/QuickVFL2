@@ -9,6 +9,7 @@
 #import "UIView+constraint.h"
 #import <objc/runtime.h>
 #import "NSLayoutConstraint+vfl.h"
+#import "QLayoutManager.h"
 
 #define kQConstraintAlignTop          @"top"
 #define kQConstraintAlignBottom       @"bottom"
@@ -19,8 +20,6 @@
 
 static const void *VerticalVisibilityKey = &VerticalVisibilityKey;
 static const void *HorizontalVisibilityKey = &HorizontalVisibilityKey;
-
-BOOL enableVFLDebug = NO;
 
 @implementation UIView(constraint)
 #define SHARED_EXPRESSION(expression) do {\
@@ -148,7 +147,7 @@ BOOL enableVFLDebug = NO;
                                       metrics:nil
                                       views:views];
         
-        if(enableVFLDebug){
+        if([QLayoutManager layoutMode] <= QLayoutModeVerbose){
             for (NSLayoutConstraint* constraint in parsedConstraints) {
                 constraint.q_vfl = constraintText;
                 
@@ -199,7 +198,7 @@ BOOL enableVFLDebug = NO;
                                                        multiplier:1
                                                          constant:0];
         
-        if(enableVFLDebug){
+        if([QLayoutManager layoutMode] <= QLayoutModeVerbose){
             centerConstraint.q_firstItemName = viewName;
             centerConstraint.q_secondItemName = [NSString stringWithFormat:@"%@'s super view", viewName];
         }
@@ -218,7 +217,7 @@ BOOL enableVFLDebug = NO;
                                                                   attribute:NSLayoutAttributeNotAnAttribute
                                                                  multiplier:0
                                                                    constant:0];
-    if(enableVFLDebug){
+    if([QLayoutManager layoutMode] <= QLayoutModeVerbose){
         NSString* name = @"HidingView";
         constraint.q_firstItemName = name;
         constraint.q_secondItemName = name;

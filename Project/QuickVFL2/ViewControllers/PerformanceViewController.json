@@ -1,5 +1,10 @@
 {
-    "labelResult":"UILabel",
+    "labelResult":{
+        ":className":"UILabel",
+        ":viewData":{
+            "numberOfLines":2
+        }
+    },
     "buttonsWrapper_":{
         "buttonVFL_":{
             ":className":"UIButton",

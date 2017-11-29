@@ -18,7 +18,8 @@
     
     NSArray* splitValue = [value componentsSeparatedByString:@"@"];
     if (splitValue.count != 2) {
-        @throw [QParseException exceptionWithReason:@"Stay shaped option value must be orientation@priority, H@751 for example."];
+        [QParseException throwExceptionForReason:@"Stay shaped option value must be orientation@priority, H@751 for example."];
+        return option;
     }
     
     NSString* orientation = [[splitValue firstObject] lowercaseString];
@@ -27,17 +28,18 @@
     } else if ([orientation isEqualToString:@"h"] ) {
         option.orientation = QOrientationHorizontal;
     } else {
-        NSString* reason = [NSString stringWithFormat:@"Unknown orientation value %@", orientation];
-        @throw [QParseException exceptionWithReason:reason];
+        [QParseException throwExceptionForReason:@"Unknown orientation value %@", orientation];
     }
     
     NSString* priority = splitValue[1];
     NSInteger priorityValue = [priority integerValue];
     if(priorityValue <= 0 || priorityValue > 1000){
-        @throw [QParseException exceptionWithReason:@"Priority value must be between 0 and 1000"];
+        [QParseException throwExceptionForReason:@"Priority value must be between 0 and 1000"];
+    } else {
+        option.priority = priorityValue;
     }
     
-    option.priority = priorityValue;
+    
     
     return option;
 }

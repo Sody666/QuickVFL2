@@ -8,12 +8,11 @@
 
 #import "NSLayoutConstraint+vfl.h"
 #import <objc/runtime.h>
+#import "QLayoutManager.h"
 
 static const void *firstItemKey = &firstItemKey;
 static const void *secondItemKey = &secondItemKey;
 static const void *vflKey = &vflKey;
-
-extern BOOL enableVFLDebug;
 
 @implementation NSLayoutConstraint(vfl)
 #pragma mark - setters and getters
@@ -98,7 +97,7 @@ extern BOOL enableVFLDebug;
 }
 
 -(NSString*)description{
-    if(enableVFLDebug){
+    if([QLayoutManager layoutMode] <= QLayoutModeVerbose){
         return [NSString stringWithFormat:@"%@ %@ %@ %@ %@. VFL: %@",
                 self.q_firstItemName, [NSLayoutConstraint _q_nameForConstraintAttribute:self.firstAttribute],
                 [NSLayoutConstraint _q_nameForConstraintRelation:self.relation],

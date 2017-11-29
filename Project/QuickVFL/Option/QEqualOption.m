@@ -38,7 +38,8 @@
     
     option.multiplier = [multiplierString floatValue];
     if(option.multiplier <= 0){
-        @throw [QParseException exceptionWithReason:@"Multiplier value must be  greater than 0."];
+        [QParseException throwExceptionForReason:@"Multiplier value must be  greater than 0."];
+        option.multiplier = 1;
     }
     
     if([@"w" isEqualToString:secondAttrubuteString]){
@@ -78,7 +79,8 @@
       multiplier:(float)multiplier{
     UIView* ancestor = [self ancestorForView:aView theOtherViw:otherView];
     if(ancestor == nil){
-        @throw [QParseException exceptionWithReason:@"Equal option requires two views are in the same layout tree"];
+        [QParseException throwExceptionForReason:@"Equal option requires two views are in the same layout tree"];
+        return;
     }
     
     if(aView == otherView && firstAttribute == secondAttribute){
@@ -88,7 +90,9 @@
         } else {
             fact = @"Can't set height to height of self.";
         }
-        @throw [QParseException exceptionWithReason:fact];
+        
+        [QParseException throwExceptionForReason:fact];
+        return;
     }
     
     NSLayoutConstraint* constraint = [NSLayoutConstraint constraintWithItem:aView

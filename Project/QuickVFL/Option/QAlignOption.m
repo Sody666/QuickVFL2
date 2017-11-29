@@ -33,8 +33,8 @@
     } else if([QVIEW_OPTION_CENTER_Y_ALIGN isEqualToString:key]){
         option.attribute = NSLayoutAttributeCenterY;
     } else{
-        NSString* reason = [NSString stringWithFormat:@"Unknown align type %@", key];
-        @throw [QParseException exceptionWithReason:reason];
+        [QParseException throwExceptionForReason:@"Unknown align type %@", key];
+        return nil;
     }
     
     return option;
@@ -73,8 +73,8 @@
             for (NSString* name in group) {
                 targetView = [views objectForKey:name];
                 if(targetView == nil){
-                    NSString* reason = [NSString stringWithFormat:@"Uknown view named %@", name];
-                    @throw [QParseException exceptionWithReason:reason];
+                    [QParseException throwExceptionForReason:@"Uknown view named %@", name];
+                    continue;
                 }
                 [targetViews addObject:targetView];
             }

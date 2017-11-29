@@ -84,8 +84,7 @@
         
         [_arrayAlighOptions addObject:[QAlignOption optionWithKey:key value:value]];
     } else {
-        NSString* reason = [NSString stringWithFormat:@"Unknown option with key %@ and value %@", key, value];
-        @throw [QParseException exceptionWithReason:reason];
+        [QParseException throwExceptionForReason:@"Unknown option with key %@ and value %@", key, value];
     }
 }
 @end

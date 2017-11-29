@@ -17,7 +17,6 @@
     nvc.navigationBar.translucent = NO;
     myWindow.rootViewController = nvc;
     
-    
     self.window = myWindow;
     [myWindow makeKeyAndVisible];
     return YES;

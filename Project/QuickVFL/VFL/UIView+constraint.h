@@ -10,8 +10,6 @@
 
 #define QVIEW(super, subviewClass) ([super q_addAutolayoutSubviewByClass:[subviewClass class]])
 
-extern BOOL enableVFLDebug;
-
 @interface UIView(constraint)
 /**
  *  Add a autolayout subview by class;

@@ -47,15 +47,17 @@
             continue;
         }
         
-        NSString* reason = [NSString stringWithFormat:@"Config key %@ is not handled for class %@", key, NSStringFromClass(self.class)];
-        @throw [QLayoutException exceptionWithReason:reason];
+        [QLayoutException throwExceptionForReason:@"Config key %@ is not handled for class %@",
+                                                    key, NSStringFromClass(self.class)];
     }
 }
 
 -(UIColor*)_q_parseColorString:(NSString*)color{
     if(color.length == 0 || ![color hasPrefix:@"#"] || (color.length != 7 && color.length != 9)){
-        NSString* reason = [NSString stringWithFormat:@"Illegal color format %@. Legal example: #FF123456 or #123456", color];
-        @throw [QLayoutException exceptionWithReason:reason];
+        [QLayoutException throwExceptionForReason:@"Illegal color format %@. Legal example: #FF123456 or #123456", color];
+        
+        // fall back to transparent color
+        return [UIColor clearColor];
     }
     
     NSString* alphaString = @"FF";
@@ -140,8 +142,9 @@
     } else if([QBUTTON_EVENT_TAP isEqualToString:key]){
         SEL eventSelector = NSSelectorFromString(value);
         if(![holder respondsToSelector:eventSelector]){
-            NSString* reason = [NSString stringWithFormat:@"Holder doesn't respond to selector %@", value];
-            @throw [QLayoutException exceptionWithReason:reason];
+            [QLayoutException throwExceptionForReason:@"Holder doesn't respond to selector %@", value];
+            // ignore it silently
+            return NO;
         }
         
         [self addTarget:holder action:eventSelector forControlEvents:UIControlEventTouchUpInside];
