@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		D364C0D31FCE545A0032CDB8 /* BuildFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D364C0D61FCE545A0032CDB8 /* Build configuration list for PBXAggregateTarget "BuildFramework" */;
+			buildPhases = (
+				D364C0D71FCE54630032CDB8 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = BuildFramework;
+			productName = BuildFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		D33B40BD1FB975C9002312BE /* QuickVFL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D33B40BC1FB975C9002312BE /* QuickVFL.framework */; };
 		D364C0B71FCCFE690032CDB8 /* TravelCardVFL.m in Sources */ = {isa = PBXBuildFile; fileRef = D364C0B61FCCFE690032CDB8 /* TravelCardVFL.m */; };
@@ -608,6 +622,9 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = Quick;
 				TargetAttributes = {
+					D364C0D31FCE545A0032CDB8 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 					D3A676711FB30E8B00745929 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 4TF6TS28RE;
@@ -638,6 +655,7 @@
 				D3A676711FB30E8B00745929 /* QuickVFL2 */,
 				D3A676901FB310CD00745929 /* QuickVFL */,
 				D3A677371FB8335200745929 /* QuickVFLUseLib */,
+				D364C0D31FCE545A0032CDB8 /* BuildFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -705,6 +723,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D364C0D71FCE54630032CDB8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "FRAMEWORK_NAME=\"QuickVFL\"\nINSTALL_DIR=${SRCROOT}/Products/${FRAMEWORK_NAME}.framework\n\nWORKING_DIR=build\nDEVICE_DIR=${WORKING_DIR}/Release-iphoneos/${FRAMEWORK_NAME}.framework\nSIMULATOR_DIR=${WORKING_DIR}/Release-iphonesimulator/${FRAMEWORK_NAME}.framework\n\nxcodebuild -configuration \"Release\" -target \"${FRAMEWORK_NAME}\" -sdk iphoneos clean build\nxcodebuild -configuration \"Release\" -target \"${FRAMEWORK_NAME}\" -sdk iphonesimulator clean build\n\n# Cleaning the oldest.\nif [ -d \"${INSTALL_DIR}\" ];then\n    rm -rf \"${INSTALL_DIR}\"\nfi\n\nmkdir -p \"${INSTALL_DIR}\"\ncp -R \"${DEVICE_DIR}/\" \"${INSTALL_DIR}/\"\n\n# Uses the Lipo Tool to merge both binaryfiles (i386 + armv6/armv7) into one Universal final product.\nlipo -create \"${DEVICE_DIR}/${FRAMEWORK_NAME}\" \"${SIMULATOR_DIR}/${FRAMEWORK_NAME}\" -output \"${INSTALL_DIR}/${FRAMEWORK_NAME}\"\n\n# Display framework information.\necho \"Information for the framework:\"\nlipo -info \"${INSTALL_DIR}/${FRAMEWORK_NAME}\"\n\nrm -r \"${WORKING_DIR}\"\nopen \"${INSTALL_DIR}/..\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D3A6766E1FB30E8B00745929 /* Sources */ = {
@@ -795,6 +829,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		D364C0D41FCE545A0032CDB8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D364C0D51FCE545A0032CDB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		D3A676871FB30E8C00745929 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1013,6 +1061,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D364C0D61FCE545A0032CDB8 /* Build configuration list for PBXAggregateTarget "BuildFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D364C0D41FCE545A0032CDB8 /* Debug */,
+				D364C0D51FCE545A0032CDB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		D3A6766D1FB30E8B00745929 /* Build configuration list for PBXProject "QuickVFL2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
