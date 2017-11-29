@@ -21,6 +21,50 @@ Yet another layout framework to replace xib
 版本 | 2.0
 支持系统版本 | >=8.0
 
+### 调试办法
+QuickVFL暴露出了一个标记为
+```
+extern BOOL enableVFLDebug;
+```
+只要你在适合的地方，比如AppDelegate里，用适当的方式开启这个标记为，则会给你的调试工作带来很大的便利。
+
+比如，用以下方式开启：
+```
+#ifdef DEBUG
+    enableVFLDebug = YES;
+#else
+    enableVFLDebug = NO;
+#endif
+```
+不过请注意，尽量不要在生产环境里开启这个比较位，因为会有很多调试信息会被写到约束里，带来一些成本。
+#### 具体的例子
+比如，在约束冲突了之后，终端里有以下警告：
+```
+2017-11-29 15:20:16.961 QuickVFLUseLib[82431:6788440] Unable to simultaneously satisfy constraints.
+  Probably at least one of the constraints in the following list is one you don't want. 
+  Try this: 
+    (1) look at each constraint and try to figure out which you don't expect; 
+    (2) find the code that added the unwanted constraint or constraints and fix it. 
+(
+    "label1_ Top Equal wrapper1 Top. VFL: V:|-(8)-[label1_]-(8)-|",
+    "wrapper1 Bottom Equal label1_ Bottom. VFL: V:|-(8)-[label1_]-(8)-|",
+    "HidingView Height Equal HidingView NotAnAttribute. VFL: (null)"
+)
+
+Will attempt to recover by breaking constraint 
+wrapper1 Bottom Equal label1_ Bottom. VFL: V:|-(8)-[label1_]-(8)-|
+
+Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
+The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in <UIKit/UIView.h> may also be helpful.
+```
+一共有三个约束发生了冲突：
+1. VFL里名字为label1_的控件，其到容器的顶部发生了冲突。结合VFL，可以锁定为“V:|-(8)-”
+2. VFL里名字为label1_的控件，其到容器的底部发生了冲突。结合VFL，可以锁定为“-(8)-|”
+3. 某个非VFL添加的约束，限定自身高度为某个数值的约束发生了冲突。
+综合起来，应该可以推断出，label1_把其容器撑起来，使得其容器的高度至少为16.但后来隐藏约束应该是要限定其容器高度为0，因而两者有了冲突。
+
+再从最后的结果来看，系统是打破掉了label1_到底部的约束，从而解决了问题。
+
 ## QuickVFL2工作流程
 ![处理流程](https://github.com/Sody666/QuickVFL2/blob/master/WikiResources/handleFlow.png)
 
