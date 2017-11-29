@@ -1,0 +1,46 @@
+{
+    "labelResult":"UILabel",
+    "buttonsWrapper_":{
+        "buttonVFL_":{
+            ":className":"UIButton",
+            ":viewData":{
+                "text":"VFL",
+                "textColor":"#000000",
+                "backgroundColor":"#777777"
+            }
+        },
+        "buttonXIB_":{
+            ":className":"UIButton",
+            ":viewData":{
+                "text":"XIB",
+                "textColor":"#000000",
+                "backgroundColor":"#777777"
+            }
+        },
+        ":layout":"V:|-[buttonXIB_]-|; H:|-[buttonVFL_]-[buttonXIB_(buttonVFL_)]-| {top, bottom};"
+    },
+    "viewPlaceHolder":{
+        ":className":"UIView",
+        ":viewData":{
+            "backgroundColor":"#eeeeee"
+        }
+    },
+    "_label_":{
+        ":className":"UILabel",
+        ":viewData":{
+            "text":"It should be like below:"
+        }
+    },
+    "cardDemo":{
+        ":className":"TravelCardVFL",
+        ":viewData":{
+            "backgroundColor":"#eeeeee"
+        }
+    },
+    ":scrollV":"scrollView",
+    ":layout":"
+        H:|-[labelResult]-|;
+        V:|-[labelResult]-[viewPlaceHolder(cardDemo)]-[buttonsWrapper_]-[_label_]-[cardDemo]-| {left,right};
+        H:[viewPlaceHolder(cardDemo)];
+    "
+}

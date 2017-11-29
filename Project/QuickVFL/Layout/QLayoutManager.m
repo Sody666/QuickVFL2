@@ -297,7 +297,7 @@ static NSLock* managerLock;
         
         if([ivarInfo objectForKey:name] == nil){
             if(![viewName hasSuffix:@"_"]){
-                NSString* reason = [NSString stringWithFormat:@"View named %@ is claimed to be mapped. But failed to be done. Have you declare any ivar for it?", viewName];
+                NSString* reason = [NSString stringWithFormat:@"View named %@ is claimed to be mapped. But failed to be done. Have you declared any ivar for it?", viewName];
                 @throw [QParseException exceptionWithReason:reason];
             }
         } else {

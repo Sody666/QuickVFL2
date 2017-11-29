@@ -8,6 +8,7 @@
 
 #import "UIView+constraint.h"
 #import <objc/runtime.h>
+#import "NSLayoutConstraint+vfl.h"
 
 #define kQConstraintAlignTop          @"top"
 #define kQConstraintAlignBottom       @"bottom"
@@ -88,15 +89,6 @@ BOOL enableVFLDebug = NO;
 }
 
 -(NSArray*)_q_parseVFL:(NSString*)VFLText involvedViews:(NSDictionary*)views{
-
-    if(enableVFLDebug){
-        for (NSString* viewName in views.allKeys) {
-            NSLog(@"%p: %@", (__bridge void*)[views objectForKey:viewName], viewName);
-        }
-    }
-
-    
-    
     NSMutableArray* result = [[NSMutableArray alloc] init];
     // remove comments
     NSString* trimmedVFLText = [self _q_trimCommentFromText: VFLText];
@@ -150,11 +142,22 @@ BOOL enableVFLDebug = NO;
             alignOption &= (~(NSLayoutFormatAlignAllCenterX|NSLayoutFormatAlignAllCenterY));
         }
         
-        [result addObjectsFromArray:[NSLayoutConstraint
-                                     constraintsWithVisualFormat:constraintText
-                                     options:alignOption
-                                     metrics:nil
-                                     views:views]];
+        NSArray* parsedConstraints = [NSLayoutConstraint
+                                      constraintsWithVisualFormat:constraintText
+                                      options:alignOption
+                                      metrics:nil
+                                      views:views];
+        
+        if(enableVFLDebug){
+            for (NSLayoutConstraint* constraint in parsedConstraints) {
+                constraint.q_vfl = constraintText;
+                
+                constraint.q_firstItemName = [views allKeysForObject:constraint.firstItem].firstObject;
+                constraint.q_secondItemName = [views allKeysForObject:constraint.secondItem].firstObject;
+            }
+        }
+        
+        [result addObjectsFromArray:parsedConstraints];
     }
     
     return result;
@@ -184,9 +187,10 @@ BOOL enableVFLDebug = NO;
         return;
     }
     
-    NSArray* views = [involvedViews allValues];
+    NSArray* viewNames = [involvedViews allKeys];
     NSLayoutConstraint* centerConstraint = nil;
-    for (UIView* view in views) {
+    for(NSString* viewName in viewNames){
+        UIView* view = [involvedViews objectForKey:viewName];
         centerConstraint = [NSLayoutConstraint constraintWithItem:view
                                                         attribute:parsedOption
                                                         relatedBy:NSLayoutRelationEqual
@@ -194,6 +198,11 @@ BOOL enableVFLDebug = NO;
                                                         attribute:parsedOption
                                                        multiplier:1
                                                          constant:0];
+        
+        if(enableVFLDebug){
+            centerConstraint.q_firstItemName = viewName;
+            centerConstraint.q_secondItemName = [NSString stringWithFormat:@"%@'s super view", viewName];
+        }
         
         [view.superview addConstraint:centerConstraint];
     }
@@ -209,7 +218,14 @@ BOOL enableVFLDebug = NO;
                                                                   attribute:NSLayoutAttributeNotAnAttribute
                                                                  multiplier:0
                                                                    constant:0];
+    if(enableVFLDebug){
+        NSString* name = @"HidingView";
+        constraint.q_firstItemName = name;
+        constraint.q_secondItemName = name;
+    }
+    
     constraint.priority = UILayoutPriorityRequired;
+    
     [self addConstraint:constraint];
     return constraint;
 }

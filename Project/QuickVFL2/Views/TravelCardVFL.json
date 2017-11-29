@@ -1,0 +1,48 @@
+{
+    "viewWrapperLeft_":{
+        "labelTitle":{
+            ":className":"UILabel",
+            ":viewData":{
+                "numberOfLines": 3,
+                "fontSize": 18
+            }
+        },
+        "labelSubtitle":{
+            ":className":"UILabel",
+            ":viewData":{
+                "numberOfLines": 2,
+                "fontSize": 12
+            }
+        },
+        "labelSource":{
+            ":className":"UILabel",
+            ":viewData":{
+                "fontSize": 10
+            }
+        },
+        ":layout":"H:|[labelTitle]|; V:|[labelTitle]-[labelSubtitle]-(>=8)-[labelSource]| {left, right};
+        "
+    },
+    "viewWrapperRight_":{
+        "imageViewTitle":{
+            ":className":"UIImageView",
+            ":heightEqual":"imageViewTitle@0.6@w"
+        },
+        "viewReadCounterWrapper":{
+            "labelReadCount":{
+                ":className":"UILabel",
+                ":viewData":{
+                    "fontSize": 10
+                }
+            },
+            ":layout":"H:|-(>=0)-[labelReadCount]|; V:|-(8@100)-[labelReadCount]|;"
+        },
+        ":widthEqual":"viewWrapperLeft_@0.8",
+        ":layout":"H:|[imageViewTitle]|;V:|[imageViewTitle][viewReadCounterWrapper]| {left, right};"
+    },
+    ":layout":"
+        V:|-[viewWrapperLeft_]-(>=8)-|;
+        V:|-[viewWrapperRight_]-(>=8)-|;
+        H:|-10-[viewWrapperLeft_]-[viewWrapperRight_]-10-|;
+    "
+}
