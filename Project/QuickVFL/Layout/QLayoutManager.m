@@ -20,47 +20,42 @@
 
 #import <objc/runtime.h>
 
-QLayoutMode layoutMode = QLayoutModeVerbose;
+//#define QTIMING　
 
-static NSLock* managerLock;
+@interface QLayoutManager(){
+#ifdef QTIMING
+    NSTimeInterval timeTotal, timeParseContent, timeCreatingViews, timeConstraints, timeSetup, timeMapping, timeCopyResult;
+    NSLock* timeLock;
+#endif
+}
+@property (nonatomic, assign) QLayoutMode layoutMode;
+
+@end
+
 @implementation QLayoutManager
 #pragma mark - private methods
-+(NSMutableArray<QLayoutManager*>*)managerPool{
++(QLayoutManager*)sharedManager{
     static dispatch_once_t onceToken;
-    static NSMutableArray* arrayManagers;
+    static QLayoutManager* sharedManager;
     dispatch_once(&onceToken, ^{
-        arrayManagers = [[NSMutableArray alloc] init];
-        managerLock = [[NSLock alloc] init];
+        sharedManager = [[QLayoutManager alloc] init];
     });
     
-    return arrayManagers;
+    return sharedManager;
 }
 
-+(QLayoutManager*)dequeueLayoutManager{
-    NSMutableArray* managers = [self managerPool];
-    
-    [managerLock lock];
-    
-    QLayoutManager* result = nil;
-    result = [managers lastObject];
-    if(result == nil){
-        result = [[QLayoutManager alloc] init];
-    } else {
-        [managers removeObject:result];
+-(id)init{
+    self = [super init];
+    if (self) {
+        // set verbose mode as default
+        self.layoutMode = QLayoutModeVerbose;
+#ifdef QTIMING
+        timeTotal = timeParseContent = timeCreatingViews = timeConstraints = timeSetup = timeMapping = timeCopyResult = 0;
+        timeLock = [[NSLock alloc] init];
+#endif
     }
     
-    [managerLock unlock];
-    
-    return result;
-}
-
-+(void)enqueueLayoutManager:(QLayoutManager*)manager{
-    NSMutableArray* managers = [self managerPool];
-    
-    [managerLock lock];
-    [managers addObject:manager];
-//    NSLog(@"Manager count in pool: %d", managers.count);
-    [managerLock unlock];
+    return self;
 }
 
 +(NSDictionary*)fetchIvarInformationForClass:(Class)targetClass{
@@ -343,6 +338,10 @@ static NSLock* managerLock;
 -(QLayoutResult*) _layoutForContent:(NSString*)content
                            entrance:(UIView*)entrance
                              holder:(id)holder{
+#ifdef QTIMING
+    NSDate* date0 = [NSDate date];
+#endif
+    
     QLayoutResult* result = [[QLayoutResult alloc] init];
     
     if(entrance == nil){
@@ -355,26 +354,73 @@ static NSLock* managerLock;
         return nil;
     }
     
+#ifdef QTIMING
+    NSDate* date1 = [NSDate date];
+#endif
+    
     QViewProperty* property = [QLayoutManager parseLayoutContent:content];
+    
+#ifdef QTIMING
+    NSDate* date2 = [NSDate date];
+#endif
+    
     NSMutableDictionary* madeViews = [[NSMutableDictionary alloc] init];
     [self creatingViewsForLayout:property
                         entrance:entrance
                        madeViews:madeViews];
+    
+#ifdef QTIMING
+    NSDate* date3 = [NSDate date];
+#endif
+    
     [self addingConstraintsForLayout:property
                             entrance:entrance
                            madeViews:madeViews];
+    
+#ifdef QTIMING
+    NSDate* date4 = [NSDate date];
+#endif
+    
     [self setupViewsForLayout:property
                      entrance:entrance
                     madeViews:madeViews
                        holder:holder];
     
+#ifdef QTIMING
+    NSDate* date5 = [NSDate date];
+#endif
+    
     [self mappingViews:madeViews forHolder:holder];
+    
+#ifdef QTIMING
+    NSDate* date6 = [NSDate date];
+#endif
     
     result.createdViews = [madeViews copy];
     
     NSMutableDictionary* viewsData = [[NSMutableDictionary alloc] init];
     [self attachingViewDataForLayout:property viewsData:viewsData];
     result.viewsData = [viewsData copy];
+    
+#ifdef QTIMING
+    NSDate* date7 = [NSDate date];
+#endif
+    
+    
+#ifdef QTIMING
+    [timeLock lock];
+    
+    timeTotal += [date7 timeIntervalSinceDate:date0];
+    timeParseContent += [date2 timeIntervalSinceDate:date1];
+    timeCreatingViews += [date3 timeIntervalSinceDate:date2];
+    timeConstraints += [date4 timeIntervalSinceDate:date3];
+    timeSetup += [date5 timeIntervalSinceDate:date4];
+    timeMapping += [date6 timeIntervalSinceDate:date5];
+    timeCopyResult += [date7 timeIntervalSinceDate:date6];
+    
+    [timeLock unlock];
+#endif
+    
     return result;
 }
 
@@ -395,11 +441,10 @@ static NSLock* managerLock;
 +(QLayoutResult*) layoutForContent:(NSString*)content
                           entrance:(UIView*)entrance
                             holder:(id)holder{
-    QLayoutManager* manager = [self dequeueLayoutManager];
-    QLayoutResult* result = [manager _layoutForContent:content
-                                              entrance:entrance
-                                                holder:holder];
-    [self enqueueLayoutManager:manager];
+    QLayoutResult* result = [[self sharedManager] _layoutForContent:content
+                                          entrance:entrance
+                                            holder:holder];
+    
     return result;
 }
 
@@ -407,8 +452,8 @@ static NSLock* managerLock;
                             entrance:(UIView*)entrance
                               holder:(id)holder{
     return [self layoutForContent:[self contentForFilePath:filePath]
-                  entrance:entrance
-                    holder:holder];
+                         entrance:entrance
+                           holder:holder];
 }
 
 +(QLayoutResult*) layoutForFileName:(NSString*)fileName
@@ -419,10 +464,26 @@ static NSLock* managerLock;
 }
 
 +(void)setupLayoutMode:(QLayoutMode)mode{
-    layoutMode = mode;
+    [self sharedManager].layoutMode = mode;
 }
 
 +(QLayoutMode)layoutMode{
-    return layoutMode;
+    return [self sharedManager].layoutMode;
+}
+
++(void)resetTimeData{
+#ifdef QTIMING
+    QLayoutManager* manager = [self sharedManager];
+    manager->timeTotal = manager->timeParseContent = manager->timeCreatingViews = manager->timeConstraints = manager->timeSetup = manager->timeMapping = manager->timeCopyResult = 0;
+#endif
+}
++(void)printTimingData{
+#ifdef QTIMING
+    QLayoutManager* manager = [self sharedManager];
+#define P(time) (manager->timeTotal==0 ? 0:((time/manager->timeTotal)*100))
+    
+    
+    NSLog(@"Total: %.2f\nParseContent: %.2f(%.1f%%)\nCreating: %.2f(%.1f%%)\nConstraints: %.2f(%.1f%%)\nSetup: %.2f(%.1f%%)\nMapping: %.2f(%.1f%%)\nCopyResult: %.2f(%.1f%%)", manager->timeTotal, manager->timeParseContent, P(manager->timeParseContent), manager->timeCreatingViews, P(manager->timeCreatingViews), manager->timeConstraints, P(manager->timeConstraints), manager->timeSetup, P(manager->timeSetup), manager->timeMapping, P(manager->timeMapping), manager->timeCopyResult, P(manager->timeCopyResult));
+#endif
 }
 @end
