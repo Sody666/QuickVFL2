@@ -10,6 +10,8 @@ Yet another layout framework to replace xib
 - 只需要在源代码里加几行代码就可以完成所有布局工作
 - 配合服务端下发布局文件，可以轻松实现动态布局
 
+***
+
 ### 安装办法
 1. 从Released lib中下载发布出来的framework，并把它放到你项目里
 2. 在Target->Build Settings->Other Linker Flags添加上**-ObjC**
@@ -20,6 +22,8 @@ Yet another layout framework to replace xib
 语言 | object-c
 版本 | 2.0
 支持系统版本 | >=8.0
+
+***
 
 ### 调试办法
 #### 设置运行模式
@@ -45,6 +49,8 @@ QuickVFL一共支持以下的模式：
 不过请注意，尽量不要在生产环境里开启Verbose模式，因为会有很多调试信息会被写到约束里，带来一些成本。
 #### 约束冲突分析
 [约束冲突的分析和结果实例](https://github.com/Sody666/QuickVFL2/wiki/%E7%BA%A6%E6%9D%9F%E5%86%B2%E7%AA%81%E5%88%86%E6%9E%90%E5%AE%9E%E4%BE%8B)
+
+***
 
 ### 使用QuickVFL
 QuickVFL的上手是非常容易的。只要你掌握以下2技能即可
@@ -85,6 +91,8 @@ QuickVFL的上手是非常容易的。只要你掌握以下2技能即可
 ```
 StayShapeViewController.json就是布局文件在沙盒里的名称。
 
+***
+
 ### 结构文件的结构
 [布局配置文件结构说明](https://github.com/Sody666/QuickVFL2/wiki/%E5%B8%83%E5%B1%80%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E8%AF%B4%E6%98%8E)
 
@@ -99,4 +107,5 @@ StayShapeViewController.json就是布局文件在沙盒里的名称。
 - [学习VFL](https://github.com/Sody666/QuickVFL2/wiki/%E5%AD%A6%E4%B9%A0VFL)
 - [怎么简单写一个布局文件](https://github.com/Sody666/QuickVFL2/wiki/%E4%BB%8E%E7%AE%80%E5%8D%95%E5%BC%80%E5%A7%8B%EF%BC%8C%E9%80%90%E6%AD%A5%E6%8E%8C%E6%8F%A1QuickVFL%E7%9A%84%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6%E4%B9%A6%E5%86%99)
 - QuickVFL2工作流程
+
 ![处理流程](https://github.com/Sody666/QuickVFL2/blob/master/WikiResources/handleFlow.png)
