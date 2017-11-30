@@ -21,36 +21,6 @@ Yet another layout framework to replace xib
 版本 | 2.0
 支持系统版本 | >=8.0
 
-### 性能
-我们使用xib和QuickVFL去实现同一个控件，然后反复创建此控件，然后拿到了如下数据
-
-指标 | 数值
----|---
-X内存 | 76.2M 
-Q内存 | 90.9M
-X时间 | 13.95S
-Q时间 | 10.66S
-
-注意：
-- 这里的内存使用，是指进入比较界面时和运行完测试程序后，在xcode里看到的应用占用内存数值差
-- 每个测试运行完以后，程序重启以免相互影响。
-
-从数值上看，QuickVFL使用的内存比xib的方式稍多。但时间少了约28%。
-
-另外，在QuickVFL工作过程中，布局工作占用的时间分布为（1000次累计的数值）：
-
-指标 | 数值(秒) | 占比(%)
----|---|---
-总共 | 1.90 | 100
-解析配置文件 | 0.35 | 18.2
-创建视图 | 0.38 | 20.2
-创建约束 | 0.90 | 47.3
-设置控件内容 | 0.08 | 4.4
-映射变量 | 0.16 | 8.6
-处理结果 | 0.02 | 1.1
-
-从数值上看，大部分的布局时间其实并不在QuickVFL里，而是在LayoutIfNeeded的操作上。
-
 ### 调试办法
 #### 运行模式
 QuickVFL一共支持以下的模式：
@@ -103,36 +73,44 @@ The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in
 
 再从最后的结果来看，系统是打破掉了label1_到底部的约束，从而解决了问题。
 
-## QuickVFL2工作流程
-![处理流程](https://github.com/Sody666/QuickVFL2/blob/master/WikiResources/handleFlow.png)
+### 使用QuickVFL
+QuickVFL的上手是非常容易的。只要你掌握以下2技能即可
+#### 书写配置文件
+可以通过如下WiKi文章掌握：
+1. [分两步有条不紊地完成布局配置文件](https://github.com/Sody666/QuickVFL2/wiki/%E5%88%86%E4%B8%A4%E6%AD%A5%E6%9C%89%E6%9D%A1%E4%B8%8D%E7%B4%8A%E5%9C%B0%E5%AE%8C%E6%88%90%E5%B8%83%E5%B1%80%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6)
+2. [从简单开始，逐步掌握QuickVFL的布局文件书写](https://github.com/Sody666/QuickVFL2/wiki/%E4%BB%8E%E7%AE%80%E5%8D%95%E5%BC%80%E5%A7%8B%EF%BC%8C%E9%80%90%E6%AD%A5%E6%8E%8C%E6%8F%A1QuickVFL%E7%9A%84%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6%E4%B9%A6%E5%86%99)
 
-## QuickVFL2组件构成
-典型的结构是一个描述视图结构和属性的json文件，然后在oc代码（常常是View Controller或者View）里使用API加载结构文件。
-例如，一个只有一个UITableView的VC，它的描述文件只是：
+#### 调用API加载配置文件
+使用QLayoutManager的接口
 ```
-{
-  "tableContent":"UITableView",
-  ":layout":"H:|[tableContent]|;V:|[tableContent]|;"
+/**
+ *  使用布局文件进行布局
+ *
+ *  @param fileName 布局的文件名
+ *  @param entrance 视图的入口 比如，VC的view属性。创建的所有视图将会挂载在它下面
+ *  @param holder 对视图进行映射的对象。一般情况下是视图入口的拥有者
+ *
+ *  @return 返回布局的结果，包括创建的视图和视图数据
+ **/
++(QLayoutResult*) layoutForFileName:(NSString*)fileName
+                           entrance:(UIView*)entrance
+                             holder:(id)holder;
+```
+
+比如例子：
+```
+@implementation StayShapeViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [QLayoutManager layoutForFileName:@"StayShapeViewController.json"
+                             entrance:self.view
+                               holder:self];
 }
-```
-它描述了当前VC的View根下只有一个UITableView，然后垂直和水平方向上紧贴容器。
 
-然后，你在VC里要做的工作无非就是声明tableContent的属性，和直接在某个地方加载结构文件：
-
-```
-@interface MyViewController()
-@property (nonatomatic, weak) UITableView* tableContent;
-// ...
 @end
-
-// 常常是在ViewDidLoaded里
-[QLayoutManager layoutForFileName:@"MyViewController.json"
-                         entrance:self.view
-                           holder:self];
 ```
-然后，布局工作就完成了。QuickVFL会自动帮你把结构文件读进来，然后按结构创建相关视图，然后设置属性和约束，最后还帮你按照名字映射到你的VC里。
-
-如果要深入了解，可以点击查看[怎么简单写一个布局文件](https://github.com/Sody666/QuickVFL2/wiki/%E4%BB%8E%E7%AE%80%E5%8D%95%E5%BC%80%E5%A7%8B%EF%BC%8C%E9%80%90%E6%AD%A5%E6%8E%8C%E6%8F%A1QuickVFL%E7%9A%84%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6%E4%B9%A6%E5%86%99)
+文件StayShapeViewController.json就是布局文件在沙盒里的名称。
 
 ### 结构文件的结构
 可以这样描述结构文件的结构：
@@ -179,27 +157,11 @@ The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in
 ```
 #### 控件类名的说明
 每一个视图都必须有一个明确的类名，否则在创建视图的时候会报错。但容器视图可以不用声明类名，因为当某个NODE它是视图容器的时候——也就是它底下的键值对包含有控件的声明，它的默认类名就是UIView。然后声明的类必须是holder里声明的一致的类或子类。举例而言，你在结构文件里说某某是一个UILabel，你在holder里可以把它声明为UIView。当这关系不匹配的时候，布局的时候会直接抛异常提醒你去修改。
-#### 选项
+#### 控件选项
 控件的选项是QuickVFL很重要的组成部分。内容有点多，请移步[这里](https://github.com/Sody666/QuickVFL2/wiki/QuickVFL-%E6%8E%A7%E4%BB%B6%E5%B1%9E%E6%80%A7)查看
 
 ### 常用API
 QuickVFL2已经大规模减少了必须要掌握的API数目，目的是提高其易用性和自动化程度。
-#### QLayoutManager
-布局工具
-```
-/**
- *	使用布局文件进行布局
- *
- *  @param fileName 布局的文件名
- *  @param entrance	视图的入口 比如，VC的view属性。创建的所有视图将会挂载在它下面
- *  @param holder	对视图进行映射的对象。一般情况下是视图入口的拥有者
- *
- *  @return 返回布局的结果，包括创建的视图和视图数据
- **/
-+(QLayoutResult*) layoutForFileName:(NSString*)fileName
-                           entrance:(UIView*)entrance
-                             holder:(id)holder;
-```
 
 #### QLayoutResult
 布局结果
@@ -248,5 +210,8 @@ QuickVFL2已经大规模减少了必须要掌握的API数目，目的是提高�
 - [隐藏／展示View](https://github.com/Sody666/QuickVFL2/wiki/QuickVFL-%E6%A1%86%E6%9E%B6DEMO%EF%BC%9A%E9%9A%90%E8%97%8F%EF%BC%8F%E5%B1%95%E7%A4%BAView)
 
 #### 更多资料
-
 - [学习VFL](https://github.com/Sody666/QuickVFL2/wiki/%E5%AD%A6%E4%B9%A0VFL)
+- [怎么简单写一个布局文件](https://github.com/Sody666/QuickVFL2/wiki/%E4%BB%8E%E7%AE%80%E5%8D%95%E5%BC%80%E5%A7%8B%EF%BC%8C%E9%80%90%E6%AD%A5%E6%8E%8C%E6%8F%A1QuickVFL%E7%9A%84%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6%E4%B9%A6%E5%86%99)
+- QuickVFL2工作流程
+
+![处理流程](https://github.com/Sody666/QuickVFL2/blob/master/WikiResources/handleFlow.png)
