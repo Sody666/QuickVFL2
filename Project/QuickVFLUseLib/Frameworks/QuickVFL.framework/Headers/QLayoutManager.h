@@ -37,4 +37,7 @@ typedef enum : NSUInteger {
 
 +(void)setupLayoutMode:(QLayoutMode)mode;
 +(QLayoutMode)layoutMode;
+
++(void)printTimingData;
++(void)resetTimeData;
 @end
