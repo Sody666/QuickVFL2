@@ -17,6 +17,7 @@
 #import "QAlignOption.h"
 #import "QLayoutException.h"
 #import "QAutoConfig.h"
+#import "QVFLParseResult.h"
 
 #import <objc/runtime.h>
 
@@ -108,10 +109,10 @@
         return nil;
     }
     
-    if(![targetClass isSubclassOfClass:[UIView class]]){
-        [QParseException throwExceptionForReason:@"%@ is not a subclass of UIView.", className];
-        return nil;
-    }
+//    if(![targetClass isSubclassOfClass:[UIView class]]){
+//        [QParseException throwExceptionForReason:@"%@ is not a subclass of UIView.", className];
+//        return nil;
+//    }
     
     return targetClass;
 }
@@ -250,7 +251,8 @@
 
 -(void)addingConstraintsForLayout:(QViewProperty*)propertyTree
                          entrance:(UIView*)entrance
-                        madeViews:(NSDictionary*)views{
+                        madeViews:(NSDictionary*)views
+                 namedConstraints:(NSMutableDictionary*)namedConstraints{
     UIView* realEntrance = entrance;
     
     // handling stay shaped options
@@ -283,8 +285,19 @@
     }
     
     if(propertyTree.VFLText.length > 0){
-        [realEntrance q_addConstraintsByText:propertyTree.VFLText
+        QVFLParseResult* result1 = [realEntrance q_addConstraintsByText:propertyTree.VFLText
                                involvedViews:views];
+        if(result1.namedConstraints.count > 0){
+            if([QLayoutManager layoutMode] < QLayoutModePeaceful){
+                for (NSString* name in result1.namedConstraints.allKeys) {
+                    if([namedConstraints objectForKey:name] != nil){
+                        [QParseException throwExceptionForReason:@"Dunplicated constraint name in VFL: %@", name];
+                    }
+                }
+            }
+            
+            [namedConstraints addEntriesFromDictionary:result1.namedConstraints];
+        }
     }
     
     // handle align option
@@ -297,11 +310,14 @@
     for (QViewProperty* property in propertyTree.subviewsProperty) {
         [self addingConstraintsForLayout:property
                                 entrance:[views objectForKey:property.name]
-                               madeViews:views];
+                               madeViews:views
+                        namedConstraints:namedConstraints];
     }
 }
 
--(void)mappingViews:(NSDictionary*)createdViews forHolder:(id)holder{
+-(void)mappingViews:(NSDictionary*)createdViews
+        constraints:(NSDictionary*)constraints
+          forHolder:(id)holder {
     NSDictionary* ivarInfo = [QLayoutManager fetchIvarInformationForClass:[holder class]];
     
     NSString* name;
@@ -317,21 +333,51 @@
         if([ivarInfo objectForKey:name] == nil){
             if(![viewName hasSuffix:@"_"]){
                 [QParseException throwExceptionForReason:@"View named %@ is claimed to be mapped. But failed to be done. Have you declared any ivar for it?", viewName];
+                continue;
             }
         } else {
             if([holder valueForKey:name]){
                 [QLayoutException throwExceptionForReason:@"View named %@ is supposed to be nil before mapping. But now it is not. Quit in case of mis-mapping.", name];
+                continue;
             }
             
             Class ivarClass = [QLayoutManager parseClassName:[ivarInfo objectForKey:name]];
             
             if(![[targetView class] isSubclassOfClass:ivarClass]){
-                [QLayoutException throwExceptionForReason:@"View named %@ is supposed to be an instance of class or subclass %@. But now it is instance of %@. Quit in case of mis-mapping.",
+                [QLayoutException throwExceptionForReason:@"View named %@ is supposed to be an instance of class or subclass %@. But now it is an instance of %@. Quit in case of mis-mapping.",
                         name, [ivarInfo objectForKey:name], NSStringFromClass([targetView class])];
+                continue;
             }
             
             [holder setValue:targetView forKey:name];
         }
+    }
+    
+    
+    for (NSString* constraintName in constraints.allKeys){
+        name = constraintName;
+        if([ivarInfo objectForKey:name] == nil){
+            name = [NSString stringWithFormat:@"_%@", constraintName];
+        }
+        
+        if([ivarInfo objectForKey:name] == nil){
+            [QParseException throwExceptionForReason:@"Constraint named %@ is claimed to be mapped. But failed to be done. Have you declared any ivar for it?", constraintName];
+        } else {
+            if([holder valueForKey:name]){
+                [QLayoutException throwExceptionForReason:@"Constraint named %@ is supposed to be nil before mapping. But now it is not. Quit in case of mis-mapping.", name];
+                continue;
+            }
+            
+            Class ivarClass = [QLayoutManager parseClassName:[ivarInfo objectForKey:name]];
+            
+            if(![ivarClass isSubclassOfClass:[NSLayoutConstraint class]]){
+                [QLayoutException throwExceptionForReason:@"Ivar named %@ is supposed to be an instance of class or subclass NSLayoutConstraint. But now it is an instance of %@. Quit in case of mis-mapping.",
+                 name, [ivarInfo objectForKey:name]];
+            }
+            
+            [holder setValue:[constraints objectForKey:constraintName] forKey:name];
+        }
+        
     }
 }
 
@@ -373,9 +419,11 @@
     NSDate* date3 = [NSDate date];
 #endif
     
+    NSMutableDictionary* namedConstraints = [[NSMutableDictionary alloc] init];
     [self addingConstraintsForLayout:property
                             entrance:entrance
-                           madeViews:madeViews];
+                           madeViews:madeViews
+                    namedConstraints:namedConstraints];
     
 #ifdef QTIMING
     NSDate* date4 = [NSDate date];
@@ -390,7 +438,7 @@
     NSDate* date5 = [NSDate date];
 #endif
     
-    [self mappingViews:madeViews forHolder:holder];
+    [self mappingViews:madeViews constraints:namedConstraints forHolder:holder];
     
 #ifdef QTIMING
     NSDate* date6 = [NSDate date];

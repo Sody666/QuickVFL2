@@ -36,6 +36,8 @@
 		D364C0C91FCD351E0032CDB8 /* TravelCardXib.xib in Resources */ = {isa = PBXBuildFile; fileRef = D364C0C71FCD351E0032CDB8 /* TravelCardXib.xib */; };
 		D364C0CC1FCD67920032CDB8 /* NSLayoutConstraint+vfl.h in Headers */ = {isa = PBXBuildFile; fileRef = D364C0CA1FCD67920032CDB8 /* NSLayoutConstraint+vfl.h */; };
 		D364C0CD1FCD67920032CDB8 /* NSLayoutConstraint+vfl.m in Sources */ = {isa = PBXBuildFile; fileRef = D364C0CB1FCD67920032CDB8 /* NSLayoutConstraint+vfl.m */; };
+		D364C0DA1FD0F16E0032CDB8 /* QVFLParseResult.h in Headers */ = {isa = PBXBuildFile; fileRef = D364C0D81FD0F16E0032CDB8 /* QVFLParseResult.h */; };
+		D364C0DB1FD0F16E0032CDB8 /* QVFLParseResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D364C0D91FD0F16E0032CDB8 /* QVFLParseResult.m */; };
 		D3A676771FB30E8C00745929 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A676761FB30E8C00745929 /* main.m */; };
 		D3A6767A1FB30E8C00745929 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A676791FB30E8C00745929 /* AppDelegate.m */; };
 		D3A676821FB30E8C00745929 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3A676811FB30E8C00745929 /* Assets.xcassets */; };
@@ -174,6 +176,8 @@
 		D364C0C71FCD351E0032CDB8 /* TravelCardXib.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TravelCardXib.xib; sourceTree = "<group>"; };
 		D364C0CA1FCD67920032CDB8 /* NSLayoutConstraint+vfl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+vfl.h"; sourceTree = "<group>"; };
 		D364C0CB1FCD67920032CDB8 /* NSLayoutConstraint+vfl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+vfl.m"; sourceTree = "<group>"; };
+		D364C0D81FD0F16E0032CDB8 /* QVFLParseResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QVFLParseResult.h; sourceTree = "<group>"; };
+		D364C0D91FD0F16E0032CDB8 /* QVFLParseResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QVFLParseResult.m; sourceTree = "<group>"; };
 		D3A676721FB30E8B00745929 /* QuickVFL2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuickVFL2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3A676761FB30E8C00745929 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D3A676781FB30E8C00745929 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -403,6 +407,8 @@
 				D3A676B51FB3113300745929 /* UIView+constraint.m */,
 				D364C0CA1FCD67920032CDB8 /* NSLayoutConstraint+vfl.h */,
 				D364C0CB1FCD67920032CDB8 /* NSLayoutConstraint+vfl.m */,
+				D364C0D81FD0F16E0032CDB8 /* QVFLParseResult.h */,
+				D364C0D91FD0F16E0032CDB8 /* QVFLParseResult.m */,
 			);
 			path = VFL;
 			sourceTree = "<group>";
@@ -548,6 +554,7 @@
 				D3A677041FB49F6E00745929 /* QAlignOption.h in Headers */,
 				D3A676C41FB3113300745929 /* QViewProperty.h in Headers */,
 				D3A676C21FB3113300745929 /* QStayShapedOption.h in Headers */,
+				D364C0DA1FD0F16E0032CDB8 /* QVFLParseResult.h in Headers */,
 				D3A676941FB310CD00745929 /* QuickVFL.h in Headers */,
 				D3A676BA1FB3113300745929 /* QParseException.h in Headers */,
 				D3A676B81FB3113300745929 /* QLayoutException.h in Headers */,
@@ -774,6 +781,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3A676C31FB3113300745929 /* QStayShapedOption.m in Sources */,
+				D364C0DB1FD0F16E0032CDB8 /* QVFLParseResult.m in Sources */,
 				D3FB23D41FBC1EAC007C1870 /* QAutoConfig.m in Sources */,
 				D364C0CD1FCD67920032CDB8 /* NSLayoutConstraint+vfl.m in Sources */,
 				D3A676BB1FB3113300745929 /* QParseException.m in Sources */,
@@ -1068,6 +1076,7 @@
 				D364C0D51FCE545A0032CDB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D3A6766D1FB30E8B00745929 /* Build configuration list for PBXProject "QuickVFL2" */ = {
 			isa = XCConfigurationList;

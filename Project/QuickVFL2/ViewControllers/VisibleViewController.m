@@ -15,8 +15,6 @@
 @property (nonatomic, weak) UIButton* button1;
 @property (nonatomic, weak) UIButton* button2;
 @property (nonatomic, weak) UIButton* button3;
-
-@property (nonatomic, weak) UILabel* label1_;
 @end
 
 @implementation VisibleViewController

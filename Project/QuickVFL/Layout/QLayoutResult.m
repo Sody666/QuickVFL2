@@ -24,4 +24,12 @@
     
     return [self.viewsData objectForKey:name];
 }
+
+-(NSLayoutConstraint*)constraintNamed:(NSString*)name{
+    if(name.length == 0 || self.namedConstraint.count == 0){
+        return nil;
+    }
+    
+    return [self.namedConstraint objectForKey:name];
+}
 @end

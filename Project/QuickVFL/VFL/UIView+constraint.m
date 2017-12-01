@@ -10,6 +10,8 @@
 #import <objc/runtime.h>
 #import "NSLayoutConstraint+vfl.h"
 #import "QLayoutManager.h"
+#import "QVFLParseResult.h"
+#import "QParseException.h"
 
 #define kQConstraintAlignTop          @"top"
 #define kQConstraintAlignBottom       @"bottom"
@@ -43,6 +45,10 @@ static const void *HorizontalVisibilityKey = &HorizontalVisibilityKey;
 
 +(NSRegularExpression*)sharedAlignParserExpression {
     SHARED_EXPRESSION(@"(\\{[^}]*\\})");
+}
+
++(NSRegularExpression*)sharedNameParserExpression {
+    SHARED_EXPRESSION(@"(\\<[^>]*\\>)");
 }
 
 #pragma mark private methods
@@ -87,12 +93,17 @@ static const void *HorizontalVisibilityKey = &HorizontalVisibilityKey;
                                            withTemplate:@""];
 }
 
--(NSArray*)_q_parseVFL:(NSString*)VFLText involvedViews:(NSDictionary*)views{
+-(QVFLParseResult*)_q_parseVFL:(NSString*)VFLText involvedViews:(NSDictionary*)views{
+    QVFLParseResult* totalResult = [[QVFLParseResult alloc] init];
     NSMutableArray* result = [[NSMutableArray alloc] init];
+    NSMutableDictionary* namedResult = [[NSMutableDictionary alloc] init];
+    totalResult.namedConstraints = namedResult;
+    totalResult.constraints = result;
+    
     // remove comments
     NSString* trimmedVFLText = [self _q_trimCommentFromText: VFLText];
     if(trimmedVFLText.length == 0){
-        return result;
+        return totalResult;
     }
     
     NSArray* lines = [trimmedVFLText componentsSeparatedByString:@";"];
@@ -103,11 +114,14 @@ static const void *HorizontalVisibilityKey = &HorizontalVisibilityKey;
     NSDictionary* involvedViews = nil;
     NSLayoutFormatOptions alignOption = 0;
     NSRange matchRange;
+    NSString* constraintName;
+    NSRegularExpression* expression;
     for (NSString* line in lines) {
         singleLineContraint = nil;
         constraintText = nil;
         involvedViews = nil;
         alignOption = 0;
+        constraintName = nil;
         
         // remove white space
         singleLineContraint = [line stringByTrimmingCharactersInSet:emptySet];
@@ -117,19 +131,19 @@ static const void *HorizontalVisibilityKey = &HorizontalVisibilityKey;
         }
         
         // parsing align options
-        
-        matchRange = [[UIView sharedAlignParserExpression] firstMatchInString:singleLineContraint
-                                                                      options:NSMatchingReportCompletion
-                                                                        range:NSMakeRange(0, singleLineContraint.length)].range;
+        expression = [UIView sharedAlignParserExpression];
+        matchRange = [expression firstMatchInString:singleLineContraint
+                                            options:NSMatchingReportCompletion
+                                              range:NSMakeRange(0, singleLineContraint.length)].range;
         
         if(matchRange.location == NSNotFound || matchRange.length == 0){
             constraintText = singleLineContraint;
         } else {
             // trim align text
-            constraintText = [[UIView sharedAlignParserExpression] stringByReplacingMatchesInString:singleLineContraint
-                                                                                                 options:NSMatchingReportCompletion
-                                                                                                   range:NSMakeRange(0, singleLineContraint.length)
-                                                                                            withTemplate:@""];
+            constraintText = [expression stringByReplacingMatchesInString:singleLineContraint
+                                                                  options:NSMatchingReportCompletion
+                                                                    range:NSMakeRange(0, singleLineContraint.length)
+                                                             withTemplate:@""];
             constraintText = [constraintText stringByTrimmingCharactersInSet:emptySet];
             
             alignOption = [self _q_parseConstraintOptionsByText:[singleLineContraint substringWithRange:matchRange]];
@@ -141,11 +155,39 @@ static const void *HorizontalVisibilityKey = &HorizontalVisibilityKey;
             alignOption &= (~(NSLayoutFormatAlignAllCenterX|NSLayoutFormatAlignAllCenterY));
         }
         
+        
+        // parsing name option
+        expression = [UIView sharedNameParserExpression];
+        matchRange = [expression firstMatchInString:constraintText
+                                            options:NSMatchingReportCompletion
+                                              range:NSMakeRange(0, constraintText.length)].range;
+        
+        if(matchRange.location == NSNotFound || matchRange.length == 0){
+        } else {
+            // fetch name
+            constraintName = [constraintText substringWithRange:NSMakeRange(matchRange.location + 1, matchRange.length - 2)];
+            // trim name text
+            constraintText = [expression stringByReplacingMatchesInString:constraintText
+                                                                  options:NSMatchingReportCompletion
+                                                                    range:NSMakeRange(0, constraintText.length)
+                                                             withTemplate:@""];
+            constraintText = [constraintText stringByTrimmingCharactersInSet:emptySet];
+        }
+        
+        
         NSArray* parsedConstraints = [NSLayoutConstraint
                                       constraintsWithVisualFormat:constraintText
                                       options:alignOption
                                       metrics:nil
                                       views:views];
+        
+        if(constraintName.length > 0){
+            if(parsedConstraints.count > 1){
+                [QParseException throwExceptionForReason:@"Bad VFL format: %@ contains more than 1 constraints.", constraintText];
+            }
+            
+            [namedResult setObject:parsedConstraints.firstObject forKey:constraintName];
+        }
         
         if([QLayoutManager layoutMode] <= QLayoutModeVerbose){
             for (NSLayoutConstraint* constraint in parsedConstraints) {
@@ -159,7 +201,7 @@ static const void *HorizontalVisibilityKey = &HorizontalVisibilityKey;
         [result addObjectsFromArray:parsedConstraints];
     }
     
-    return result;
+    return totalResult;
 }
 
 -(NSDictionary*)_q_involedViewsInVFLText:(NSString*)text totalViews:(NSDictionary*)totalViews{
@@ -253,11 +295,13 @@ static const void *HorizontalVisibilityKey = &HorizontalVisibilityKey;
     return result;
 }
 
--(NSArray*)q_addConstraintsByText:(NSString*)text
+-(QVFLParseResult*)q_addConstraintsByText:(NSString*)text
                      involvedViews:(NSDictionary*)views{
-    NSArray* constraints = [self _q_parseVFL:text involvedViews:views];
+    QVFLParseResult* constraints = [self _q_parseVFL:text involvedViews:views];
 
-    [self addConstraints:constraints];
+    if(constraints.constraints.count > 0){
+        [self addConstraints:constraints.constraints];
+    }
     
     return constraints;
 }
