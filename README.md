@@ -26,8 +26,37 @@ Yet another layout framework to replace xib
 
 ***
 
+### 性能
+我们使用xib和QuickVFL去实现同一个控件，然后反复创建此控件并完全展开1000次，然后抓取到如下时间数据：
+
+指标 | 数值(秒)
+---|---
+XIB时间 | 13.95
+Q时间 | 10.66
+
+注意：
+- 每个测试运行完以后，程序重启以免相互影响。
+
+从数值上看，QuickVFL比XIB的方式大约快了1/4。
+
+[点这里查看代码细节](https://github.com/Sody666/QuickVFL2/blob/master/Project/QuickVFL2/ViewControllers/PerformanceViewController.m)
+
+另外，在QuickVFL工作过程中，布局工作占用的时间分布为（1000次累计的数值）：
+
+指标 | 数值(秒) | 占比(%)
+---|---|---
+总共 | 1.90 | 100
+解析配置文件 | 0.35 | 18.2
+创建视图 | 0.38 | 20.2
+创建约束 | 0.90 | 47.3
+设置控件内容 | 0.08 | 4.4
+映射变量 | 0.16 | 8.6
+处理结果 | 0.02 | 1.1
+
+从数值可以看出，整个过程中主要时间还是花在视图的LayoutIfNeeded的操作上。
+***
 ### 安装办法
-1. 从Released lib中下载发布出来的framework，并把它放到你项目里
+1. 从[Released lib](https://github.com/Sody666/QuickVFL2/tree/master/ReleasedLibs)中下载发布出来的framework，并把它放到你项目里
 2. 在Target->Build Settings->Other Linker Flags添加上**-ObjC**
 3. 在需要用QuickVFL的地方#import < QuickVFL/QuickVFL.h >既可
 
