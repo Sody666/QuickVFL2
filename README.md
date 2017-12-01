@@ -54,7 +54,7 @@ Q时间 | 10.66
 从数值可以看出，整个过程中主要时间还是花在视图的LayoutIfNeeded的操作上。
 ***
 ### 安装办法
-1. 从Released lib中下载发布出来的framework，并把它放到你项目里
+1. 从[Released lib](https://github.com/Sody666/QuickVFL2/tree/master/ReleasedLibs)中下载发布出来的framework，并把它放到你项目里
 2. 在Target->Build Settings->Other Linker Flags添加上**-ObjC**
 3. 在需要用QuickVFL的地方#import < QuickVFL/QuickVFL.h >既可
 
