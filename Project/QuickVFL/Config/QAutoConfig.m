@@ -28,6 +28,30 @@
 #define QVIEW_CLIP_SUBVIEWS @"clipSubviews"
 #define QVIEW_TINT_COLOR @"tintColor"
 #define QVIEW_TINT_ADJUST_MODE @"tintAdjustMode"
+
+#define QATTR_TEXT @"text"
+#define QATTR_CLEAR @"clear"
+
+#define QATTR_FONTSIZE @"fontSize"
+#define QATTR_FOREGROUNDCOLOR  @"foregroundColor"
+#define QATTR_BACKGROUNDCOLOR  @"backgroundColor"
+#define QATTR_LIGATURE  @"ligature"
+#define QATTR_KERN  @"kern"
+#define QATTR_STRIKE  @"strike"
+#define QATTR_STRIKECOLOR  @"strikeColor"
+#define QATTR_UNDERLINE     @"underline"
+#define QATTR_UNDERLINECOLOR @"underlineColor"
+#define QATTR_STROKE  @"stroke"
+#define QATTR_STROKECOLOR  @"strokeColor"
+//#define QATTR_SHADOW  @"shadow"
+//#define QATTR_TEXTEFFECT  @"textEffect"
+#define QATTR_BASELINEOFFSET  @"baselineOffset"
+#define QATTR_OBLIQUENESS  @"obliqueness"
+#define QATTR_EXPANSION  @"expansion"
+//#define QATTR_WRITINGDIRECTION  @"writingDirection"
+//#define QATTR_VERTICALGLYPHFORM  @"verticalGlyphForm"
+//#define QATTR_LINK  @"link"
+
 @implementation UIView(AutoConfig)
 -(void)q_configureWithData:(NSDictionary*)configData holder:(id)holder{
     if(configData == nil || configData.count < 1){
@@ -80,6 +104,75 @@
                            alpha:alphaValue/255.];
 }
 
+-(void)_q_parseAttributedStringKey:(NSString*)key value:(id)value inheritedAttributes:(NSMutableDictionary*)attributes{
+    if([QATTR_TEXT isEqualToString:key] || [QATTR_CLEAR isEqualToString:key]){
+        return;
+    } else if ([QATTR_FONTSIZE isEqualToString:key]){
+        [attributes setObject:[UIFont systemFontOfSize:[value floatValue]] forKey:NSFontAttributeName];
+    } else if ([QATTR_FOREGROUNDCOLOR isEqualToString:key]){
+        [attributes setObject:[self _q_parseColorString:value] forKey:NSForegroundColorAttributeName];
+    } else if ([QATTR_BACKGROUNDCOLOR isEqualToString:key]){
+        [attributes setObject:[self _q_parseColorString:value] forKey:NSBackgroundColorAttributeName];
+    } else if ([QATTR_LIGATURE isEqualToString:key]){
+        [attributes setObject:value forKey:NSLigatureAttributeName];
+    } else if ([QATTR_KERN isEqualToString:key]){
+        [attributes setObject:value forKey:NSKernAttributeName];
+    } else if ([QATTR_STRIKE isEqualToString:key]){
+        [attributes setObject:value forKey:NSStrikethroughStyleAttributeName];
+    } else if ([QATTR_STRIKECOLOR isEqualToString:key]){
+        [attributes setObject:[self _q_parseColorString:value] forKey:NSStrikethroughColorAttributeName];
+    } else if ([QATTR_UNDERLINE isEqualToString:key]){
+        [attributes setObject:value forKey:NSUnderlineStyleAttributeName];
+    } else if ([QATTR_UNDERLINECOLOR isEqualToString:key]){
+        [attributes setObject:[self _q_parseColorString:value] forKey:NSUnderlineColorAttributeName];
+    } else if ([QATTR_STROKE isEqualToString:key]){
+        [attributes setObject:value forKey:NSStrokeWidthAttributeName];
+    } else if ([QATTR_STROKECOLOR isEqualToString:key]){
+        [attributes setObject:[self _q_parseColorString:value] forKey:NSStrokeColorAttributeName];
+    } else if ([QATTR_BASELINEOFFSET isEqualToString:key]){
+        [attributes setObject:value forKey:NSBaselineOffsetAttributeName];
+    } else if ([QATTR_OBLIQUENESS isEqualToString:key]){
+        [attributes setObject:value forKey:NSObliquenessAttributeName];
+    } else if ([QATTR_EXPANSION isEqualToString:key]){
+        [attributes setObject:value forKey:NSExpansionAttributeName];
+    } else {
+        [QLayoutException throwExceptionForReason:@"Unsupported attributed key: %@", key];
+    }
+}
+
+-(NSAttributedString*)_q_parseAttrubutedString:(NSArray*)segments{
+    NSMutableAttributedString* result = [[NSMutableAttributedString alloc] init];
+    
+    if(![segments isKindOfClass:[NSArray class]] || segments.count == 0){
+        [QLayoutException throwExceptionForReason:@"Bad format of attrubuted string."];
+        return result;
+    }
+    
+    NSString* text;
+    NSNumber* clearTag;
+    NSMutableDictionary* attributes = [[NSMutableDictionary alloc] init];
+    for (NSDictionary* segment in segments) {
+        clearTag = [segment objectForKey:QATTR_CLEAR];
+        if(clearTag != nil && clearTag.boolValue){
+            [attributes removeAllObjects];
+        }
+        text = [segment objectForKey:QATTR_TEXT];
+        if(text.length == 0){
+            continue;
+        }
+        
+        for (NSString* key in segment.allKeys) {
+            [self _q_parseAttributedStringKey:key
+                                        value:[segment objectForKey:key]
+                          inheritedAttributes:attributes];
+        }
+        
+        [result appendAttributedString:[[NSAttributedString alloc] initWithString:text attributes:attributes]];
+    }
+    
+    return result;
+}
+
 -(BOOL)_commonViewConfigWithKey:(NSString*)key value:(id)value holder:(id)holder{
     if([QVIEW_BG_COLOR isEqualToString:key]){
         self.backgroundColor = [self _q_parseColorString:value];
@@ -104,6 +197,7 @@
 @end
 
 #define QLABEL_TEXT             @"text"
+#define QLABEL_ATTR_TEXT        @"attributedText"
 #define QLABEL_NUMBER_OF_LINES  @"numberOfLines"
 #define QLABEL_TEXT_COLOR       @"textColor"
 #define QLABEL_FONT_SIZE        @"fontSize"
@@ -121,6 +215,8 @@
         self.font = [self.font fontWithSize:[value floatValue]];
     } else if([QLABEL_TEXT_ALIGN isEqualToString:key]){
         self.textAlignment = [value integerValue];
+    } else if([QLABEL_ATTR_TEXT isEqualToString:key]){
+        self.attributedText = [self _q_parseAttrubutedString:value];
     } else {
         return NO;
     }
@@ -129,8 +225,9 @@
 }
 @end
 
-#define QBUTTON_TITLE  @"text"
-#define QBUTTON_TITLE_COLOR  @"textColor"
+#define QBUTTON_TITLE       @"text"
+#define QBUTTON_ATTR_TITLE  @"attributedText"
+#define QBUTTON_TITLE_COLOR @"textColor"
 #define QBUTTON_EVENT_TAP   @"tapEvent"
 @implementation UIButton(AutoConfig)
 
@@ -139,11 +236,15 @@
         [self setTitle:value forState:UIControlStateNormal];
         [self setTitle:value forState:UIControlStateSelected];
         [self setTitle:value forState:UIControlStateDisabled];
+    } else if([QBUTTON_ATTR_TITLE isEqualToString:key]){
+        NSAttributedString* title = [self _q_parseAttrubutedString:value];
+        [self setAttributedTitle:title forState:UIControlStateNormal];
+        [self setAttributedTitle:title forState:UIControlStateSelected];
+        [self setAttributedTitle:title forState:UIControlStateDisabled];
     } else if([QBUTTON_EVENT_TAP isEqualToString:key]){
         SEL eventSelector = NSSelectorFromString(value);
         if(![holder respondsToSelector:eventSelector]){
             [QLayoutException throwExceptionForReason:@"Holder doesn't respond to selector %@", value];
-            // ignore it silently
             return NO;
         }
         
@@ -154,6 +255,7 @@
         [self setTitleColor:titleColor forState:UIControlStateSelected];
         [self setTitleColor:titleColor forState:UIControlStateDisabled];
     } else {
+        
         return NO;
     }
     
