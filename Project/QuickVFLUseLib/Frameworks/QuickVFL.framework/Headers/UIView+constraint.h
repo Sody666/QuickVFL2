@@ -10,6 +10,7 @@
 
 #define QVIEW(super, subviewClass) ([super q_addAutolayoutSubviewByClass:[subviewClass class]])
 
+@class QVFLParseResult;
 @interface UIView(constraint)
 /**
  *  Add a autolayout subview by class;
@@ -28,7 +29,7 @@
  *
  *  @return added constraints
  */
--(NSArray*) q_addConstraintsByText:(NSString*)text
+-(QVFLParseResult*) q_addConstraintsByText:(NSString*)text
                   involvedViews:(NSDictionary*)views;
 
 

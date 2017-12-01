@@ -21,3 +21,4 @@ FOUNDATION_EXPORT const unsigned char QuickVFLVersionString[];
 #import <QuickVFL/UIScrollView+constraint.h>
 #import <QuickVFL/QLayoutManager.h>
 #import <QuickVFL/QLayoutResult.h>
+#import <QuickVFL/QVFLParseResult.h>
