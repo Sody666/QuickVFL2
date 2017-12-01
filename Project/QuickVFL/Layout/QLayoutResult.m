@@ -26,10 +26,10 @@
 }
 
 -(NSLayoutConstraint*)constraintNamed:(NSString*)name{
-    if(name.length == 0 || self.namedConstraint.count == 0){
+    if(name.length == 0 || self.namedConstraints.count == 0){
         return nil;
     }
     
-    return [self.namedConstraint objectForKey:name];
+    return [self.namedConstraints objectForKey:name];
 }
 @end

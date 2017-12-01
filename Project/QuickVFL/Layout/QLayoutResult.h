@@ -12,7 +12,7 @@
 @interface QLayoutResult : NSObject
 @property (nonatomic, strong) NSDictionary* createdViews;
 @property (nonatomic, strong) NSDictionary* viewsData;
-@property (nonatomic, strong) NSDictionary* namedConstraint;
+@property (nonatomic, strong) NSDictionary* namedConstraints;
 /**
  *  Get the view with name.
  **/

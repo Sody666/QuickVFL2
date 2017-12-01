@@ -444,11 +444,12 @@
     NSDate* date6 = [NSDate date];
 #endif
     
-    result.createdViews = [madeViews copy];
-    
     NSMutableDictionary* viewsData = [[NSMutableDictionary alloc] init];
     [self attachingViewDataForLayout:property viewsData:viewsData];
-    result.viewsData = [viewsData copy];
+    
+    result.viewsData = viewsData;
+    result.createdViews = madeViews;
+    result.namedConstraints = namedConstraints;
     
 #ifdef QTIMING
     NSDate* date7 = [NSDate date];

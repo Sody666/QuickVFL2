@@ -49,7 +49,7 @@
     NSMutableArray* arrayNews = [[NSMutableArray alloc] init];
     NewsModel* news = [[NewsModel alloc] init];
     news.title = @"韩红不堪辱骂，一怒之下曝光了明星们捐款金额！这些明星瞬间尴尬";
-    // Loading such an images will block the main thread.
+    // Loading such images will block the main thread.
     // Never load images in this way in your real app.
     UIImage* image1 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://p3.pstatp.com/list/190x124/438b000345f9d1564ae5"]]];
     UIImage* image2 = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://p3.pstatp.com/list/190x124/43900000ede2bc3ca7d4"]]];
