@@ -11,19 +11,26 @@ Yet another layout framework to replace xib
 - 配合服务端下发布局文件，可以轻松实现动态布局
 
 ***
+### 基本信息
+指标 | 数值
+---|---
+语言 | object-c
+版本 | 2.2
+支持系统版本 | >=8.0
+
+***
+
+### 最新修改
+- VFL里添加命名约束功能
+- 增强约束调试功能
+
+***
 
 ### 安装办法
 1. 从Released lib中下载发布出来的framework，并把它放到你项目里
 2. 在Target->Build Settings->Other Linker Flags添加上**-ObjC**
 3. 在需要用QuickVFL的地方#import < QuickVFL/QuickVFL.h >既可
-### 其他数据
-指标 | 数值
----|---
-语言 | object-c
-版本 | 2.0
-支持系统版本 | >=8.0
 
-***
 
 ### 调试办法
 #### 设置运行模式
