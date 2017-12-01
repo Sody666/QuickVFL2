@@ -48,7 +48,7 @@ QuickVFL一共支持以下的模式：
 ```
 不过请注意，尽量不要在生产环境里开启Verbose模式，因为会有很多调试信息会被写到约束里，带来一些成本。
 #### 约束冲突分析
-[约束冲突的分析和结果实例](https://github.com/Sody666/QuickVFL2/wiki/%E7%BA%A6%E6%9D%9F%E5%86%B2%E7%AA%81%E5%88%86%E6%9E%90%E5%AE%9E%E4%BE%8B)
+[约束冲突的分析与解决实例](https://github.com/Sody666/QuickVFL2/wiki/%E7%BA%A6%E6%9D%9F%E5%86%B2%E7%AA%81%E5%88%86%E6%9E%90%E5%AE%9E%E4%BE%8B)
 
 ***
 
