@@ -27,7 +27,7 @@ Yet another layout framework to replace xib
 ***
 
 ### 性能
-我们使用xib和QuickVFL去实现同一个控件，然后反复创建此控件，然后拿到了如下数据
+我们使用xib和QuickVFL去实现同一个控件，然后反复创建此控件1000次，然后抓取到如下时间数据：
 
 指标 | 数值(秒)
 ---|---
