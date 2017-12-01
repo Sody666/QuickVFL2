@@ -38,6 +38,7 @@ Q时间 | 10.66
 - 每个测试运行完以后，程序重启以免相互影响。
 
 从数值上看，QuickVFL比XIB的方式大约快了1/4。
+[点这里查看进行比较代码](https://github.com/Sody666/QuickVFL2/blob/master/Project/QuickVFL2/ViewControllers/PerformanceViewController.m)
 
 另外，在QuickVFL工作过程中，布局工作占用的时间分布为（1000次累计的数值）：
 
