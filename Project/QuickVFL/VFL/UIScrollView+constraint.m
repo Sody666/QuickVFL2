@@ -51,18 +51,21 @@ static const void *OrientationKey = &OrientationKey;
     self.orientation = orientation;
     
     NSLayoutConstraint* maxLimit;
+    NSLayoutConstraint* control;
     if(orientation == QScrollOrientationVertical){
         maxLimit = [NSLayoutConstraint constraintWithItem:viewSystemContent attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeWidth multiplier:1 constant:0];
-        self.controlConstraint = [self q_addConstraintsByText:@"V:[viewSystemContent(1@750)];"
-                                           involvedViews:NSDictionaryOfVariableBindings(viewSystemContent)][0];
+        control = [NSLayoutConstraint constraintWithItem:viewSystemContent attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:0];
+        
     } else {
         maxLimit = [NSLayoutConstraint constraintWithItem:viewSystemContent attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeHeight multiplier:1 constant:0];
-        self.controlConstraint = [self q_addConstraintsByText:@"H:[viewSystemContent(1@750)];"
-                                           involvedViews:NSDictionaryOfVariableBindings(viewSystemContent)][0];
+        control = [NSLayoutConstraint constraintWithItem:viewSystemContent attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:0];
     }
     
     maxLimit.priority = UILayoutPriorityRequired;
+    control.priority = UILayoutPriorityDefaultHigh;
     [self addConstraint:maxLimit];
+    [self addConstraint:control];
+    self.controlConstraint = control;
     
     NSString* widthLimit = (orientation == QScrollOrientationVertical ? @"-0-|" : @"");
     NSString* heightLimit = (orientation == QScrollOrientationHorizontal ? @"-0-|" : @"");
