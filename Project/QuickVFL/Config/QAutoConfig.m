@@ -17,6 +17,8 @@
 -(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder;
 -(BOOL)q_configWithKey:(NSString*)key value:(id)value holder:(id)holder;
 
+-(BOOL)_q_control_configWithKey:(NSString*)key value:(id)value holder:(id)holder;
+
 // subclass api
 -(BOOL)QConfigWithKey:(NSString *)key value:(id)value holder:(id)holder;
 @end
@@ -62,12 +64,14 @@
     BOOL respondViewCommon = [self respondsToSelector:@selector(_commonViewConfigWithKey:value:holder:)];
     BOOL respondExtendCommon = [self respondsToSelector:@selector(_q_configWithKey:value:holder:)];
     BOOL respondExtendCustomize = [self respondsToSelector:@selector(q_configWithKey:value:holder:)];
+    BOOL respondControlCommon = [self respondsToSelector:@selector(_q_control_configWithKey:value:holder:)];
     BOOL respondSubclass = [self respondsToSelector:@selector(QConfigWithKey:value:holder:)];
     
     for (NSString* key in configData.allKeys) {
         if((respondSubclass && [self QConfigWithKey:key value:[configData objectForKey:key] holder:holder]) ||
            (respondExtendCustomize && [self q_configWithKey:key value:[configData objectForKey:key] holder:holder]) ||
            (respondExtendCommon && [self _q_configWithKey:key value:[configData objectForKey:key] holder:holder]) ||
+           (respondControlCommon && [self _q_control_configWithKey:key value:[configData objectForKey:key] holder:holder]) ||
            (respondViewCommon && [self _commonViewConfigWithKey:key value:[configData objectForKey:key] holder:holder])){
             continue;
         }
@@ -84,6 +88,7 @@
         // fall back to transparent color
         return [UIColor clearColor];
     }
+    
     
     NSString* alphaString = @"FF";
     NSString* colorString;
@@ -199,6 +204,35 @@
 }
 @end
 
+#define QCONTROL_VALUE_CHANGED  @"valueChangedEvent"
+#define QCONTROL_TAP            @"tapEvent"
+@implementation UIControl(AutoConfig)
+
+-(BOOL)_q_control_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
+    // checking selector
+    SEL selector = nil;
+    if([QCONTROL_VALUE_CHANGED isEqualToString:key] ||
+       [QCONTROL_TAP isEqualToString:key]){
+        selector = NSSelectorFromString(value);
+        if(![holder respondsToSelector:selector]){
+            [QLayoutException throwExceptionForReason:@"Holder doesn't respond to selector %@", value];
+            return NO;
+        }
+    }
+    
+    if([QCONTROL_VALUE_CHANGED isEqualToString:key]){
+        [self addTarget:holder action:selector forControlEvents:UIControlEventValueChanged];
+    } else if([QCONTROL_TAP isEqualToString:key]){
+        [self addTarget:holder action:selector forControlEvents:UIControlEventTouchUpInside];
+    } else {
+        return NO;
+    }
+    
+    return YES;
+}
+
+@end
+
 #define QLABEL_TEXT             @"text"
 #define QLABEL_ATTR_TEXT        @"attributedText"
 #define QLABEL_NUMBER_OF_LINES  @"numberOfLines"
@@ -237,7 +271,6 @@
 #define QBUTTON_TITLE       @"text"
 #define QBUTTON_ATTR_TITLE  @"attributedText"
 #define QBUTTON_TITLE_COLOR @"textColor"
-#define QBUTTON_EVENT_TAP   @"tapEvent"
 @implementation UIButton(AutoConfig)
 
 -(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
@@ -250,14 +283,6 @@
         [self setAttributedTitle:title forState:UIControlStateNormal];
         [self setAttributedTitle:title forState:UIControlStateSelected];
         [self setAttributedTitle:title forState:UIControlStateDisabled];
-    } else if([QBUTTON_EVENT_TAP isEqualToString:key]){
-        SEL eventSelector = NSSelectorFromString(value);
-        if(![holder respondsToSelector:eventSelector]){
-            [QLayoutException throwExceptionForReason:@"Holder doesn't respond to selector %@", value];
-            return NO;
-        }
-        
-        [self addTarget:holder action:eventSelector forControlEvents:UIControlEventTouchUpInside];
     } else if([QBUTTON_TITLE_COLOR isEqualToString:key]){
         UIColor* titleColor = [self _q_parseColorString:value];
         [self setTitleColor:titleColor forState:UIControlStateNormal];
@@ -299,6 +324,136 @@
         self.adjustsFontSizeToFitWidth = [value boolValue];
     } else if([QTEXTFIELD_MIN_FONT_SIZE isEqualToString:key]){
         self.minimumFontSize = [value floatValue];
+    } else {
+        return NO;
+    }
+    
+    return YES;
+}
+
+@end
+
+#define QSEGMENT_TITLES @"titles"
+//#define QSEGMENT_SELECTED @"selectedIndex"
+#define QSEGMENT_MOMENTARY @"momentary"
+@implementation UISegmentedControl(AutoConfig)
+
+-(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
+    if([QSEGMENT_TITLES isEqualToString:key]){
+        NSArray* titles = value;
+        if(![titles isKindOfClass:[NSArray class]] || titles.count < 1){
+            [QLayoutException throwExceptionForReason:@"Bad format title for segment control. It should be a list of string."];
+            return NO;
+        }
+        
+        for (int i=0; i<titles.count; i++){
+            [self insertSegmentWithTitle:[titles objectAtIndex:i] atIndex:i animated:NO];
+        }
+    } else if([QSEGMENT_MOMENTARY isEqualToString:key]){
+        self.momentary = [value boolValue];
+    } else {
+        return NO;
+    }
+    
+    return YES;
+}
+
+@end
+
+#define QSLIDER_MIN @"min"
+#define QSLIDER_MAX @"max"
+#define QSLIDER_CURRENT @"current"
+@implementation UISlider(AutoConfig)
+
+-(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
+    if([QSLIDER_MIN isEqualToString:key]){
+        self.minimumValue = [value floatValue];
+    } else if([QSLIDER_MAX isEqualToString:key]){
+        self.maximumValue = [value floatValue];
+    } else if([QSLIDER_CURRENT isEqualToString:key]){
+        self.value = [value floatValue];
+    } else {
+        return NO;
+    }
+    
+    return YES;
+}
+
+@end
+
+#define QSWITCH_ON  @"on"
+@implementation UISwitch(AutoConfig)
+
+-(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
+    if([QSWITCH_ON isEqualToString:key]){
+        self.on = [value boolValue];
+    } else {
+        return NO;
+    }
+    
+    return YES;
+}
+
+@end
+
+#define QACTIVITY_ANIMATING  @"animating"
+#define QACTIVITY_HIDE_ON_STOP @"hideOnStopped"
+#define QACTIVITY_STYLE         @"style"
+@implementation UIActivityIndicatorView(AutoConfig)
+
+-(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
+    if([QACTIVITY_ANIMATING isEqualToString:key]){
+        if([value boolValue]){
+            [self startAnimating];
+        } else {
+            [self stopAnimating];
+        }
+    } else if([QACTIVITY_HIDE_ON_STOP isEqualToString:key]){
+        self.hidesWhenStopped = [value boolValue];
+    } else if([QACTIVITY_STYLE isEqualToString:key]){
+        self.activityIndicatorViewStyle = [value integerValue];
+    } else {
+        return NO;
+    }
+    
+    return YES;
+}
+
+@end
+
+#define QPROGRESS_STYLE         @"style"
+#define QPROGRESS_PROGRESS      @"progress"
+@implementation UIProgressView(AutoConfig)
+
+-(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
+    if([QPROGRESS_STYLE isEqualToString:key]){
+        self.progressViewStyle = [value integerValue];
+    } else if([QPROGRESS_PROGRESS isEqualToString:key]){
+        self.progress = [value floatValue];
+    } else {
+        return NO;
+    }
+    
+    return YES;
+}
+
+@end
+
+#define QPAGE_COUNT         @"count"
+#define QPAGE_CURRENT       @"current"
+#define QPAGE_HIDE_SINGLE   @"hideForSingle"
+#define QPAGE_DEFER_DISPLAY @"deferDisplay"
+@implementation UIPageControl(AutoConfig)
+
+-(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
+    if([QPAGE_COUNT isEqualToString:key]){
+        self.numberOfPages = [value integerValue];
+    } else if([QPAGE_CURRENT isEqualToString:key]){
+        self.currentPage = [value integerValue];
+    } else if([QPAGE_HIDE_SINGLE isEqualToString:key]){
+        self.hidesForSinglePage = [value boolValue];
+    } else if([QPAGE_DEFER_DISPLAY isEqualToString:key]){
+        self.defersCurrentPageDisplay = [value boolValue];
     } else {
         return NO;
     }
