@@ -28,6 +28,7 @@
 #define QVIEW_CLIP_SUBVIEWS @"clipSubviews"
 #define QVIEW_TINT_COLOR @"tintColor"
 #define QVIEW_TINT_ADJUST_MODE @"tintAdjustMode"
+#define QVIEW_CONTENT_MODE      @"contentMode"
 
 #define QATTR_TEXT @"text"
 #define QATTR_CLEAR @"clear"
@@ -188,6 +189,8 @@
         self.clipsToBounds = [value boolValue];
     } else if([QVIEW_TINT_ADJUST_MODE isEqualToString:key]){
         self.tintAdjustmentMode = [value integerValue];
+    } else if([QVIEW_CONTENT_MODE isEqualToString:key]){
+        self.contentMode = [value integerValue];
     } else {
         return NO;
     }
@@ -202,6 +205,8 @@
 #define QLABEL_TEXT_COLOR       @"textColor"
 #define QLABEL_FONT_SIZE        @"fontSize"
 #define QLABEL_TEXT_ALIGN       @"textAlignment"
+#define QLABEL_LINE_BREAK       @"lineBreak"
+#define QLABEL_BASELINE_ADJUST  @"baselineAdjustment"
 
 @implementation UILabel(AutoConfig)
 -(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
@@ -215,6 +220,10 @@
         self.font = [self.font fontWithSize:[value floatValue]];
     } else if([QLABEL_TEXT_ALIGN isEqualToString:key]){
         self.textAlignment = [value integerValue];
+    } else if([QLABEL_LINE_BREAK isEqualToString:key]){
+        self.lineBreakMode = [value integerValue];
+    } else if([QLABEL_BASELINE_ADJUST isEqualToString:key]){
+        self.baselineAdjustment = [value integerValue];
     } else if([QLABEL_ATTR_TEXT isEqualToString:key]){
         self.attributedText = [self _q_parseAttrubutedString:value];
     } else {
