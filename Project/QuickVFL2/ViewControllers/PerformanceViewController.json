@@ -11,7 +11,8 @@
             ":viewData":{
                 "text":"VFL",
                 "textColor":"#000000",
-                "backgroundColor":"#777777"
+                "backgroundColor":"#777777",
+                "tapEvent":"onVFLButtonClicked",
             }
         },
         "buttonXIB_":{
@@ -19,7 +20,8 @@
             ":viewData":{
                 "text":"XIB",
                 "textColor":"#000000",
-                "backgroundColor":"#777777"
+                "backgroundColor":"#777777",
+                "tapEvent":"onXIBButtonClicked",
             }
         },
         "buttonMSY_":{
@@ -27,7 +29,8 @@
             ":viewData":{
                 "text":"Masonry",
                 "textColor":"#000000",
-                "backgroundColor":"#777777"
+                "backgroundColor":"#777777",
+                "tapEvent":"onMasonryButtonClicked",
             }
         },
         ":layout":"V:|-[buttonXIB_]-|; H:|-[buttonVFL_]-[buttonXIB_(buttonVFL_)]-[buttonMSY_(buttonVFL_)]-| {top, bottom};"

@@ -40,21 +40,17 @@
     QLayoutResult* result = [QLayoutManager layoutForFileName:@"PerformanceViewController.json"
                                                      entrance:self.view
                                                        holder:self];
-    UIButton* button = [result viewNamed:@"buttonVFL_"];
-    [button addTarget:self action:@selector(onVFLButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    
-    button = [result viewNamed:@"buttonXIB_"];
-    [button addTarget:self action:@selector(onXIBButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    
-    button = [result viewNamed:@"buttonMSY_"];
-    [button addTarget:self action:@selector(onMasonryButtonClicked) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.scrollView q_refreshContentView];
     
     
     self.titleImage = [UIImage imageNamed:@"image1.jpeg"];
     
-    [self.cardDemo setupWithTitle:@"北京石景山万达广场和颐酒店只要409元！" subTitle:@"高档型.公主坟、五棵松、石景山游乐园地区" source:@"北京.精选酒店" readCount:10000 titleImage:self.titleImage];
+    [self.cardDemo setupWithTitle:@"北京石景山万达广场和颐酒店只要409元！"
+                         subTitle:@"高档型.公主坟、五棵松、石景山游乐园地区"
+                           source:@"北京.精选酒店"
+                        readCount:10000
+                       titleImage:self.titleImage];
+    
+    [self.scrollView q_refreshContentView];
     
     return result;
 }
@@ -65,8 +61,6 @@
     }
 
     [self cleanPlayground];
-    self.labelResult.text = @"Working...";
-    [self.scrollView q_refreshContentView];
     
     self.working = YES;
     
@@ -104,8 +98,6 @@
     }
     
     [self cleanPlayground];
-    self.labelResult.text = @"Working...";
-    [self.scrollView q_refreshContentView];
     
     self.working = YES;
     
@@ -142,8 +134,6 @@
     }
     
     [self cleanPlayground];
-    self.labelResult.text = @"Working...";
-    [self.scrollView q_refreshContentView];
     
     self.working = YES;
     
