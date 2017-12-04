@@ -22,7 +22,15 @@
                 "backgroundColor":"#777777"
             }
         },
-        ":layout":"V:|-[buttonXIB_]-|; H:|-[buttonVFL_]-[buttonXIB_(buttonVFL_)]-| {top, bottom};"
+        "buttonMSY_":{
+            ":className":"UIButton",
+            ":viewData":{
+                "text":"Masonry",
+                "textColor":"#000000",
+                "backgroundColor":"#777777"
+            }
+        },
+        ":layout":"V:|-[buttonXIB_]-|; H:|-[buttonVFL_]-[buttonXIB_(buttonVFL_)]-[buttonMSY_(buttonVFL_)]-| {top, bottom};"
     },
     "viewPlaceHolder":{
         ":className":"UIView",

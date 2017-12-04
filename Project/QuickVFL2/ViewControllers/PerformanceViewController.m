@@ -9,6 +9,7 @@
 #import "PerformanceViewController.h"
 #import "TravelCardVFL.h"
 #import "TravelCardXib.h"
+#import "TravelCardMasonry.h"
 
 @interface PerformanceViewController ()
 @property (nonatomic, weak) UILabel* labelResult;
@@ -44,6 +45,9 @@
     
     button = [result viewNamed:@"buttonXIB_"];
     [button addTarget:self action:@selector(onXIBButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    
+    button = [result viewNamed:@"buttonMSY_"];
+    [button addTarget:self action:@selector(onMasonryButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     
     [self.scrollView q_refreshContentView];
     
@@ -127,6 +131,44 @@
     
     NSTimeInterval interval = [later timeIntervalSinceDate:now];
     self.labelResult.text = [NSString stringWithFormat:@"XIB took %.2f seconds to create 1000 cards.", interval];
+    self.working = NO;
+    
+    [self.scrollView q_refreshContentView];
+}
+
+- (void)onMasonryButtonClicked {
+    if(self.working){
+        return;
+    }
+    
+    [self cleanPlayground];
+    self.labelResult.text = @"Working...";
+    [self.scrollView q_refreshContentView];
+    
+    self.working = YES;
+    
+    TravelCardMasonry* card;
+    TravelCardMasonry* previousCard;
+    NSDate* now = [NSDate date];
+    for (int i=0; i< 1000; i++) {
+        card = [TravelCardMasonry new];
+        card.frame = self.viewPlaceHolder.bounds;
+//        [card setupWithTitle:@"北京石景山万达广场和颐酒店只要409元！" subTitle:@"高档型.公主坟、五棵松、石景山游乐园地区" source:@"北京.精选酒店" readCount:10000 titleImage:self.titleImage];
+        [card setNeedsLayout];
+        [card layoutIfNeeded];
+        
+        if(previousCard){
+            [previousCard removeFromSuperview];
+        }
+        [self.viewPlaceHolder addSubview:card];
+        
+        previousCard = card;
+    }
+    
+    NSDate* later = [NSDate date];
+    
+    NSTimeInterval interval = [later timeIntervalSinceDate:now];
+    self.labelResult.text = [NSString stringWithFormat:@"Masonry took %.2f seconds to create 1000 cards.", interval];
     self.working = NO;
     
     [self.scrollView q_refreshContentView];
