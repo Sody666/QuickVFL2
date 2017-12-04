@@ -168,7 +168,7 @@
     NSDate* later = [NSDate date];
     
     NSTimeInterval interval = [later timeIntervalSinceDate:now];
-    self.labelResult.text = [NSString stringWithFormat:@"XIB took %.2f seconds to create 1000 cards.", interval];
+    self.labelResult.text = [NSString stringWithFormat:@"Masonry took %.2f seconds to create 1000 cards.", interval];
     self.working = NO;
     
     [self.scrollView q_refreshContentView];
