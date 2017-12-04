@@ -27,21 +27,7 @@ Yet another layout framework to replace xib
 ***
 
 ### 性能
-我们使用xib和QuickVFL去实现同一个控件，然后反复创建此控件并完全展开1000次，然后抓取到如下时间数据：
-
-指标 | 数值(秒)
----|---
-XIB时间 | 13.95
-Q时间 | 10.66
-
-注意：
-- 每个测试运行完以后，程序重启以免相互影响。
-
-从数值上看，QuickVFL比XIB的方式大约快了1/4。
-
-[点这里查看代码细节](https://github.com/Sody666/QuickVFL2/blob/master/Project/QuickVFL2/ViewControllers/PerformanceViewController.m)
-
-另外，在QuickVFL工作过程中，布局工作占用的时间分布为（1000次累计的数值）：
+在QuickVFL工作过程中，布局工作占用的时间分布为（整个测试用时10.66秒）：
 
 指标 | 数值(秒) | 占比(%)
 ---|---|---
