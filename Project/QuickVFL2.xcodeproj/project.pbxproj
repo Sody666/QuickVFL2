@@ -32,6 +32,17 @@
 		A6D92AEF1FD5121600B6E090 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AE21FD5121600B6E090 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		A6D92AF01FD5121600B6E090 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AE41FD5121600B6E090 /* View+MASAdditions.m */; };
 		A6D92AF11FD5121600B6E090 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AE71FD5121600B6E090 /* ViewController+MASAdditions.m */; };
+		D31BA9D31FD5791B003A8984 /* TravelCardMasonry.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AC91FD511BF00B6E090 /* TravelCardMasonry.m */; };
+		D31BA9D41FD579A4003A8984 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AD01FD5121600B6E090 /* MASCompositeConstraint.m */; };
+		D31BA9D51FD579A4003A8984 /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AD31FD5121600B6E090 /* MASConstraint.m */; };
+		D31BA9D61FD579A4003A8984 /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AD51FD5121600B6E090 /* MASConstraintMaker.m */; };
+		D31BA9D71FD579A4003A8984 /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AD71FD5121600B6E090 /* MASLayoutConstraint.m */; };
+		D31BA9D81FD579A4003A8984 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92ADB1FD5121600B6E090 /* MASViewAttribute.m */; };
+		D31BA9D91FD579A4003A8984 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92ADD1FD5121600B6E090 /* MASViewConstraint.m */; };
+		D31BA9DA1FD579A4003A8984 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92ADF1FD5121600B6E090 /* NSArray+MASAdditions.m */; };
+		D31BA9DB1FD579A4003A8984 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AE21FD5121600B6E090 /* NSLayoutConstraint+MASDebugAdditions.m */; };
+		D31BA9DC1FD579A4003A8984 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AE41FD5121600B6E090 /* View+MASAdditions.m */; };
+		D31BA9DD1FD579A4003A8984 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A6D92AE71FD5121600B6E090 /* ViewController+MASAdditions.m */; };
 		D33B40BD1FB975C9002312BE /* QuickVFL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D33B40BC1FB975C9002312BE /* QuickVFL.framework */; };
 		D364C0B71FCCFE690032CDB8 /* TravelCardVFL.m in Sources */ = {isa = PBXBuildFile; fileRef = D364C0B61FCCFE690032CDB8 /* TravelCardVFL.m */; };
 		D364C0B81FCCFE690032CDB8 /* TravelCardVFL.m in Sources */ = {isa = PBXBuildFile; fileRef = D364C0B61FCCFE690032CDB8 /* TravelCardVFL.m */; };
@@ -53,8 +64,6 @@
 		D3A6767A1FB30E8C00745929 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A676791FB30E8C00745929 /* AppDelegate.m */; };
 		D3A676821FB30E8C00745929 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D3A676811FB30E8C00745929 /* Assets.xcassets */; };
 		D3A676941FB310CD00745929 /* QuickVFL.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A676931FB310CD00745929 /* QuickVFL.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D3A676981FB310CD00745929 /* QuickVFL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A676911FB310CD00745929 /* QuickVFL.framework */; };
-		D3A676991FB310CE00745929 /* QuickVFL.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D3A676911FB310CD00745929 /* QuickVFL.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D3A676B61FB3113300745929 /* QException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A6769F1FB3113300745929 /* QException.h */; };
 		D3A676B71FB3113300745929 /* QException.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A676A01FB3113300745929 /* QException.m */; };
 		D3A676B81FB3113300745929 /* QLayoutException.h in Headers */ = {isa = PBXBuildFile; fileRef = D3A676A11FB3113300745929 /* QLayoutException.h */; };
@@ -149,30 +158,6 @@
 		D3FB23D31FBC1EAC007C1870 /* QAutoConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = D3FB23D11FBC1EAC007C1870 /* QAutoConfig.h */; };
 		D3FB23D41FBC1EAC007C1870 /* QAutoConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = D3FB23D21FBC1EAC007C1870 /* QAutoConfig.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		D3A676961FB310CD00745929 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D3A6766A1FB30E8B00745929 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D3A676901FB310CD00745929;
-			remoteInfo = QuickVFL;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		D3A6769D1FB310CE00745929 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				D3A676991FB310CE00745929 /* QuickVFL.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A6D92AC81FD511BF00B6E090 /* TravelCardMasonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCardMasonry.h; sourceTree = "<group>"; };
@@ -314,7 +299,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3A676981FB310CD00745929 /* QuickVFL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,29 +332,29 @@
 			isa = PBXGroup;
 			children = (
 				A6D92ACF1FD5121600B6E090 /* MASCompositeConstraint.h */,
-				A6D92AD01FD5121600B6E090 /* MASCompositeConstraint.m */,
-				A6D92AD11FD5121600B6E090 /* MASConstraint+Private.h */,
 				A6D92AD21FD5121600B6E090 /* MASConstraint.h */,
-				A6D92AD31FD5121600B6E090 /* MASConstraint.m */,
+				A6D92AD11FD5121600B6E090 /* MASConstraint+Private.h */,
 				A6D92AD41FD5121600B6E090 /* MASConstraintMaker.h */,
-				A6D92AD51FD5121600B6E090 /* MASConstraintMaker.m */,
 				A6D92AD61FD5121600B6E090 /* MASLayoutConstraint.h */,
-				A6D92AD71FD5121600B6E090 /* MASLayoutConstraint.m */,
 				A6D92AD81FD5121600B6E090 /* Masonry.h */,
 				A6D92AD91FD5121600B6E090 /* MASUtilities.h */,
 				A6D92ADA1FD5121600B6E090 /* MASViewAttribute.h */,
-				A6D92ADB1FD5121600B6E090 /* MASViewAttribute.m */,
 				A6D92ADC1FD5121600B6E090 /* MASViewConstraint.h */,
-				A6D92ADD1FD5121600B6E090 /* MASViewConstraint.m */,
 				A6D92ADE1FD5121600B6E090 /* NSArray+MASAdditions.h */,
-				A6D92ADF1FD5121600B6E090 /* NSArray+MASAdditions.m */,
 				A6D92AE01FD5121600B6E090 /* NSArray+MASShorthandAdditions.h */,
 				A6D92AE11FD5121600B6E090 /* NSLayoutConstraint+MASDebugAdditions.h */,
-				A6D92AE21FD5121600B6E090 /* NSLayoutConstraint+MASDebugAdditions.m */,
 				A6D92AE31FD5121600B6E090 /* View+MASAdditions.h */,
-				A6D92AE41FD5121600B6E090 /* View+MASAdditions.m */,
 				A6D92AE51FD5121600B6E090 /* View+MASShorthandAdditions.h */,
 				A6D92AE61FD5121600B6E090 /* ViewController+MASAdditions.h */,
+				A6D92AD01FD5121600B6E090 /* MASCompositeConstraint.m */,
+				A6D92AD31FD5121600B6E090 /* MASConstraint.m */,
+				A6D92AD51FD5121600B6E090 /* MASConstraintMaker.m */,
+				A6D92AD71FD5121600B6E090 /* MASLayoutConstraint.m */,
+				A6D92ADB1FD5121600B6E090 /* MASViewAttribute.m */,
+				A6D92ADD1FD5121600B6E090 /* MASViewConstraint.m */,
+				A6D92ADF1FD5121600B6E090 /* NSArray+MASAdditions.m */,
+				A6D92AE21FD5121600B6E090 /* NSLayoutConstraint+MASDebugAdditions.m */,
+				A6D92AE41FD5121600B6E090 /* View+MASAdditions.m */,
 				A6D92AE71FD5121600B6E090 /* ViewController+MASAdditions.m */,
 			);
 			path = Masonry;
@@ -654,12 +638,10 @@
 				D3A6766E1FB30E8B00745929 /* Sources */,
 				D3A6766F1FB30E8B00745929 /* Frameworks */,
 				D3A676701FB30E8B00745929 /* Resources */,
-				D3A6769D1FB310CE00745929 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				D3A676971FB310CD00745929 /* PBXTargetDependency */,
 			);
 			name = QuickVFL2;
 			productName = QuickVFL2;
@@ -895,23 +877,34 @@
 			buildActionMask = 2147483647;
 			files = (
 				D3A6775A1FB838B000745929 /* ComplexScrollViewController.m in Sources */,
+				D31BA9D41FD579A4003A8984 /* MASCompositeConstraint.m in Sources */,
+				D31BA9DD1FD579A4003A8984 /* ViewController+MASAdditions.m in Sources */,
+				D31BA9DC1FD579A4003A8984 /* View+MASAdditions.m in Sources */,
 				D3A677681FB838B000745929 /* EqualViewController.m in Sources */,
 				D3A677721FB838CC00745929 /* RootTableViewCell.m in Sources */,
+				D31BA9D31FD5791B003A8984 /* TravelCardMasonry.m in Sources */,
 				D3A677741FB838CC00745929 /* PortraitView.m in Sources */,
+				D31BA9D71FD579A4003A8984 /* MASLayoutConstraint.m in Sources */,
+				D31BA9DA1FD579A4003A8984 /* NSArray+MASAdditions.m in Sources */,
 				D364C0C61FCD35050032CDB8 /* TravelCardXib.m in Sources */,
 				D3A6773F1FB8335300745929 /* AppDelegate.m in Sources */,
+				D31BA9D51FD579A4003A8984 /* MASConstraint.m in Sources */,
 				D3A6775F1FB838B000745929 /* RootViewController.m in Sources */,
+				D31BA9D91FD579A4003A8984 /* MASViewConstraint.m in Sources */,
 				D3A677651FB838B000745929 /* VisibleViewController.m in Sources */,
 				D3A677611FB838B000745929 /* ScrollViewController.m in Sources */,
 				D3A677561FB8388A00745929 /* NewsModel.m in Sources */,
+				D31BA9D81FD579A4003A8984 /* MASViewAttribute.m in Sources */,
 				D3A677581FB838B000745929 /* AlignViewController.m in Sources */,
 				D3A677661FB838B000745929 /* CustomizedViewController.m in Sources */,
 				D364C0BF1FCD060F0032CDB8 /* PerformanceViewController.m in Sources */,
 				D364C0B81FCCFE690032CDB8 /* TravelCardVFL.m in Sources */,
 				D3A6773C1FB8335300745929 /* main.m in Sources */,
 				D3A6776F1FB838CC00745929 /* NewsBCell.m in Sources */,
+				D31BA9DB1FD579A4003A8984 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				D3A6776D1FB838CC00745929 /* NewsACell.m in Sources */,
 				D3A677631FB838B000745929 /* StayShapeViewController.m in Sources */,
+				D31BA9D61FD579A4003A8984 /* MASConstraintMaker.m in Sources */,
 				D3A677711FB838CC00745929 /* VCInformationCell.m in Sources */,
 				D3A6775C1FB838B000745929 /* HomeViewController.m in Sources */,
 				D3A6775E1FB838B000745929 /* NewsViewController.m in Sources */,
@@ -919,14 +912,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D3A676971FB310CD00745929 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D3A676901FB310CD00745929 /* QuickVFL */;
-			targetProxy = D3A676961FB310CD00745929 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D364C0D41FCE545A0032CDB8 /* Debug */ = {
