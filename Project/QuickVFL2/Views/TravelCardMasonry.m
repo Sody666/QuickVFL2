@@ -17,6 +17,7 @@
 {
     self = [super init];
     if (self) {
+        
         [self initView];
     }
     return self;
