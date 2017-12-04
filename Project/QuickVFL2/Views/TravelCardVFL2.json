@@ -1,0 +1,42 @@
+
+{
+    "imageViewTitle":{
+        ":className":"UIImageView",
+        ":heightEqual":"imageViewTitle@0.6@w",
+        ":widthEqual":"labelTitle@0.8"
+    },
+    "labelTitle":{
+        ":className":"UILabel",
+        ":viewData":{
+            "numberOfLines": 3,
+            "fontSize": 18
+        }
+    },
+    "labelSubtitle":{
+        ":className":"UILabel",
+        ":viewData":{
+            "numberOfLines": 2,
+            "fontSize": 12
+        }
+    },
+    "labelSource":{
+        ":className":"UILabel",
+        ":viewData":{
+            "fontSize": 10
+        }
+    },
+    "viewReadCounterWrapper":{
+        "labelReadCount":{
+            ":className":"UILabel",
+            ":viewData":{
+                "fontSize": 10
+            }
+        },
+        ":layout":"H:|-(>=0)-[labelReadCount]|; V:|-(8@100)-[labelReadCount]|;"
+    },
+    ":layout":"
+        H:|-[labelTitle]-[imageViewTitle]-|;
+        V:|-[labelTitle]-[labelSubtitle]-(>=8)-[labelSource]-| {left, right};
+        V:|-[imageViewTitle]-(>=8)-[viewReadCounterWrapper]-|{left, right};
+    "
+}

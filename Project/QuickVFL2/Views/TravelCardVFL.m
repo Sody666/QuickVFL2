@@ -20,7 +20,7 @@
 @implementation TravelCardVFL
 
 -(void)layout{
-    [QLayoutManager layoutForFileName:@"TravelCardVFL.json" entrance:self holder:self];
+    [QLayoutManager layoutForFileName:@"TravelCardVFL2.json" entrance:self holder:self];
 }
 
 -(id)initWithFrame:(CGRect)frame{

@@ -48,37 +48,50 @@
     title1Label.text = @"北京石景山万达广场和颐酒店只要409元！";
     title2Label.text = @"高档型.公主坟、五棵松、石景山游乐园地区";
     title3Label.text = @"北京.精选酒店";
+    
+    UIView* wrapper = [UIView new];
+    [wrapper addSubview:title4Label];
     title4Label.text = @"10000 阅读";
     
     [self addSubview:title1Label];
     [self addSubview:title2Label];
     [self addSubview:title3Label];
-    [self addSubview:title4Label];
+    [self addSubview:wrapper];
     [self addSubview:imageView];
     
     [title1Label makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.equalTo(8);
-        make.right.lessThanOrEqualTo(imageView.mas_left).offset(-8);
+        make.right.equalTo(imageView.mas_left).offset(-8);
     }];
     [title2Label makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(title1Label);
         make.top.equalTo(title1Label.mas_bottom).offset(8);
-        make.right.lessThanOrEqualTo(imageView.mas_left).offset(-8);
+        make.right.equalTo(title1Label);
     }];
     [title3Label makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(title2Label);
-        make.top.equalTo(title2Label.mas_bottom).offset(8);
-        make.right.lessThanOrEqualTo(imageView.mas_left).offset(-8);
+        make.left.equalTo(title1Label);
+        make.right.equalTo(title1Label);
+        make.top.greaterThanOrEqualTo(title2Label.mas_bottom).offset(8);
+        make.bottom.equalTo(-8);
     }];
     
     [imageView makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(-8);
+        make.width.equalTo(title1Label.mas_width).multipliedBy(0.8);
+        make.height.equalTo(imageView.mas_width).multipliedBy(0.6);
         make.top.equalTo(8);
-        make.size.equalTo(CGSizeMake(133, 133*0.6));
+        make.right.equalTo(-8);
+        
     }];
-    [title4Label makeConstraints:^(MASConstraintMaker *make) {
+    [wrapper makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(imageView);
-        make.top.equalTo(imageView.mas_bottom).offset(8);
+        make.left.equalTo(imageView);
+        make.bottom.equalTo(-8);
+        make.top.greaterThanOrEqualTo(imageView.mas_bottom).offset(8);
+    }];
+    
+    [title4Label makeConstraints:^(MASConstraintMaker *make) {
+        make.right.top.bottom.equalTo(0);
+        make.left.greaterThanOrEqualTo(0);
     }];
 }
 
