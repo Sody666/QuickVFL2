@@ -24,23 +24,6 @@ Yet another layout framework to replace xib
 - VFL里添加命名约束功能
 - 增强约束调试功能
 
-***
-
-### 性能
-在QuickVFL工作过程中，布局工作占用的时间分布为（整个测试用时10.66秒）：
-
-指标 | 数值(秒) | 占比(%)
----|---|---
-总共 | 1.90 | 100
-解析配置文件 | 0.35 | 18.2
-创建视图 | 0.38 | 20.2
-创建约束 | 0.90 | 47.3
-设置控件内容 | 0.08 | 4.4
-映射变量 | 0.16 | 8.6
-处理结果 | 0.02 | 1.1
-
-从数值可以看出，整个过程中主要时间还是花在视图的LayoutIfNeeded的操作上。
-***
 ### 安装办法
 1. 从[Released lib](https://github.com/Sody666/QuickVFL2/tree/master/ReleasedLibs)中下载发布出来的framework，并把它放到你项目里
 2. 在Target->Build Settings->Other Linker Flags添加上**-ObjC**
