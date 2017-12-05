@@ -42,7 +42,12 @@
         "button1":{
             ":className":"UIButton",
             ":viewData":{
-                "text":"Hide",
+                "text":{
+                    "normal":"nHide",
+                    "selected":"sHide",
+                    "focused":"fHide",
+                    
+                },
                 "backgroundColor":"#FF0000",
                 "textColor":"#FFFFFF",
                 "tapEvent":"onButtonClicked:",
@@ -51,10 +56,12 @@
         "button2":{
             ":className":"UIButton",
             ":viewData":{
-                "text":"Hide",
+                "attributedText":{
+                    "normal":[{"fontSize":20, "text":"H"}, {"fontSize":10, "text":"ide"}]
+                },
                 "backgroundColor":"#00FF00",
                 "textColor":"#000000",
-                "tapEvent":"onButtonClicked:",
+                "tapEvent":"onButtonClicked:"
             }
         },
         "button3":{
@@ -62,7 +69,9 @@
             ":viewData":{
                 "text":"Hide",
                 "backgroundColor":"#0000FF",
-                "textColor":"#FFFFFF",
+                "textColor":{
+                    "normal":"#FF00FF"
+                },
                 "tapEvent":"onButtonClicked:",
             }
         },

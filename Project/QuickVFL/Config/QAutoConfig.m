@@ -23,6 +23,12 @@
 -(BOOL)QConfigWithKey:(NSString *)key value:(id)value holder:(id)holder;
 @end
 
+#define QSTATE_NORMAL   @"normal"
+#define QSTATE_SELECTED @"selected"
+#define QSTATE_FOCUSED  @"focused"
+#define QSTATE_DISABLED  @"disabled"
+#define QSTATE_HIGHLIGHT @"highLighted"
+
 #define QVIEW_BG_COLOR @"backgroundColor"
 #define QVIEW_ALPHA @"alpha"
 #define QVIEW_TAG   @"tag"
@@ -56,6 +62,36 @@
 //#define QATTR_LINK  @"link"
 
 @implementation UIView(AutoConfig)
+
+-(BOOL)setupStatesWithValue:(id)value action:(void(^)(id innerValue, UIControlState state)) action{
+    if(action == nil){
+        return NO;
+    }
+    
+    if([value isKindOfClass:[NSDictionary class]]){
+        NSDictionary* valueMap = value;
+        [valueMap enumerateKeysAndObjectsUsingBlock:^(NSString* _key, id  obj, BOOL * _Nonnull stop) {
+            if([QSTATE_NORMAL isEqualToString: _key]){
+                action(obj, UIControlStateNormal);
+            } else if([QSTATE_FOCUSED isEqualToString: _key]){
+                action(obj, UIControlStateFocused);
+            } else if([QSTATE_DISABLED isEqualToString: _key]){
+                action(obj, UIControlStateDisabled);
+            } else if([QSTATE_SELECTED isEqualToString: _key]){
+                action(obj, UIControlStateSelected);
+            } else if([QSTATE_HIGHLIGHT isEqualToString: _key]){
+                action(obj, UIControlStateHighlighted);
+            } else{
+                [QLayoutException throwExceptionForReason:@"Unknown state %@ with value %@", _key, obj];
+            }
+        }];
+    } else {
+        action(value, UIControlStateNormal);
+    }
+    
+    return YES;
+}
+
 -(void)q_configureWithData:(NSDictionary*)configData holder:(id)holder{
     if(configData == nil || configData.count < 1){
         return;
@@ -275,21 +311,20 @@
 
 -(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
     if([QBUTTON_TITLE isEqualToString:key]){
-        [self setTitle:value forState:UIControlStateNormal];
-        [self setTitle:value forState:UIControlStateSelected];
-        [self setTitle:value forState:UIControlStateDisabled];
+        [self setupStatesWithValue:value action:^(id innerValue, UIControlState state) {
+            [self setTitle:innerValue forState:state];
+        }];
     } else if([QBUTTON_ATTR_TITLE isEqualToString:key]){
-        NSAttributedString* title = [self _q_parseAttrubutedString:value];
-        [self setAttributedTitle:title forState:UIControlStateNormal];
-        [self setAttributedTitle:title forState:UIControlStateSelected];
-        [self setAttributedTitle:title forState:UIControlStateDisabled];
+        [self setupStatesWithValue:value action:^(id innerValue, UIControlState state) {
+            NSAttributedString* title = [self _q_parseAttrubutedString:innerValue];
+            [self setAttributedTitle:title forState:state];
+        }];
     } else if([QBUTTON_TITLE_COLOR isEqualToString:key]){
-        UIColor* titleColor = [self _q_parseColorString:value];
-        [self setTitleColor:titleColor forState:UIControlStateNormal];
-        [self setTitleColor:titleColor forState:UIControlStateSelected];
-        [self setTitleColor:titleColor forState:UIControlStateDisabled];
+        [self setupStatesWithValue:value action:^(id innerValue, UIControlState state) {
+            UIColor* titleColor = [self _q_parseColorString:innerValue];
+            [self setTitleColor:titleColor forState:state];
+        }];
     } else {
-        
         return NO;
     }
     
