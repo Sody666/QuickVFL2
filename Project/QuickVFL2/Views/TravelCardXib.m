@@ -40,7 +40,7 @@
         [self.viewReadCounterWrapper q_setVisibility:NO isVertically:YES];
     } else {
         [self.viewReadCounterWrapper q_setVisibility:YES isVertically:YES];
-        self.labelReadCount.text = [NSString stringWithFormat:@"%d 阅读", count];
+        self.labelReadCount.text = [NSString stringWithFormat:@"%d 阅读", (int)count];
     }
 }
 @end

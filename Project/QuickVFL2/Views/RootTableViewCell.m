@@ -15,7 +15,7 @@
 
 @implementation RootTableViewCell
 +(NSString*)nameOfIndexPath:(NSIndexPath*)indexPath{
-    return [NSString stringWithFormat:@"%i-%i", indexPath.section, indexPath.row];
+    return [NSString stringWithFormat:@"%d-%d", (int)indexPath.section, (int)indexPath.row];
 }
 
 -(id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
