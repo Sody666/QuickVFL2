@@ -1,0 +1,103 @@
+{
+    "total_":{
+        "part1_":{
+            "imageWrapper":{
+                "imageView":{
+                    ":viewData":{
+                        "contentMode":1,
+                        "className":"UIImageView",
+                    }
+                },
+                ":layout":"H:|-[imageView]-|; V:|-(0@500)-[imageView]-(8)-|;"
+            },
+            "button_":{
+                ":viewData":{
+                    "tapEvent":"onButtonClicked",
+                    "text":"Toggle Image View Visibility",
+                    "textColor":"#000000",
+                    "backgroundColor":"#00FFFF",
+                    "className":"UIButton",
+                }
+            },
+            ":layout":"
+                H:|-[imageWrapper]-|;
+                H:|-20-[button_]-20-|;
+                V:|-[imageWrapper][button_]-|;
+            ",
+            ":viewData":{
+                "backgroundColor":"#ABABAB"
+            }
+        },
+        "part2_":{
+            "button2_":{
+                ":viewData":{
+                    "className":"UIButton",
+                    "tapEvent":"onDatePickerButtonClicked",
+                    "text":"Show Date Picker",
+                    "textColor":"#000000",
+                    "backgroundColor":"#00FFFF"
+                }
+            },
+            ":layout":"
+                H:|-20-[button2_]-20-|;
+                V:|-[button2_]-|;
+            ",
+            ":viewData":{
+                "backgroundColor":"#CDCDCD"
+            }
+        },
+        ":scrollV":"scrollView",
+        ":layout":"
+            H:|[part1_]|;
+            V:|[part1_]-[part2_]| {left,right};
+        "
+    },
+    "viewMask":{
+        ":zIndex":1,
+        ":viewData":{
+            "alpha":0,
+            "backgroundColor":"#AA000000",
+            "enableInteraction": false,
+            "tapEvent":"onMaskTapped"
+        }
+    },
+    "pickerWrapper_":{
+        "pickerTitle_":{
+            ":stayWhenCompressed":"H@500",
+            ":stayWhenStretched":"H@500",
+            ":viewData":{
+                "className":"UILabel",
+                "text":"Pick a Date",
+                "textAlignment": 1,
+            }
+        },
+        "commitButton_":{
+            ":stayWhenCompressed":"H@501",
+            ":stayWhenStretched":"H@501",
+            ":viewData":{
+                "className":"UIButton",
+                "text":"Done",
+                "fontSize":16,
+                "textColor":"#00FF00",
+                "tapEvent":"onDoneButtonClicked"
+            }
+        },
+        "datePicker_":"UIDatePicker",
+        ":zIndex":2,
+        ":viewData":{
+            "backgroundColor":"#FFFFFF"
+        },
+        ":layout":"
+            V:|-[pickerTitle_]-[datePicker_]-|;
+            H:|[datePicker_]|;
+            H:|[pickerTitle_][commitButton_]-| {top, bottom};
+        "
+    },
+    ":layout":"
+        H:|[total_]|;
+        V:|[total_]|;
+        H:|[viewMask]|;V:|[viewMask]|;
+        V:[total_][pickerWrapper_]<constraintPickerControl>;
+        H:|[pickerWrapper_]|;
+    "
+}

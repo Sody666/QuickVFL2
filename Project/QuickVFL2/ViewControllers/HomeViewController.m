@@ -17,6 +17,7 @@
 #import "CustomizedViewController.h"
 #import "EqualViewController.h"
 #import "PerformanceViewController.h"
+#import "AnimationViewController.h"
 
 @interface HomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) UITableView* tableViewContent;
@@ -57,6 +58,7 @@
                                         [NewsViewController class],
                                         [EqualViewController class],
                                         [PerformanceViewController class],
+                                        [AnimationViewController class]
                                         ];
     self.arrayTitles = @[
                          @"Visible Control Demo",
@@ -67,7 +69,8 @@
                          @"Use customzed view Demo",
                          @"News List Demo",
                          @"Equal Dimension Demo",
-                         @"Performance comparing"
+                         @"Performance comparing",
+                         @"Animation"
                          ];
     
     self.arrayDescriptions = @[
@@ -79,7 +82,8 @@
                                @"Use a customzied view in layout file",
                                @"A list of news",
                                @"Equal dimension to another view's",
-                               @"Comparing 3 ways of layouting"
+                               @"Comparing 3 ways of layouting",
+                               @"Animation"
                                ];
 }
 

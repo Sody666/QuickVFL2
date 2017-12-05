@@ -37,6 +37,8 @@
 #define QVIEW_TINT_COLOR @"tintColor"
 #define QVIEW_TINT_ADJUST_MODE @"tintAdjustMode"
 #define QVIEW_CONTENT_MODE      @"contentMode"
+#define QVIEW_TAP_EVENT   @"tapEvent"
+#define QVIEW_CLASS_NAME    @"className"
 
 #define QATTR_TEXT @"text"
 #define QATTR_CLEAR @"clear"
@@ -216,7 +218,9 @@
 }
 
 -(BOOL)_commonViewConfigWithKey:(NSString*)key value:(id)value holder:(id)holder{
-    if([QVIEW_BG_COLOR isEqualToString:key]){
+    if([QVIEW_CLASS_NAME isEqualToString:key]){
+        // let go the class name option
+    } else if([QVIEW_BG_COLOR isEqualToString:key]){
         self.backgroundColor = [self _q_parseColorString:value];
     } else if([QVIEW_TINT_COLOR isEqualToString:key]){
         self.tintColor = [self _q_parseColorString:value];
@@ -232,6 +236,15 @@
         self.tintAdjustmentMode = [value integerValue];
     } else if([QVIEW_CONTENT_MODE isEqualToString:key]){
         self.contentMode = [value integerValue];
+    } else if([QVIEW_TAP_EVENT isEqualToString:key]){
+        SEL selector = NSSelectorFromString(value);
+        if(![holder respondsToSelector:selector]){
+            [QLayoutException throwExceptionForReason:@"Holder doesn't respond to selector %@", value];
+            return NO;
+        }
+        
+        UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:holder action:selector];
+        [self addGestureRecognizer:tapGesture];
     } else {
         return NO;
     }
@@ -307,6 +320,7 @@
 #define QBUTTON_TITLE       @"text"
 #define QBUTTON_ATTR_TITLE  @"attributedText"
 #define QBUTTON_TITLE_COLOR @"textColor"
+#define QBUTTON_FONT_SIZE   @"fontSize"
 @implementation UIButton(AutoConfig)
 
 -(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
@@ -324,7 +338,9 @@
             UIColor* titleColor = [self _q_parseColorString:innerValue];
             [self setTitleColor:titleColor forState:state];
         }];
-    } else {
+    } else if([QBUTTON_FONT_SIZE isEqualToString:key]){
+        self.titleLabel.font = [self.titleLabel.font fontWithSize:[value floatValue]];
+    }  else {
         return NO;
     }
     

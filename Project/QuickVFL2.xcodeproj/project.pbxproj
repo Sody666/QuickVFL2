@@ -60,6 +60,10 @@
 		D31BA9EC1FD57CAE003A8984 /* QVFLParseResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D364C0D91FD0F16E0032CDB8 /* QVFLParseResult.m */; };
 		D31BA9EE1FD58611003A8984 /* TravelCardVFL2.json in Resources */ = {isa = PBXBuildFile; fileRef = D31BA9ED1FD58611003A8984 /* TravelCardVFL2.json */; };
 		D31BA9EF1FD58611003A8984 /* TravelCardVFL2.json in Resources */ = {isa = PBXBuildFile; fileRef = D31BA9ED1FD58611003A8984 /* TravelCardVFL2.json */; };
+		D31BA9F21FD64ECF003A8984 /* AnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D31BA9F11FD64ECF003A8984 /* AnimationViewController.m */; };
+		D31BA9F31FD64ECF003A8984 /* AnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D31BA9F11FD64ECF003A8984 /* AnimationViewController.m */; };
+		D31BA9F51FD64EEE003A8984 /* AnimationViewController.json in Resources */ = {isa = PBXBuildFile; fileRef = D31BA9F41FD64EEE003A8984 /* AnimationViewController.json */; };
+		D31BA9F61FD64EEE003A8984 /* AnimationViewController.json in Resources */ = {isa = PBXBuildFile; fileRef = D31BA9F41FD64EEE003A8984 /* AnimationViewController.json */; };
 		D33B40BD1FB975C9002312BE /* QuickVFL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D33B40BC1FB975C9002312BE /* QuickVFL.framework */; };
 		D364C0B71FCCFE690032CDB8 /* TravelCardVFL.m in Sources */ = {isa = PBXBuildFile; fileRef = D364C0B61FCCFE690032CDB8 /* TravelCardVFL.m */; };
 		D364C0B81FCCFE690032CDB8 /* TravelCardVFL.m in Sources */ = {isa = PBXBuildFile; fileRef = D364C0B61FCCFE690032CDB8 /* TravelCardVFL.m */; };
@@ -205,6 +209,9 @@
 		A6D92AE61FD5121600B6E090 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		A6D92AE71FD5121600B6E090 /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
 		D31BA9ED1FD58611003A8984 /* TravelCardVFL2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TravelCardVFL2.json; sourceTree = "<group>"; };
+		D31BA9F01FD64ECF003A8984 /* AnimationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnimationViewController.h; sourceTree = "<group>"; };
+		D31BA9F11FD64ECF003A8984 /* AnimationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnimationViewController.m; sourceTree = "<group>"; };
+		D31BA9F41FD64EEE003A8984 /* AnimationViewController.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = AnimationViewController.json; sourceTree = "<group>"; };
 		D33B40BC1FB975C9002312BE /* QuickVFL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = QuickVFL.framework; sourceTree = "<group>"; };
 		D364C0B51FCCFE690032CDB8 /* TravelCardVFL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelCardVFL.h; sourceTree = "<group>"; };
 		D364C0B61FCCFE690032CDB8 /* TravelCardVFL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelCardVFL.m; sourceTree = "<group>"; };
@@ -529,6 +536,9 @@
 				D364C0BC1FCD060F0032CDB8 /* PerformanceViewController.h */,
 				D364C0BD1FCD060F0032CDB8 /* PerformanceViewController.m */,
 				D364C0C01FCD069E0032CDB8 /* PerformanceViewController.json */,
+				D31BA9F01FD64ECF003A8984 /* AnimationViewController.h */,
+				D31BA9F11FD64ECF003A8984 /* AnimationViewController.m */,
+				D31BA9F41FD64EEE003A8984 /* AnimationViewController.json */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -759,6 +769,7 @@
 				D3A676821FB30E8C00745929 /* Assets.xcassets in Resources */,
 				D3A677291FB74D7C00745929 /* PortraitView.json in Resources */,
 				D3A676ED1FB4589900745929 /* image2.jpeg in Resources */,
+				D31BA9F51FD64EEE003A8984 /* AnimationViewController.json in Resources */,
 				D3A676D61FB312EF00745929 /* VCInformationCell.json in Resources */,
 				D3A677331FB7D91D00745929 /* EqualViewController.json in Resources */,
 				D364C0BA1FCCFE930032CDB8 /* TravelCardVFL.json in Resources */,
@@ -794,6 +805,7 @@
 				D3A6776C1FB838CC00745929 /* NewsACell.json in Resources */,
 				D3A677571FB838B000745929 /* AlignViewController.json in Resources */,
 				D3A677621FB838B000745929 /* StayShapeViewController.json in Resources */,
+				D31BA9F61FD64EEE003A8984 /* AnimationViewController.json in Resources */,
 				D3A677471FB8335300745929 /* Assets.xcassets in Resources */,
 				D3A677731FB838CC00745929 /* RootTableViewCell.json in Resources */,
 				D364C0BB1FCCFE930032CDB8 /* TravelCardVFL.json in Resources */,
@@ -839,6 +851,7 @@
 				D3A676FF1FB491BE00745929 /* AlignViewController.m in Sources */,
 				A6D92AE81FD5121600B6E090 /* MASCompositeConstraint.m in Sources */,
 				A6D92AF11FD5121600B6E090 /* ViewController+MASAdditions.m in Sources */,
+				D31BA9F21FD64ECF003A8984 /* AnimationViewController.m in Sources */,
 				A6D92AF01FD5121600B6E090 /* View+MASAdditions.m in Sources */,
 				D31BA9E81FD57CA7003A8984 /* QOption.m in Sources */,
 				D3A6772C1FB74F7500745929 /* CustomizedViewController.m in Sources */,
@@ -933,6 +946,7 @@
 				D31BA9D81FD579A4003A8984 /* MASViewAttribute.m in Sources */,
 				D3A677581FB838B000745929 /* AlignViewController.m in Sources */,
 				D3A677661FB838B000745929 /* CustomizedViewController.m in Sources */,
+				D31BA9F31FD64ECF003A8984 /* AnimationViewController.m in Sources */,
 				D364C0BF1FCD060F0032CDB8 /* PerformanceViewController.m in Sources */,
 				D364C0B81FCCFE690032CDB8 /* TravelCardVFL.m in Sources */,
 				D3A6773C1FB8335300745929 /* main.m in Sources */,

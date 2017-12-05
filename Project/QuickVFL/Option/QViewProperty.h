@@ -44,6 +44,7 @@
 #define QVIEW_OPTION_CENTER_X_ALIGN         @":centerXAlign"
 #define QVIEW_OPTION_CENTER_Y_ALIGN         @":centerYAlign"
 
+#define QVIEW_OPTION_Z_INDEX             @":zIndex"
 typedef NS_ENUM(NSUInteger, QOrientationOption) {
     QOrientationNone        = 1 << 0,
     QOrientationVertical    = 1 << 1,
@@ -81,6 +82,10 @@ typedef NS_ENUM(NSUInteger, QOrientationOption) {
  **/
 @property (nonatomic, strong) NSString* scrollViewName;
 
+/**
+ *  z index value of view in container
+ **/
+@property (nonatomic, assign) NSUInteger zIndex;
 /**
  *  Class of the current view.
  **/

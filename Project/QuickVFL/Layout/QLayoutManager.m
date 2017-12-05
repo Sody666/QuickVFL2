@@ -149,6 +149,14 @@
             }
         }
         
+        [subviewsProperty sortUsingComparator:^NSComparisonResult(QViewProperty*  obj1, QViewProperty*  obj2) {
+            if(obj1.zIndex > obj2.zIndex){
+                return NSOrderedDescending;
+            } else {
+                return NSOrderedSame;
+            }
+        }];
+        
         property.subviewsProperty = subviewsProperty;
     }
     
@@ -157,8 +165,8 @@
         [property parseOptionKey:key value:[layout objectForKey:key]];
     }
     
-    // other checkings
-    if(property.isViewContainer && property.viewClass == nil){
+    // any default view is UIView
+    if(property.viewClass == nil){
         property.viewClass = [UIView class];
     }
     

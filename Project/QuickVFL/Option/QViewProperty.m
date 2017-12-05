@@ -34,6 +34,7 @@
     if (self) {
         self.scrollOrientation = QOrientationNone;
         self.arrayAlighOptions = [[NSMutableArray alloc] init];
+        self.zIndex = 0;
     }
     
     return self;
@@ -76,6 +77,12 @@
         
         [_arrayEqualOptions addObject:[QEqualOption optionWithKey:key value:value]];
     } else if([key isEqualToString:QVIEW_OPTION_VIEW_DATA]){
+        NSDictionary* viewData = value;
+        NSString* className = [viewData objectForKey:@"className"];
+        if(className.length > 0){
+            self.viewClass = [QLayoutManager parseClassName:className];
+        }
+        
         self.viewData = value;
     } else if([key hasSuffix:@"Align"]){
         if(!_arrayAlighOptions){
@@ -83,6 +90,8 @@
         }
         
         [_arrayAlighOptions addObject:[QAlignOption optionWithKey:key value:value]];
+    } else if([key isEqualToString:QVIEW_OPTION_Z_INDEX]){
+        self.zIndex = [value integerValue];
     } else {
         [QParseException throwExceptionForReason:@"Unknown option with key %@ and value %@", key, value];
     }
