@@ -119,6 +119,44 @@
     }
 }
 
+-(UIEdgeInsets)_q_parseEdgetInsets:(NSString*)text originEdgetInsets:(UIEdgeInsets)origin{
+    CGFloat top, left, bottom, right;
+    
+    if(text.length == 0){
+        [QLayoutException throwExceptionForReason:@"Bad format EdgetInset. Example: \"10 10 20 20\""];
+        return origin;
+    }
+    
+    NSArray* components = [text componentsSeparatedByString:@" "];
+    if(components.count >= 4){
+        top = [components[0] floatValue];
+        left = [components[1] floatValue];
+        bottom = [components[2] floatValue];
+        right = [components[3] floatValue];
+    } else {
+        [QLayoutException throwExceptionForReason:@"Bad format EdgetInset %@. Example: \"10 10 20 20\"", text];
+        return origin;
+    }
+    
+    if(top < 0){
+        top = origin.top;
+    }
+    
+    if(left < 0){
+        left = origin.left;
+    }
+    
+    if(bottom < 0){
+        bottom = origin.bottom;
+    }
+    
+    if(right < 0){
+        right = origin.right;
+    }
+    
+    return UIEdgeInsetsMake(top, left, bottom, right);
+}
+
 -(UIColor*)_q_parseColorString:(NSString*)color{
     if(color.length == 0 || ![color hasPrefix:@"#"] || (color.length != 7 && color.length != 9)){
         [QLayoutException throwExceptionForReason:@"Illegal color format %@. Legal example: #FF123456 or #123456", color];
@@ -321,6 +359,7 @@
 #define QBUTTON_ATTR_TITLE  @"attributedText"
 #define QBUTTON_TITLE_COLOR @"textColor"
 #define QBUTTON_FONT_SIZE   @"fontSize"
+#define QBUTTON_PADDING     @"padding"
 @implementation UIButton(AutoConfig)
 
 -(BOOL)_q_configWithKey:(NSString*)key value:(id)value holder:(id)holder{
@@ -340,7 +379,9 @@
         }];
     } else if([QBUTTON_FONT_SIZE isEqualToString:key]){
         self.titleLabel.font = [self.titleLabel.font fontWithSize:[value floatValue]];
-    }  else {
+    } else if([QBUTTON_PADDING isEqualToString:key]){
+        self.contentEdgeInsets = [self _q_parseEdgetInsets:value originEdgetInsets:self.contentEdgeInsets];
+    } else {
         return NO;
     }
     
