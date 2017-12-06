@@ -46,10 +46,107 @@
                 "backgroundColor":"#CDCDCD"
             }
         },
+        "part3_":{
+            "imageViewRotate":{
+                ":className":"UIImageView",
+                ":widthEqual":"imageViewRotate@1@h",
+                ":viewData":{
+                    "contentMode": 1,
+                    "backgroundColor":"#CDCDCD"
+                }
+            },
+            "button3_":{
+                ":viewData":{
+                    "className":"UIButton",
+                    "tapEvent":"onRotateButtonClicked:",
+                    "text":"Click to Rotate Image",
+                    "textColor":"#000000",
+                    "backgroundColor":"#00FFFF"
+                }
+            },
+            ":viewData":{
+                "backgroundColor":"#ABABAB"
+            },
+            ":layout":"
+                H:|-(>=8)-[imageViewRotate(80)]-(>=8)-|;
+                V:|-30-[imageViewRotate] {centerX};
+                H:|-20-[button3_]-20-|;
+                V:[imageViewRotate]-30-[button3_]-|;
+            "
+        },
+        "part4_":{
+            "deleteWrapper_":{
+                "labelDelete":{
+                    ":viewData":{
+                        "className":"UILabel",
+                        "text":"D",
+                        "textColor":"#FF0000"
+                    }
+                },
+                ":viewData":{
+                    "backgroundColor":"#EEEEEE",
+                    "tapEvent":"onDelete"
+                },
+                ":zIndex": 101,
+                ":layout":"V:|-(>=0)-[labelDelete]-(>=0)-| {centerX}; H:|-(>=0)-[labelDelete]-(>=0)-| {centerY};"
+            },
+            "informationWrapper_":{
+                "labelName_":{
+                    ":viewData":{
+                        "className":"UILabel",
+                        "text":"John Corner",
+                        "fontSize": 20
+                    }
+                },
+                "labelIdentity_":{
+                    ":viewData":{
+                        "className":"UILabel",
+                        "text":"440902191108060125",
+                        "fontSize": 16
+                    }
+                },
+                "confirmButton_":{
+                    ":viewData":{
+                        "className":"UIButton",
+                        "text":"Delete",
+                        "textColor":"#FFFFFF",
+                        "backgroundColor":"#FF0000",
+                        "padding":"-1 8 -1 8",
+                        "enableInteraction": false,
+                    }
+                },
+                ":viewData":{
+                    "backgroundColor":"#FFFFFF",
+                },
+                ":zIndex": 100,
+                ":layout":"
+                    H:|-[labelName_]-8-|;
+                    V:|-5-[labelName_]-5-[labelIdentity_]-5-| {left, right};
+                    H:[labelIdentity_]-(8)-[confirmButton_];
+                    V:|[confirmButton_]|;
+                "
+            },
+            "confirmButtonShadow":{
+                ":widthEqual":"confirmButton_",
+                ":heightEqual":"confirmButton_",
+                ":viewData":{
+                    "className":"UIButton",
+                    "tapEvent":"onDeleteConfirm",
+                    "enableInteraction": false,
+                },
+                ":zIndex": 99,
+            },
+            ":rightAlign":"informationWrapper_,confirmButtonShadow",
+            ":topAlign":"informationWrapper_,confirmButtonShadow",
+            ":viewData":{
+                "backgroundColor":"#CDCDCD"
+            },
+            ":layout":"V:|-10-[deleteWrapper_]-10-|; H:|[deleteWrapper_(44)][informationWrapper_]| {top, bottom};"
+        },
         ":scrollV":"scrollView",
         ":layout":"
             H:|[part1_]|;
-            V:|[part1_]-[part2_]| {left,right};
+            V:|[part1_][part2_][part3_][part4_]| {left,right};
         "
     },
     "viewMask":{
@@ -80,7 +177,7 @@
                 "fontSize":16,
                 "textColor":"#00FF00",
                 "tapEvent":"onDoneButtonClicked",
-                "padding":"-1, -1, -1, 20"
+                "padding":"-1 -1 -1 10"
             }
         },
         "datePicker_":"UIDatePicker",

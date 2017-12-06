@@ -12,8 +12,12 @@
 @property (nonatomic, weak) UIView* imageWrapper;
 @property (nonatomic, weak) UIScrollView* scrollView;
 @property (nonatomic, weak) UIImageView* imageView;
+@property (nonatomic, weak) UIImageView* imageViewRotate;
 @property (nonatomic, weak) UIDatePicker* datePicker_;
 @property (nonatomic, weak) UIView* viewMask;
+@property (nonatomic, weak) UIButton* confirmButtonShadow;
+@property (nonatomic, weak) UILabel* labelDelete;
+@property (nonatomic, weak) UIView* informationWrapper_;
 @end
 
 @implementation AnimationViewController
@@ -24,6 +28,8 @@
     self.title = @"Animation Demo";
     
     self.imageView.image = [UIImage imageNamed:@"image1.jpeg"];
+    self.imageViewRotate.image = [UIImage imageNamed:@"image1.jpeg"];
+    
     [self.scrollView q_refreshContentView];
 }
 
@@ -70,5 +76,45 @@
 -(void)onDoneButtonClicked{
     // other job should be done here.
     [self controlPickerVisibity:NO];
+}
+
+-(void)onRotateButtonClicked:(UIButton*)sender {
+    CABasicAnimation* animation = [CABasicAnimation new];
+    animation.keyPath = @"transform.rotation.z";
+    animation.toValue = @(M_PI*2);
+    animation.duration = 3;
+    
+    animation.repeatCount = INFINITY;
+    animation.fillMode = kCAFillModeForwards;
+    [self.imageViewRotate.layer addAnimation:animation forKey:@"rotate"];
+    sender.enabled = NO;
+}
+
+-(void)toggleDeleteState{
+    static BOOL deleting = NO;
+    [UIView animateWithDuration:0.4 animations:^{
+        if(deleting == NO){
+            self.informationWrapper_.transform = CGAffineTransformMakeTranslation(-1*self.confirmButtonShadow.frame.size.width, 0);
+            self.labelDelete.transform = CGAffineTransformMakeRotation(M_PI * 0.5);
+        }else{
+            self.informationWrapper_.transform = CGAffineTransformIdentity;
+            self.labelDelete.transform = CGAffineTransformIdentity;
+        }
+        
+        deleting = !deleting;
+    } completion:^(BOOL finished) {
+        if(finished){
+            self.confirmButtonShadow.userInteractionEnabled = deleting;
+        }
+    }];
+}
+
+-(void)onDeleteConfirm{
+    // do delete job here.
+    [self toggleDeleteState];
+}
+
+-(void)onDelete{
+    [self toggleDeleteState];
 }
 @end
