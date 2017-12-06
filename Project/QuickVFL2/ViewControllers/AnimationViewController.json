@@ -79,7 +79,8 @@
                 "text":"Done",
                 "fontSize":16,
                 "textColor":"#00FF00",
-                "tapEvent":"onDoneButtonClicked"
+                "tapEvent":"onDoneButtonClicked",
+                "padding":"-1, -1, -1, 20"
             }
         },
         "datePicker_":"UIDatePicker",
@@ -94,10 +95,8 @@
         "
     },
     ":layout":"
-        H:|[total_]|;
-        V:|[total_]|;
+        H:|[total_]|;V:|[total_]|;
         H:|[viewMask]|;V:|[viewMask]|;
-        V:[total_][pickerWrapper_]<constraintPickerControl>;
-        H:|[pickerWrapper_]|;
+        V:[total_][pickerWrapper_] {left, right};
     "
 }
