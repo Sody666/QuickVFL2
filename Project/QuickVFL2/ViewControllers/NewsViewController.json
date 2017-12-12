@@ -1,7 +1,16 @@
 {
     "tableViewContent":"UITableView",
+    "note_":{
+        ":viewData":{
+            "className":"UILabel",
+            "text":"To make code simple, I loaded images directly in main thread. Don't do it in this way in your real app.",
+            "numberOfLines":0,
+            "backgroundColor":"#FFFF00"
+        }
+    },
     ":layout":"
         H:|[tableViewContent]|;
-        V:|[tableViewContent]|;
+        H:|-[note_]-|;
+        V:|-10-[note_]-[tableViewContent]|;
     "
 }
