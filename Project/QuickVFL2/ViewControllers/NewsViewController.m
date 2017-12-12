@@ -45,6 +45,62 @@
     return  [self.dictCellCache objectForKey:[RootTableViewCell nameOfIndexPath:indexPath]];
 }
 
+#pragma mark - table view delegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    RootTableViewCell* cell = [self cellForIndexPath:indexPath];
+    
+    if(cell){
+        if(cell.dirty){
+            [cell layoutIfNeeded];
+            cell.dirty = NO;
+        }
+        
+        return [cell cellHeight];
+    }else{
+        return 0;
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.arrrayNews.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NewsModel* news = [self.arrrayNews objectAtIndex:indexPath.row];
+    
+    NSString* key;
+    if(news.images.count >=3){
+        key = @"3";
+    } else {
+        key = @"1";
+    }
+    
+    RootTableViewCell*  cell = [tableView dequeueReusableCellWithIdentifier:key];
+    
+    if(cell.indexPath != nil){
+        [self.dictCellCache removeObjectForKey:cell.indexPath];
+    }
+    
+    
+    cell.indexPath = indexPath;
+    cell.dirty = YES;
+    // cache it for height calculating
+    [self.dictCellCache setObject:cell forKey:cell.indexPath];
+    
+    [cell fillData:news];
+    
+    return cell;
+}
+
+#pragma mark - getter and setter
+-(NSMutableDictionary*)dictCellCache{
+    if(!_dictCellCache){
+        _dictCellCache = [[NSMutableDictionary alloc] init];
+    }
+    
+    return _dictCellCache;
+}
+
 -(void)setupData{
     NSMutableArray* arrayNews = [[NSMutableArray alloc] init];
     NewsModel* news = [[NewsModel alloc] init];
@@ -177,56 +233,5 @@
     ///////////////
     
     self.arrrayNews = arrayNews;
-}
-
-#pragma mark - table view delegate
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    RootTableViewCell* cell = [self cellForIndexPath:indexPath];
-    
-    if(cell){
-        return [cell cellHeight];
-    }else{
-        NSLog(@"Hiiii");
-        return 0;
-    }
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.arrrayNews.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NewsModel* news = [self.arrrayNews objectAtIndex:indexPath.row];
-    
-    NSString* key;
-    if(news.images.count >=3){
-        key = @"3";
-    } else {
-        key = @"1";
-    }
-
-    RootTableViewCell*  cell = [tableView dequeueReusableCellWithIdentifier:key];
-    
-    if(cell.indexPath != nil){
-        [self.dictCellCache removeObjectForKey:cell.indexPath];
-    }
-    
-    
-    cell.indexPath = indexPath;
-    // cache it for height calculating
-    [self.dictCellCache setObject:cell forKey:cell.indexPath];
-    
-    [cell fillData:news];
-    
-    return cell;
-}
-
-#pragma mark - getter and setter
--(NSMutableDictionary*)dictCellCache{
-    if(!_dictCellCache){
-        _dictCellCache = [[NSMutableDictionary alloc] init];
-    }
-    
-    return _dictCellCache;
 }
 @end

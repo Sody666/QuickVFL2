@@ -1,35 +1,38 @@
 {
-    "labelTitle":"UILabel",
-    "imageWrapper_":{
-        "imageViewLeft":{
-            ":className":"UIImageView",
-            ":heightEqual":"imageViewLeft@0.6@w"
-        },
-        "imageViewMiddle":"UIImageView",
-        "imageViewRight":"UIImageView",
-        ":layout":"
-            V:|[imageViewLeft]|;
-            H:|[imageViewLeft]-5-[imageViewMiddle(imageViewLeft)]-5-[imageViewRight(imageViewLeft)]| {top, bottom};
-        "
+    "labelTitle":{
+        ":viewData":{
+            "numberOfLines":2,
+            "className":"UILabel",
+            "fontSize":18
+        }
     },
-    "postscriptWrapper_":{
-        "labelPostscript":{
-            ":className":"UILabel",
-            ":stayWhenCompressed":"H@100",
-            ":stayWhenStretched":"H@100",
-        },
-        "buttonDislike_":{
-            ":className":"UIButton",
-            ":stayWhenCompressed":"H@101",
-            ":stayWhenStretched":"H@101",
-        },
-        ":layout":"
-            V:|[labelPostscript(20)]|;
-            H:|[labelPostscript]-[buttonDislike_(20)]| {top, bottom};
-        "
+    "imageViewLeft":{
+        ":className":"UIImageView",
+        ":heightEqual":"imageViewLeft@0.6@w"
+    },
+    "imageViewMiddle":"UIImageView",
+    "imageViewRight":"UIImageView",
+    "labelPostscript":{
+        ":stayWhenCompressed":"H@100",
+        ":stayWhenStretched":"H@100",
+        ":viewData":{
+            "className":"UILabel",
+            "fontSize":12
+        }
+    },
+    "buttonDislike_":{
+        ":stayWhenCompressed":"H@101",
+        ":stayWhenStretched":"H@101",
+        ":viewData":{
+            "className":"UIButton",
+            "text":"x",
+            "textColor":"#000000"
+        }
     },
     ":layout":"
         H:|-[labelTitle]-|;
-        V:|-[labelTitle]-5-[imageWrapper_]-5-[postscriptWrapper_]-| {left, right};
+        H:|-[imageViewLeft]-[imageViewMiddle(imageViewLeft)]-[imageViewRight(imageViewLeft)]-| {top, bottom};
+        H:|-[labelPostscript]-[buttonDislike_]-| {top, bottom};
+        V:|-[labelTitle]-5-[imageViewLeft]-5-[labelPostscript]-|;
     "
 }

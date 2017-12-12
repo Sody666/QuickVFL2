@@ -41,8 +41,6 @@
 }
 
 -(void)fillData:(id)data{
-    [self.viewTotalWrapper setNeedsLayout];
-    [self.viewTotalWrapper layoutIfNeeded];
 }
 
 -(void)setIndexPath:(NSIndexPath*)path{

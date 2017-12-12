@@ -12,6 +12,7 @@
 +(NSString*)nameOfIndexPath:(NSIndexPath*)indexPath;
 @property (nonatomic, strong) QLayoutResult* layoutResult;
 @property (nonatomic, weak, readonly) UIView* viewTotalWrapper;
+@property (nonatomic, assign) BOOL dirty;
 -(QLayoutResult*)layout;
 -(CGFloat)cellHeight;
 -(void)fillData:(id)data;

@@ -1,34 +1,38 @@
 {
-    "newsWrapper_":{
-        "labelTitle":"UILabel",
-        "imageViewTitle":{
-            ":className":"UIImageView",
-            ":widthEqual":"labelTitle@0.5",
-            ":heightEqual":"imageViewTitle@0.6@w"
-        },
-        ":layout":"
-            V:|[imageViewTitle]|;
-            H:|[labelTitle]-[imageViewTitle]| {top, bottom};
-        "
+    "labelTitle":{
+        ":viewData":{
+            "numberOfLines":3,
+            "className":"UILabel",
+            "fontSize":16
+        }
     },
-    "postscriptWrapper_":{
-        "labelPostscript":{
-            ":className":"UILabel",
-            ":stayWhenCompressed":"H@100",
-            ":stayWhenStretched":"H@100",
-        },
-        "buttonDislike_":{
-            ":className":"UIButton",
-            ":stayWhenCompressed":"H@101",
-            ":stayWhenStretched":"H@101",
-        },
-        ":layout":"
-            V:|[labelPostscript(20)]|;
-            H:|[labelPostscript]-[buttonDislike_(20)]| {top, bottom};
-        "
+    "imageViewTitle":{
+        ":className":"UIImageView",
+        ":widthEqual":"labelTitle@0.5",
+        ":heightEqual":"imageViewTitle@0.6@w"
+    },
+    "labelPostscript":{
+        ":className":"UILabel",
+        ":stayWhenCompressed":"H@100",
+        ":stayWhenStretched":"H@100",
+        ":viewData":{
+            "className":"UILabel",
+            "fontSize":12
+        }
+    },
+    "buttonDislike_":{
+        ":stayWhenCompressed":"H@101",
+        ":stayWhenStretched":"H@101",
+        ":viewData":{
+            "className":"UIButton",
+            "text":"x",
+            "textColor":"#000000"
+        }
     },
     ":layout":"
-        H:|-[newsWrapper_]-|;
-        V:|-[newsWrapper_]-5-[postscriptWrapper_]-| {left, right};
+        H:|-[labelTitle]-[imageViewTitle]-|{top};
+        H:|-[labelPostscript]-[buttonDislike_]-|{top, bottom};
+        V:|-[labelTitle]-(>=8)-[labelPostscript]-|;
+        V:[imageViewTitle]-(>=8)-[labelPostscript];
     "
 }

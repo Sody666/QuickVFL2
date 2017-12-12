@@ -21,18 +21,9 @@
 -(QLayoutResult*)layout{
     [super layout];
     
-    QLayoutResult* result = [QLayoutManager layoutForFileName:@"NewsACell.json"
-                                                     entrance:self.viewTotalWrapper
-                                                       holder:self];
-    UIButton* dislikeButton = [result viewNamed:@"buttonDislike_"];
-    [dislikeButton setTitle:@"x" forState:UIControlStateNormal];
-    [dislikeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
-    self.labelTitle.numberOfLines = 2;
-    self.labelTitle.font = [UIFont systemFontOfSize:18];
-    self.labelPostscript.font = [UIFont systemFontOfSize:12];
-    
-    return result;
+    return [QLayoutManager layoutForFileName:@"NewsACell.json"
+                                    entrance:self.viewTotalWrapper
+                                      holder:self];
 }
 
 -(void)fillData:(id)data{
