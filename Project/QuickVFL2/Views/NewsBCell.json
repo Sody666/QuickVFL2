@@ -32,7 +32,7 @@
     ":layout":"
         H:|-[labelTitle]-[imageViewTitle]-|{top};
         H:|-[labelPostscript]-[buttonDislike_]-|{top, bottom};
-        V:|-[labelTitle]-(>=8)-[labelPostscript]-|;
+        V:|-[labelTitle]-(>=8)-[labelPostscript]|;
         V:[imageViewTitle]-(>=8)-[labelPostscript];
     "
 }

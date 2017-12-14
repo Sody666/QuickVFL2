@@ -22,7 +22,7 @@
     [super layout];
     
     return [QLayoutManager layoutForFileName:@"NewsACell.json"
-                                    entrance:self.viewTotalWrapper
+                                    entrance:self.contentView
                                       holder:self];
 }
 
@@ -36,7 +36,5 @@
     self.imageViewRight.image = images.count >=3 ? images[2] : nil;
     
     self.labelPostscript.text = news.postscript;
-    
-    [super fillData:data];
 }
 @end

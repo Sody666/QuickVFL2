@@ -13,16 +13,13 @@
 @property (nonatomic, weak) UILabel* labelTitle;
 @property (nonatomic, weak) UILabel* labelPostscript;
 @property (nonatomic, weak) UIImageView* imageViewTitle;
-@property (nonatomic, weak) UIView* totalWrapper;
 @end
 
 @implementation NewsBCell
 
 -(QLayoutResult*)layout{
-    [super layout];
-    
     return [QLayoutManager layoutForFileName:@"NewsBCell.json"
-                                    entrance:self.viewTotalWrapper
+                                    entrance:self.contentView
                                       holder:self];
 }
 
@@ -31,7 +28,5 @@
     self.labelTitle.text = news.title;
     self.imageViewTitle.image = news.images.firstObject;
     self.labelPostscript.text = news.postscript;
-    
-    [super fillData:data];
 }
 @end

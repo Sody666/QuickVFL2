@@ -33,6 +33,6 @@
         H:|-[labelTitle]-|;
         H:|-[imageViewLeft]-[imageViewMiddle(imageViewLeft)]-[imageViewRight(imageViewLeft)]-| {top, bottom};
         H:|-[labelPostscript]-[buttonDislike_]-| {top, bottom};
-        V:|-[labelTitle]-5-[imageViewLeft]-5-[labelPostscript]-|;
+        V:|[labelTitle]-5-[imageViewLeft]-5-[labelPostscript]|;
     "
 }

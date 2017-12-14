@@ -14,7 +14,6 @@
 @interface NewsViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) UITableView* tableViewContent;
 @property (nonatomic, strong) NSArray* arrrayNews;
-@property (nonatomic, strong) NSMutableDictionary* dictCellCache;
 @end
 
 @implementation NewsViewController
@@ -27,6 +26,7 @@
     self.tableViewContent.delegate = self;
     self.tableViewContent.dataSource = self;
     self.tableViewContent.estimatedRowHeight = 80.;
+    self.tableViewContent.rowHeight = UITableViewAutomaticDimension;
     [self.tableViewContent registerClass:[NewsACell class] forCellReuseIdentifier:@"3"];
     [self.tableViewContent registerClass:[NewsBCell class] forCellReuseIdentifier:@"1"];
     
@@ -41,25 +41,7 @@
                                       holder:self];
 }
 
--(RootTableViewCell*)cellForIndexPath:(NSIndexPath*)indexPath{
-    return  [self.dictCellCache objectForKey:[RootTableViewCell nameOfIndexPath:indexPath]];
-}
-
 #pragma mark - table view delegate
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    RootTableViewCell* cell = [self cellForIndexPath:indexPath];
-    
-    if(cell){
-        if(cell.dirty){
-            [cell layoutIfNeeded];
-            cell.dirty = NO;
-        }
-        
-        return [cell cellHeight];
-    }else{
-        return 0;
-    }
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.arrrayNews.count;
@@ -76,31 +58,12 @@
     }
     
     RootTableViewCell*  cell = [tableView dequeueReusableCellWithIdentifier:key];
-    
-    if(cell.indexPath != nil){
-        [self.dictCellCache removeObjectForKey:cell.indexPath];
-    }
-    
-    
-    cell.indexPath = indexPath;
-    cell.dirty = YES;
-    // cache it for height calculating
-    [self.dictCellCache setObject:cell forKey:cell.indexPath];
-    
     [cell fillData:news];
     
     return cell;
 }
 
 #pragma mark - getter and setter
--(NSMutableDictionary*)dictCellCache{
-    if(!_dictCellCache){
-        _dictCellCache = [[NSMutableDictionary alloc] init];
-    }
-    
-    return _dictCellCache;
-}
-
 -(void)setupData{
     NSMutableArray* arrayNews = [[NSMutableArray alloc] init];
     NewsModel* news = [[NewsModel alloc] init];
