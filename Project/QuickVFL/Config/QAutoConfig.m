@@ -39,6 +39,8 @@
 #define QVIEW_CONTENT_MODE      @"contentMode"
 #define QVIEW_TAP_EVENT   @"tapEvent"
 #define QVIEW_CLASS_NAME    @"className"
+#define QVIEW_BOARDER_COLOR @"boarderColor"
+#define QVIEW_BOARDER_WIDTH @"boarderWidth"
 
 #define QATTR_TEXT @"text"
 #define QATTR_CLEAR @"clear"
@@ -283,6 +285,10 @@
         
         UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:holder action:selector];
         [self addGestureRecognizer:tapGesture];
+    } else if([QVIEW_BOARDER_COLOR isEqualToString:key]){
+        self.layer.borderColor = [self _q_parseColorString:value].CGColor;
+    } else if([QVIEW_BOARDER_WIDTH isEqualToString:key]){
+        self.layer.borderWidth = [value floatValue];
     } else {
         return NO;
     }
