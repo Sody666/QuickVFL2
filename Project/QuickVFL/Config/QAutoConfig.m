@@ -287,6 +287,9 @@
         [self addGestureRecognizer:tapGesture];
     } else if([QVIEW_BOARDER_COLOR isEqualToString:key]){
         self.layer.borderColor = [self _q_parseColorString:value].CGColor;
+        if(self.layer.borderWidth == 0){
+            self.layer.borderWidth = 1;
+        }
     } else if([QVIEW_BOARDER_WIDTH isEqualToString:key]){
         self.layer.borderWidth = [value floatValue];
     } else {
