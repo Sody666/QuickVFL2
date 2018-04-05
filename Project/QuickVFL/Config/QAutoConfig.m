@@ -45,6 +45,7 @@
 #define QATTR_TEXT @"text"
 #define QATTR_CLEAR @"clear"
 
+#define QATTR_FONT  @"font"
 #define QATTR_FONTSIZE @"fontSize"
 #define QATTR_FOREGROUNDCOLOR  @"foregroundColor"
 #define QATTR_BACKGROUNDCOLOR  @"backgroundColor"
@@ -66,6 +67,14 @@
 //#define QATTR_LINK  @"link"
 
 @implementation UIView(AutoConfig)
+-(UIFont*)fontWithName:(NSString*)fontName size:(CGFloat)fontSize{
+    UIFont* font = [UIFont fontWithName:fontName size:fontSize];
+    if(font == nil){
+        font = [UIFont systemFontOfSize:fontSize];
+    }
+    
+    return font;
+}
 
 -(BOOL)setupStatesWithValue:(id)value action:(void(^)(id innerValue, UIControlState state)) action{
     if(action == nil){
@@ -192,7 +201,22 @@
     if([QATTR_TEXT isEqualToString:key] || [QATTR_CLEAR isEqualToString:key]){
         return;
     } else if ([QATTR_FONTSIZE isEqualToString:key]){
-        [attributes setObject:[UIFont systemFontOfSize:[value floatValue]] forKey:NSFontAttributeName];
+        UIFont* font = [attributes objectForKey:NSFontAttributeName];
+        if(font != nil){
+            font = [font fontWithSize:[value floatValue]];
+        } else {
+            font = [UIFont systemFontOfSize:[value floatValue]];
+        }
+        [attributes setObject:font forKey:NSFontAttributeName];
+    } else if ([QATTR_FONT isEqualToString:key]){
+        UIFont* font = [attributes objectForKey:NSFontAttributeName];
+        CGFloat fontSize = [UIFont systemFontSize];
+        if(font != nil){
+            fontSize = font.pointSize;
+        }
+        font = [self fontWithName:value size:fontSize];
+        
+        [attributes setObject:font forKey:NSFontAttributeName];
     } else if ([QATTR_FOREGROUNDCOLOR isEqualToString:key]){
         [attributes setObject:[self _q_parseColorString:value] forKey:NSForegroundColorAttributeName];
     } else if ([QATTR_BACKGROUNDCOLOR isEqualToString:key]){
@@ -333,6 +357,7 @@
 #define QLABEL_ATTR_TEXT        @"attributedText"
 #define QLABEL_NUMBER_OF_LINES  @"numberOfLines"
 #define QLABEL_TEXT_COLOR       @"textColor"
+#define QLABEL_FONT             @"font"
 #define QLABEL_FONT_SIZE        @"fontSize"
 #define QLABEL_TEXT_ALIGN       @"textAlignment"
 #define QLABEL_LINE_BREAK       @"lineBreak"
@@ -348,6 +373,8 @@
         self.textColor = [self _q_parseColorString:value];
     } else if([QLABEL_FONT_SIZE isEqualToString:key]){
         self.font = [self.font fontWithSize:[value floatValue]];
+    } else if([QLABEL_FONT isEqualToString:key]){
+        self.font = [self fontWithName:value size:self.font.pointSize];
     } else if([QLABEL_TEXT_ALIGN isEqualToString:key]){
         self.textAlignment = [value integerValue];
     } else if([QLABEL_LINE_BREAK isEqualToString:key]){
@@ -367,6 +394,7 @@
 #define QBUTTON_TITLE       @"text"
 #define QBUTTON_ATTR_TITLE  @"attributedText"
 #define QBUTTON_TITLE_COLOR @"textColor"
+#define QBUTTON_FONT        @"font"
 #define QBUTTON_FONT_SIZE   @"fontSize"
 #define QBUTTON_PADDING     @"padding"
 @implementation UIButton(AutoConfig)
@@ -388,6 +416,8 @@
         }];
     } else if([QBUTTON_FONT_SIZE isEqualToString:key]){
         self.titleLabel.font = [self.titleLabel.font fontWithSize:[value floatValue]];
+    } else if([QBUTTON_FONT isEqualToString:key]){
+        self.titleLabel.font = [self fontWithName:value size:self.titleLabel.font.pointSize];
     } else if([QBUTTON_PADDING isEqualToString:key]){
         self.contentEdgeInsets = [self _q_parseEdgetInsets:value originEdgetInsets:self.contentEdgeInsets];
     } else {
@@ -401,6 +431,7 @@
 #define QTEXTFIELD_PLACE_HOLDER     @"placeHolder"
 #define QTEXTFIELD_TEXT             @"text"
 #define QTEXTFIELD_TEXT_COLOR       @"textColor"
+#define QTEXTFIELD_FONT             @"font"
 #define QTEXTFIELD_FONT_SIZE        @"fontSize"
 #define QTEXTFIELD_BORDER_STYLE     @"borderStyle"
 #define QTEXTFIELD_SECURE_TEXT      @"secureText"
@@ -417,6 +448,8 @@
         self.textColor = [self _q_parseColorString:value];
     } else if([QTEXTFIELD_FONT_SIZE isEqualToString:key]){
         self.font = [self.font fontWithSize:[value floatValue]];
+    } else if([QTEXTFIELD_FONT isEqualToString:key]){
+        self.font = [self fontWithName:value size:self.font.pointSize];
     } else if([QTEXTFIELD_BORDER_STYLE isEqualToString:key]){
         self.borderStyle = [value integerValue];
     } else if([QTEXTFIELD_SECURE_TEXT isEqualToString:key]){
