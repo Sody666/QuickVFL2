@@ -275,7 +275,13 @@
     
     // handling equal options
     for(QEqualOption* equalOption in propertyTree.arrayEqualOptions) {
-        UIView* targetView = [views objectForKey:equalOption.targetViewName];
+        UIView* targetView = nil;
+        if([@"super" isEqualToString:equalOption.targetViewName]){
+            targetView = realEntrance.superview;
+        } else {
+            targetView = [views objectForKey:equalOption.targetViewName];
+        }
+        
         if(targetView == nil){
             [QParseException throwExceptionForReason:@"Can't find target view named %@", equalOption.targetViewName];
             continue;
