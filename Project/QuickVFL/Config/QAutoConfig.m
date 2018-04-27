@@ -39,8 +39,9 @@
 #define QVIEW_CONTENT_MODE      @"contentMode"
 #define QVIEW_TAP_EVENT   @"tapEvent"
 #define QVIEW_CLASS_NAME    @"className"
-#define QVIEW_BOARDER_COLOR @"boarderColor"
-#define QVIEW_BOARDER_WIDTH @"boarderWidth"
+#define QVIEW_BOARDER_COLOR @"borderColor"
+#define QVIEW_BOARDER_WIDTH @"borderWidth"
+#define QVIEW_CORNER_RADIUS @"cornerRadius"
 
 #define QATTR_TEXT @"text"
 #define QATTR_CLEAR @"clear"
@@ -316,7 +317,10 @@
         }
     } else if([QVIEW_BOARDER_WIDTH isEqualToString:key]){
         self.layer.borderWidth = [value floatValue];
-    } else {
+    } else if([QVIEW_CORNER_RADIUS isEqualToString:key]){
+        self.layer.cornerRadius = [value floatValue];
+        self.layer.masksToBounds = YES;
+    }  else {
         return NO;
     }
     
