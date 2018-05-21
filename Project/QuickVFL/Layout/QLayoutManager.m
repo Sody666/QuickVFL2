@@ -21,16 +21,11 @@
 
 #import <objc/runtime.h>
 
-//#define QTIMING　
+#define GLOBAL_CONFIG_KEY   @":global"
 
-@interface QLayoutManager(){
-#ifdef QTIMING
-    NSTimeInterval timeTotal, timeParseContent, timeCreatingViews, timeConstraints, timeSetup, timeMapping, timeCopyResult;
-    NSLock* timeLock;
-#endif
-}
+@interface QLayoutManager()
 @property (nonatomic, assign) QLayoutMode layoutMode;
-
+@property (nonatomic, strong, readonly) NSDictionary* systemGlobalConfig;
 @end
 
 @implementation QLayoutManager
@@ -50,13 +45,34 @@
     if (self) {
         // set verbose mode as default
         self.layoutMode = QLayoutModeVerbose;
-#ifdef QTIMING
-        timeTotal = timeParseContent = timeCreatingViews = timeConstraints = timeSetup = timeMapping = timeCopyResult = 0;
-        timeLock = [[NSLock alloc] init];
-#endif
+        _systemGlobalConfig = [[NSDictionary alloc] init];
     }
     
     return self;
+}
+
++(void)setupSystemGlobalConfig:(NSDictionary*)config{
+    if(config == nil || ![config isKindOfClass:NSDictionary.class]){
+        [QParseException throwExceptionForReason:@"Config must be a dictionary."];
+        return;
+    }
+    
+    NSDictionary* result = [[self sharedManager] applyGlogalConfigForDict:config changed:nil config:config];
+    [self sharedManager]->_systemGlobalConfig = [result copy];
+}
+
+-(NSDictionary*)mergeGlobalConfig:(NSDictionary*)config{
+    NSDictionary* result;
+    if(config == nil || config.count == 0){
+        result = [self.systemGlobalConfig copy];
+    } else {
+        NSMutableDictionary* shadow = [self.systemGlobalConfig mutableCopy];
+        [shadow addEntriesFromDictionary:config];
+        
+        result = [self applyGlogalConfigForDict:shadow changed:nil config:shadow];
+    }
+    
+    return result;
 }
 
 +(NSDictionary*)fetchIvarInformationForClass:(Class)targetClass{
@@ -82,7 +98,7 @@
     return result;
 }
 
-+(QViewProperty*)parseLayoutContent:(NSString*)content{
+-(QViewProperty*)parseLayoutContent:(NSString*)content{
     NSError* error;
     NSString* trimedText = [content stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     
@@ -99,6 +115,25 @@
         return nil;
     }
     
+    NSDictionary* config = [dict objectForKey:GLOBAL_CONFIG_KEY];
+    if(config != nil){
+        if(![config isKindOfClass:NSDictionary.class]){
+            [QParseException throwExceptionForReason:@"Global configuration must be defined as a dictionary."];
+            return nil;
+        }
+        
+        NSMutableDictionary* shadow = [dict mutableCopy];
+        [shadow removeObjectForKey:GLOBAL_CONFIG_KEY];
+        dict = [shadow copy];
+    }
+    
+    config = [self mergeGlobalConfig:config];
+    if(config != nil && config.count > 0){
+        dict = [self applyGlogalConfigForDict:dict
+                                      changed:nil
+                                       config:config];
+    }
+    
     return [self parseViewPropertyForLayout:dict];
 }
 
@@ -109,15 +144,100 @@
         return nil;
     }
     
-//    if(![targetClass isSubclassOfClass:[UIView class]]){
-//        [QParseException throwExceptionForReason:@"%@ is not a subclass of UIView.", className];
-//        return nil;
-//    }
-    
     return targetClass;
 }
 
-+(QViewProperty*)parseViewPropertyForLayout:(NSDictionary*)layout{
+-(NSDictionary*)applyGlogalConfigForDict:(NSDictionary*)dict
+                                 changed:(BOOL*)changed
+                                  config:(NSDictionary*)config{
+    
+    if(dict == nil || ![dict isKindOfClass:NSDictionary.class]){
+        [QParseException throwExceptionForReason:@"Failed while applying global config: entry must be an dictionary"];
+        return nil;
+    }
+    
+    NSMutableArray* configKeys = [[NSMutableArray alloc] init];
+    for (NSString* key in dict.allKeys) {
+        if([key hasPrefix:@"+"]) {
+            [configKeys addObject:key];
+        }
+    }
+    
+    // applying top config for key
+    NSMutableDictionary* targetDict = nil;
+    if(configKeys.count > 0){
+        // sorting config
+        if(configKeys.count > 1){
+            [configKeys sortUsingComparator:^NSComparisonResult(NSString* obj1, NSString* obj2) {
+                return [obj1 compare:obj2];
+            }];
+        }
+        
+        NSMutableDictionary* dictNewBorn = [dict mutableCopy];
+        
+        NSString* configReplaceValue = nil;
+        
+        for (NSString* plusKey in configKeys) {
+            // pop value in target dict
+            configReplaceValue = [dictNewBorn objectForKey:plusKey];
+            [dictNewBorn removeObjectForKey:plusKey];
+            // generate key to config
+            NSString* dePlusKey = [plusKey substringFromIndex:1];
+            
+            if(configReplaceValue.length > 0){
+                // expect replacing with value
+                [dictNewBorn setObject:[config objectForKey:configReplaceValue] forKey:dePlusKey];
+            } else{
+                // expect merging
+                id configValue = [config objectForKey:dePlusKey];
+                
+                if(![configValue isKindOfClass:NSDictionary.class]){
+                    [QParseException throwExceptionForReason:@"Failed while applying global config: entry must be an dictionary"];
+                    return nil;
+                }
+                
+                NSMutableDictionary* configValueNewBorn = [configValue mutableCopy];
+                [configValueNewBorn addEntriesFromDictionary:dictNewBorn];
+                dictNewBorn = configValueNewBorn;
+            }
+        }
+        
+        targetDict = dictNewBorn;
+        if(changed != nil){
+            *changed = YES;
+        }
+    } else {
+        targetDict = [dict mutableCopy];
+    }
+    
+    
+    // applying subitems...
+    NSArray* allKeys = [[targetDict allKeys] copy];
+    id subitemValue;
+    BOOL outputChanged;
+    NSDictionary* outputValue;
+    for (NSString* key in allKeys) {
+        subitemValue = [targetDict objectForKey:key];
+        if([subitemValue isKindOfClass:NSDictionary.class]){
+            outputChanged = NO;
+            outputValue = [self applyGlogalConfigForDict:subitemValue
+                                                 changed:&outputChanged
+                                                  config:config];
+            
+            if(outputChanged){
+                [targetDict setObject:outputValue forKey:key];
+                
+                if(changed != nil){
+                    *changed = YES;
+                }
+            }
+        }
+    }
+    
+    return [targetDict copy];
+}
+
+-(QViewProperty*)parseViewPropertyForLayout:(NSDictionary*)layout{
     NSMutableArray* subViewKeys = [NSMutableArray arrayWithArray:layout.allKeys];
     NSMutableArray* optionKeys = [[NSMutableArray alloc] init];
     
@@ -140,7 +260,7 @@
         for (NSString* viewName in subViewKeys) {
             value = [layout objectForKey:viewName];
             if([value isKindOfClass:stringClass]){
-                Class targetClass = [self parseClassName:value];
+                Class targetClass = [QLayoutManager parseClassName:value];
                 [subviewsProperty addObject:[QViewProperty propertyWithViewName:viewName class:targetClass]];
             } else if([value isKindOfClass:dictClass]){
                 QViewProperty* nestedProperty = [self parseViewPropertyForLayout:value];
@@ -162,7 +282,8 @@
     
     // handle options
     for (NSString* key in optionKeys) {
-        [property parseOptionKey:key value:[layout objectForKey:key]];
+        id optionValue = [layout objectForKey:key];
+        [property parseOptionKey:key value:optionValue];
     }
     
     // any default view is UIView
@@ -398,9 +519,6 @@
 -(QLayoutResult*) _layoutForContent:(NSString*)content
                            entrance:(UIView*)entrance
                              holder:(id)holder{
-#ifdef QTIMING
-    NSDate* date0 = [NSDate date];
-#endif
     
     QLayoutResult* result = [[QLayoutResult alloc] init];
     
@@ -414,24 +532,12 @@
         return nil;
     }
     
-#ifdef QTIMING
-    NSDate* date1 = [NSDate date];
-#endif
-    
-    QViewProperty* property = [QLayoutManager parseLayoutContent:content];
-    
-#ifdef QTIMING
-    NSDate* date2 = [NSDate date];
-#endif
+    QViewProperty* property = [self parseLayoutContent:content];
     
     NSMutableDictionary* madeViews = [[NSMutableDictionary alloc] init];
     [self creatingViewsForLayout:property
                         entrance:entrance
                        madeViews:madeViews];
-    
-#ifdef QTIMING
-    NSDate* date3 = [NSDate date];
-#endif
     
     NSMutableDictionary* namedConstraints = [[NSMutableDictionary alloc] init];
     [self addingConstraintsForLayout:property
@@ -439,24 +545,12 @@
                            madeViews:madeViews
                     namedConstraints:namedConstraints];
     
-#ifdef QTIMING
-    NSDate* date4 = [NSDate date];
-#endif
-    
     [self setupViewsForLayout:property
                      entrance:entrance
                     madeViews:madeViews
                        holder:holder];
     
-#ifdef QTIMING
-    NSDate* date5 = [NSDate date];
-#endif
-    
     [self mappingViews:madeViews constraints:namedConstraints forHolder:holder];
-    
-#ifdef QTIMING
-    NSDate* date6 = [NSDate date];
-#endif
     
     NSMutableDictionary* viewsData = [[NSMutableDictionary alloc] init];
     [self attachingViewDataForLayout:property viewsData:viewsData];
@@ -464,25 +558,6 @@
     result.viewsData = viewsData;
     result.createdViews = madeViews;
     result.namedConstraints = namedConstraints;
-    
-#ifdef QTIMING
-    NSDate* date7 = [NSDate date];
-#endif
-    
-    
-#ifdef QTIMING
-    [timeLock lock];
-    
-    timeTotal += [date7 timeIntervalSinceDate:date0];
-    timeParseContent += [date2 timeIntervalSinceDate:date1];
-    timeCreatingViews += [date3 timeIntervalSinceDate:date2];
-    timeConstraints += [date4 timeIntervalSinceDate:date3];
-    timeSetup += [date5 timeIntervalSinceDate:date4];
-    timeMapping += [date6 timeIntervalSinceDate:date5];
-    timeCopyResult += [date7 timeIntervalSinceDate:date6];
-    
-    [timeLock unlock];
-#endif
     
     return result;
 }
@@ -532,21 +607,5 @@
 
 +(QLayoutMode)layoutMode{
     return [self sharedManager].layoutMode;
-}
-
-+(void)resetTimeData{
-#ifdef QTIMING
-    QLayoutManager* manager = [self sharedManager];
-    manager->timeTotal = manager->timeParseContent = manager->timeCreatingViews = manager->timeConstraints = manager->timeSetup = manager->timeMapping = manager->timeCopyResult = 0;
-#endif
-}
-+(void)printTimingData{
-#ifdef QTIMING
-    QLayoutManager* manager = [self sharedManager];
-#define P(time) (manager->timeTotal==0 ? 0:((time/manager->timeTotal)*100))
-    
-    
-    NSLog(@"Total: %.2f\nParseContent: %.2f(%.1f%%)\nCreating: %.2f(%.1f%%)\nConstraints: %.2f(%.1f%%)\nSetup: %.2f(%.1f%%)\nMapping: %.2f(%.1f%%)\nCopyResult: %.2f(%.1f%%)", manager->timeTotal, manager->timeParseContent, P(manager->timeParseContent), manager->timeCreatingViews, P(manager->timeCreatingViews), manager->timeConstraints, P(manager->timeConstraints), manager->timeSetup, P(manager->timeSetup), manager->timeMapping, P(manager->timeMapping), manager->timeCopyResult, P(manager->timeCopyResult));
-#endif
 }
 @end

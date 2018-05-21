@@ -26,7 +26,6 @@
     [super viewDidLoad];
     
     self.working = NO;
-    [QLayoutManager resetTimeData];
 }
 
 -(void)cleanPlayground{
@@ -86,8 +85,6 @@
     NSTimeInterval interval = [later timeIntervalSinceDate:now];
     self.labelResult.text = [NSString stringWithFormat:@"QuickVFL took %.2f seconds to create 1000 cards.", interval];
     self.working = NO;
-    
-    [QLayoutManager printTimingData];
     
     [self.scrollView q_refreshContentView];
 }

@@ -38,6 +38,5 @@ typedef enum : NSUInteger {
 +(void)setupLayoutMode:(QLayoutMode)mode;
 +(QLayoutMode)layoutMode;
 
-+(void)printTimingData;
-+(void)resetTimeData;
++(void)setupSystemGlobalConfig:(NSDictionary*)config;
 @end
